@@ -1,0 +1,148 @@
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = "24.0.2"
+    androidMinSdkVersion = 17
+    androidTargetSdkVersion = 24
+    androidCompileSdkVersion = 24
+
+    //Libraries
+    daggerVersion = '2.7'
+    butterKnifeVersion = '7.0.1'
+    recyclerViewVersion = '21.0.3'
+    rxJavaVersion = '1.0.14'
+    rxAndroidVersion = '1.0.1'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    gsonVersion = '2.3'
+    okHttpVersion = '2.5.0'
+    androidAnnotationsVersion = '21.0.3'
+    designLibraryVersion = '24.2.1'
+    supportAppcompatVersion = '24.2.1'
+    immutablesVersion = '2.3.2'
+    janetVersion = '1.0.6'
+    janetServiceVersion = '1.0.9'
+    janetGsonConvertorVersion = '1.0.1'
+    flowVersion = '0.12'
+    presentaVersion = '0.1.6'
+    immutablesGsonVersion = '2.3.2'
+    stethoVersion = '1.4.1'
+    modelMapperVersion = '0.7.5'
+    autovalueVersion = '1.3'
+    autovalueParcelVersion = '0.2.5'
+    snappyDBVersion = '0.5.2'
+    kryoVersion = '2.24.0'
+
+    //Testing
+    robolectricVersion = '3.0'
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '1.9.5'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.0'
+    testingSupportLibVersion = '0.1'
+
+    //Development
+    leakCanaryVersion = '1.3.1'
+
+
+    presentationDependencies = [
+            daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger                : "com.google.dagger:dagger:${daggerVersion}",
+            butterKnife           : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            recyclerView          : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            rxJava                : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxAndroid             : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation       : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            design                : "com.android.support:design:${designLibraryVersion}",
+            supportAppCompat      : "com.android.support:appcompat-v7:${supportAppcompatVersion}",
+            flow                  : "com.squareup.flow:flow:${flowVersion}",
+            presenta              : "com.github.techery.presenta:library:${presentaVersion}",
+            presentaAdditions     : "com.github.techery.presenta:library-additions:${presentaVersion}",
+            janet                 : "com.github.techery:janet:${janetVersion}",
+            janetService          : "com.github.techery.janet-http:service:${janetServiceVersion}",
+            janetServiceCompiler  : "com.github.techery.janet-http:service-compiler:${janetServiceVersion}",
+            janetOkHttp           : "com.github.techery.janet-http:client-okhttp3:${janetServiceVersion}",
+            janetGsonConvertor    : "com.github.techery.janet-converters:gson:${janetGsonConvertorVersion}",
+            autoValue             : "com.google.auto.value:auto-value:${autovalueVersion}",
+            autoValueParcel       : "com.ryanharter.auto.value:auto-value-parcel:${autovalueParcelVersion}",
+            autovalueParcelAdapter: "com.ryanharter.auto.value:auto-value-parcel-adapter:${autovalueParcelVersion}",
+            kotlin : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    ]
+
+    presentationTestDependencies = [
+            mockito          : "org.mockito:mockito-core:${mockitoVersion}",
+            dexmaker         : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerMockito  : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            espresso         : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            testingSupportLib: "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+            snappyDB                 : "com.snappydb:snappydb-lib:${snappyDBVersion}",
+            kryo                     : "com.esotericsoftware.kryo:kryo:${kryoVersion}"
+    ]
+
+    domainDependencies = [
+            immutables           : "org.immutables:value:${immutablesVersion}",
+            immutablesAnnotations: "org.immutables:value:${immutablesVersion}:annotations",
+            androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}",
+            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
+            rxJava               : "io.reactivex:rxjava:${rxJavaVersion}",
+            autoValue            : "com.google.auto.value:auto-value:${autovalueVersion}"
+    ]
+
+    domainTestDependencies = [
+            junit  : "junit:junit:${jUnitVersion}",
+            mockito: "org.mockito:mockito-core:${mockitoVersion}",
+    ]
+
+    dataDependencies = [
+            daggerCompiler           : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger                   : "com.google.dagger:dagger:${daggerVersion}",
+            okHttp                   : "com.squareup.okhttp:okhttp:${okHttpVersion}",
+            gson                     : "com.google.code.gson:gson:${gsonVersion}",
+            rxJava                   : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxAndroid                : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation          : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject              : "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations       : "com.android.support:support-annotations:${androidAnnotationsVersion}",
+            androidSupportAppcompat  : "com.android.support:appcompat-v7:${supportAppcompatVersion}",
+            janet                    : "com.github.techery:janet:${janetVersion}",
+            janetService             : "com.github.techery.janet-http:service:${janetServiceVersion}",
+            janetServiceCompiler     : "com.github.techery.janet-http:service-compiler:${janetServiceVersion}",
+            janetOkHttp              : "com.github.techery.janet-http:client-okhttp3:${janetServiceVersion}",
+            janetGsonConvertor       : "com.github.techery.janet-converters:gson:${janetGsonConvertorVersion}",
+            immutablesGson           : "org.immutables:gson:${immutablesGsonVersion}",
+            immutables               : "org.immutables:value:${immutablesVersion}",
+            immutablesAnnotations    : "org.immutables:value:${immutablesVersion}:annotations",
+            immutablesBuilder        : "org.immutables:builder:${immutablesVersion}",
+            immutablesGsonAnnotations: "org.immutables:gson:${immutablesVersion}:annotations",
+            stetho                   : "com.facebook.stetho:stetho-okhttp3:${stethoVersion}",
+            modelMapper              : 'org.modelmapper',
+            modelMapperName          : 'modelmapper',
+            modelMapperVersion       : "${modelMapperVersion}",
+            autoValue                : "com.google.auto.value:auto-value:${autovalueVersion}",
+            autoValueParcel          : "com.ryanharter.auto.value:auto-value-parcel:${autovalueParcelVersion}",
+            autovalueParcelAdapter   : "com.ryanharter.auto.value:auto-value-parcel-adapter:${autovalueParcelVersion}",
+            snappyDB                 : "com.snappydb:snappydb-lib:${snappyDBVersion}",
+            kryo                     : "com.esotericsoftware.kryo:kryo:${kryoVersion}"
+    ]
+
+    dataTestDependencies = [
+            junit      : "junit:junit:${jUnitVersion}",
+            assertj    : "org.assertj:assertj-core:${assertJVersion}",
+            mockito    : "org.mockito:mockito-core:${mockitoVersion}",
+            robolectric: "org.robolectric:robolectric:${robolectricVersion}",
+            snappyDB   : "com.snappydb:snappydb-lib:${snappyDBVersion}",
+            kryo       : "com.esotericsoftware.kryo:kryo:${kryoVersion}"
+    ]
+
+    developmentDependencies = [
+            leakCanary: "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+    ]
+}

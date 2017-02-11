@@ -1,22 +1,39 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: 'buildsystem/dependencies.gradle'
 
 buildscript {
     ext.kotlin_version = '1.0.6'
     repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath "com.fernandocejas.frodo:frodo-plugin:0.8.3"
+        classpath "gradle.plugin.me.tatarka:gradle-retrolambda:3.3.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
 allprojects {
-    repositories {
-        jcenter()
+    ext {
+        androidApplicationId = 'com.newssample'
+        androidVersionCode = 1
+        androidVersionName = "1.0"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = 'com.newssample.test'
+    }
+}
+
+allprojects {
+    ext {
+        androidApplicationId = 'com.newssample'
+        androidVersionCode = 1
+        androidVersionName = "1.0"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = 'com.newssample.presentation.test'
     }
 }
 
