@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import butterknife.ButterKnife
 import com.android.newssample.R
+import com.bluelinelabs.conductor.Conductor
 import com.newssample.di.components.ApplicationComponent
 import com.newssample.di.module.ActivityModule
 import com.newssample.util.ActivityHolder
@@ -20,12 +22,21 @@ import io.techery.presenta.mortar.DaggerService
 import mortar.MortarScope
 import mortar.bundler.BundleServiceRunner
 import javax.inject.Inject
+import com.bluelinelabs.conductor.Router
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
+import com.bluelinelabs.conductor.RouterTransaction
+import com.newssample.util.StartController
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     lateinit var activityHolder: ActivityHolder
     private var activityScope: MortarScope? = null
+    lateinit var router: Router
+
 
     @ScreenScope(MainActivity::class)
     @dagger.Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(ActivityModule::class))
@@ -37,19 +48,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initMortar(savedInstanceState)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
+        prepareUI()
+        router = Conductor.attachRouter(this, controller_container, savedInstanceState)
+        if (!router.hasRootController()) {
+            router.setRoot(RouterTransaction.with(StartController(null)))
+        }
+    }
 
-        val fab = findViewById(R.id.fab) as FloatingActionButton
+    private fun prepareUI() {
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+
         val toggle = ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer.addDrawerListener(toggle)
+                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
         val navigationView = findViewById(R.id.nav_view) as NavigationView
@@ -76,7 +92,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
-        } else {
+        } else if (!router.handleBack()) {
             super.onBackPressed()
         }
     }

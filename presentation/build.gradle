@@ -3,6 +3,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.fernandocejas.frodo'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
 
@@ -38,11 +39,17 @@ dependencies {
     compile presentationDependencies.dagger
     provided presentationDependencies.glassfish
     compile presentationDependencies.butterKnife
+    apt presentationDependencies.butterKnifeCompiler
     compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
     provided presentationDependencies.javaxAnnotation
     compile presentationDependencies.presenta
     compile presentationDependencies.presentaAdditions
     compile presentationDependencies.kotlin
+    compile presentationDependencies.conductor
+    compile presentationDependencies.mosby
+    compile presentationDependencies.conductorMvp
+    compile presentationDependencies.state
+    kapt presentationDependencies.stateProcessor
 }
 
