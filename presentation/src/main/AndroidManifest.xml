@@ -10,7 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name="com.newssample.Application">
         <activity
             android:name="com.newssample.MainActivity"
             android:label="@string/title_activity_main"

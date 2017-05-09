@@ -7,10 +7,10 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "24.0.2"
+    androidBuildToolsVersion = "25.0.2"
     androidMinSdkVersion = 17
-    androidTargetSdkVersion = 24
-    androidCompileSdkVersion = 24
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
 
     //Libraries
     daggerVersion = '2.7'
@@ -23,8 +23,8 @@ ext {
     gsonVersion = '2.3'
     okHttpVersion = '2.5.0'
     androidAnnotationsVersion = '21.0.3'
-    designLibraryVersion = '24.2.1'
-    supportAppcompatVersion = '24.2.1'
+    designLibraryVersion = '25.2.0'
+    supportAppcompatVersion = '25.2.0'
     immutablesVersion = '2.3.2'
     janetVersion = '1.0.6'
     janetServiceVersion = '1.0.9'
@@ -38,6 +38,7 @@ ext {
     autovalueParcelVersion = '0.2.5'
     snappyDBVersion = '0.5.2'
     kryoVersion = '2.24.0'
+    glassfish_version = '10.0-b28'
 
     //Testing
     robolectricVersion = '3.0'
@@ -73,7 +74,8 @@ ext {
             autoValue             : "com.google.auto.value:auto-value:${autovalueVersion}",
             autoValueParcel       : "com.ryanharter.auto.value:auto-value-parcel:${autovalueParcelVersion}",
             autovalueParcelAdapter: "com.ryanharter.auto.value:auto-value-parcel-adapter:${autovalueParcelVersion}",
-            kotlin : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+            kotlin : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}",
+            glassfish : "org.glassfish:javax.annotation:${glassfish_version}"
     ]
 
     presentationTestDependencies = [
@@ -87,13 +89,9 @@ ext {
     ]
 
     domainDependencies = [
-            immutables           : "org.immutables:value:${immutablesVersion}",
-            immutablesAnnotations: "org.immutables:value:${immutablesVersion}:annotations",
-            androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}",
-            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
-            rxJava               : "io.reactivex:rxjava:${rxJavaVersion}",
-            autoValue            : "com.google.auto.value:auto-value:${autovalueVersion}"
+            rxJava     : "io.reactivex:rxjava:${rxJavaVersion}",
+            javaxInject: "javax.inject:javax.inject:${javaxInjectVersion}",
+            gson       : "com.google.code.gson:gson:${gsonVersion}"
     ]
 
     domainTestDependencies = [

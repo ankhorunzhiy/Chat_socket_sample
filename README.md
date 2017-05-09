@@ -1,1 +1,1 @@
-# news_app_sample
+# TODO app sample

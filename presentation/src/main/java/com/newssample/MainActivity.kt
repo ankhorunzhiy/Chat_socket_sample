@@ -12,12 +12,31 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import com.android.newssample.R
+import com.newssample.di.components.ApplicationComponent
+import com.newssample.di.module.ActivityModule
+import com.newssample.util.ActivityHolder
+import io.techery.presenta.di.ScreenScope
+import io.techery.presenta.mortar.DaggerService
+import mortar.MortarScope
+import mortar.bundler.BundleServiceRunner
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    @Inject
+    lateinit var activityHolder: ActivityHolder
+    private var activityScope: MortarScope? = null
+
+    @ScreenScope(MainActivity::class)
+    @dagger.Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(ActivityModule::class))
+    interface Component : ApplicationComponent {
+        fun inject(activity: MainActivity)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initMortar(savedInstanceState)
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
@@ -35,6 +54,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+    }
+
+    private fun initMortar(savedInstanceState: Bundle?) {
+        val daggerComponent = DaggerService.getDaggerComponent<Any>(applicationContext)
+        val component = DaggerService.createComponent(Component::class.java, daggerComponent)
+        component.inject(this)
+        val scopeName = localClassName + "-task-" + taskId
+        val parentScope = MortarScope.getScope(application)
+        activityScope = parentScope.findChild(scopeName)
+        if (activityScope == null) {
+            activityScope = parentScope.buildChild()
+                    .withService(BundleServiceRunner.SERVICE_NAME, BundleServiceRunner())
+                    .withService(DaggerService.SERVICE_NAME, component)
+                    .build(scopeName)
+        }
+        BundleServiceRunner.getBundleServiceRunner(activityScope).onCreate(savedInstanceState)
     }
 
     override fun onBackPressed() {
@@ -88,4 +123,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+
+    override fun getSystemService(name: String): Any {
+        if(activityScope != null && activityScope?.hasService(name) as Boolean)
+            return activityScope?.getService<Any>(name) as Any
+        else
+            return super.getSystemService(name)
+    }
+
+    override fun onAttachedToWindow() {
+        takeViews()
+        super.onAttachedToWindow()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        takeViews()
+    }
+
+    override fun onDetachedFromWindow() {
+        dropViews()
+        super.onDetachedFromWindow()
+    }
+
+    private fun takeViews() {
+        activityHolder.takeView(this)
+    }
+
+    private fun dropViews() {
+        activityHolder.dropView(this)
+    }
+
 }

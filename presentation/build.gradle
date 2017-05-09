@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.fernandocejas.frodo'
-apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'kotlin-android'
 
 android {
 
@@ -34,17 +34,15 @@ dependencies {
 
     compile presentationDependencies.supportAppCompat
     compile presentationDependencies.design
-    apt presentationDependencies.daggerCompiler
+    kapt presentationDependencies.daggerCompiler
     compile presentationDependencies.dagger
+    provided presentationDependencies.glassfish
     compile presentationDependencies.butterKnife
-    compile presentationDependencies.recyclerView
     compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
     provided presentationDependencies.javaxAnnotation
-    compile presentationDependencies.flow
     compile presentationDependencies.presenta
     compile presentationDependencies.presentaAdditions
     compile presentationDependencies.kotlin
-
 }
 
