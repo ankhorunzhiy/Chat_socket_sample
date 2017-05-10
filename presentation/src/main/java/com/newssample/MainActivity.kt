@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import com.bluelinelabs.conductor.RouterTransaction
-import com.newssample.util.StartController
+import com.newssample.controller.StartController
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         prepareUI()
         router = Conductor.attachRouter(this, controller_container, savedInstanceState)
         if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(StartController(null)))
+            router.setRoot(RouterTransaction.with(StartController()))
         }
     }
 
