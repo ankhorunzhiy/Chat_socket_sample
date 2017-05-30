@@ -22,6 +22,7 @@ abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) :
         val layout = getLayoutFromAnnotation(this.javaClass) ?:
                 throw IllegalArgumentException("Controller should have Layout annotation")
         val root = inflater.inflate(layout.value, container, false)
+        onViewCreated(root)
         return root
     }
 
@@ -30,6 +31,8 @@ abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) :
     }
 
     abstract fun injectToDagger(component: MainActivity.Component)
+
+    open fun onViewCreated(root: View){}
 
     override fun onSaveViewState(view: View, outState: Bundle) {
         super.onSaveViewState(view, outState)

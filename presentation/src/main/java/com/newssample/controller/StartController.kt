@@ -1,7 +1,9 @@
 package com.newssample.controller
 
 import android.os.Bundle
+import android.view.View
 import com.android.newssample.R
+import com.bluelinelabs.conductor.RouterTransaction
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.newssample.BaseController
 import com.newssample.MainActivity
@@ -10,7 +12,9 @@ import com.newssample.controller.DaggerStartController_Component.*
 import com.newssample.util.Layout
 import com.newssample.util.ScreenScope
 import dagger.Provides
+import kotlinx.android.synthetic.main.screen_start.view.*
 import javax.inject.Inject
+
 
 /**
  * Created by Tony on 09.05.17.
@@ -44,11 +48,19 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartPrese
     override fun injectToDagger(component: MainActivity.Component) {
         builder().component(component)
                 .module(Module())
-                .build().inject(this)
+                .build()
+                .inject(this)
     }
 
     override fun createPresenter(): StartPresenter {
         return startPresenter
+    }
+
+
+    override fun onViewCreated(root: View) {
+        root.startText.setOnClickListener {
+            router.pushController(RouterTransaction.with(SecondController()))
+        }
     }
 
 }
