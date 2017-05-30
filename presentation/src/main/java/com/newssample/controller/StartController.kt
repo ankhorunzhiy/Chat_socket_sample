@@ -8,7 +8,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.newssample.BaseController
 import com.newssample.MainActivity
-import com.newssample.controller.DaggerStartController_Component.*
+import com.newssample.controller.DaggerStartController_Component.builder
 import com.newssample.util.Layout
 import com.newssample.util.ScreenScope
 import dagger.Provides
@@ -59,7 +59,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
 
     override fun onViewCreated(root: View) {
         root.startText.setOnClickListener {
-            router.pushController(RouterTransaction.with(SecondController()))
+            getChildRouter(root.nestedLayout).pushController(RouterTransaction.with(OverlayController()))
         }
     }
 

@@ -7,7 +7,8 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.newssample.BaseController
 import com.newssample.MainActivity
-import com.newssample.controller.DaggerSecondController_Component.builder
+import com.newssample.controller.DaggerOverlayController_Component.builder
+
 import com.newssample.util.Layout
 import com.newssample.util.ScreenScope
 import dagger.Provides
@@ -19,23 +20,23 @@ import javax.inject.Inject
  */
 
 @Layout(R.layout.screen_second)
-class SecondController(args: Bundle? = null) : BaseController<MvpView, SecondController.Presenter>(args) {
+class OverlayController(args: Bundle? = null) : BaseController<MvpView, OverlayController.Presenter>(args) {
 
     @Inject
     lateinit var secondPresenter: Presenter
 
-    @ScreenScope(SecondController::class)
+    @ScreenScope(OverlayController::class)
     @dagger.Component(dependencies = arrayOf(MainActivity.Component::class), modules = arrayOf(Module::class))
     interface Component {
-        fun inject(secondController: SecondController)
+        fun inject(secondController: OverlayController)
     }
 
-    @ScreenScope(SecondController::class)
+    @ScreenScope(OverlayController::class)
     @dagger.Module
     class Module {
 
         @Provides
-        @ScreenScope(SecondController::class)
+        @ScreenScope(OverlayController::class)
         fun providePresenter(): Presenter{
             return Presenter()
         }
@@ -52,6 +53,6 @@ class SecondController(args: Bundle? = null) : BaseController<MvpView, SecondCon
         return secondPresenter
     }
 
-    @ScreenScope(SecondController::class)
+    @ScreenScope(OverlayController::class)
     class Presenter @Inject constructor() : MvpBasePresenter<MvpView>()
 }

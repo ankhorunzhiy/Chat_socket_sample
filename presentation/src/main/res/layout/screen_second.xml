@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="#6e239988"
     android:gravity="center">
 
     <TextView
-        android:id="@+id/secondScreen"
+        android:id="@+id/overlayScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@android:color/white"
-        android:text="Second screen"/>
+        android:text="@string/overlay_screen"/>
 
 </LinearLayout>
