@@ -9,8 +9,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.BaseController
 import com.sampleapp.MainActivity
 import com.sampleapp.controller.DaggerStartController_Component.builder
-import com.sampleapp.util.Layout
-import com.sampleapp.util.ScreenScope
+import com.sampleapp.di.ScreenScope
 import dagger.Provides
 import kotlinx.android.synthetic.main.screen_start.view.*
 import javax.inject.Inject

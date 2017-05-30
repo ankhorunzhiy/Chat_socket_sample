@@ -8,9 +8,8 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.BaseController
 import com.sampleapp.MainActivity
 import com.sampleapp.controller.DaggerOverlayController_Component.builder
+import com.sampleapp.di.ScreenScope
 
-import com.sampleapp.util.Layout
-import com.sampleapp.util.ScreenScope
 import dagger.Provides
 import javax.inject.Inject
 

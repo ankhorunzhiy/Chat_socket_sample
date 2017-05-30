@@ -1,7 +1,7 @@
 package com.sampleapp
 
 import com.sampleapp.di.components.ApplicationComponent
-import com.sampleapp.di.components.DaggerApplicationComponent
+import com.sampleapp.di.components.DaggerApplicationComponent.builder
 import com.sampleapp.di.module.ApplicationModule
 
 class Application : android.app.Application() {
@@ -11,7 +11,7 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
-        applicationComponent = DaggerApplicationComponent.builder()
+        applicationComponent = builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
         applicationComponent.inject(this)

@@ -8,8 +8,7 @@ import com.evernote.android.state.StateSaver
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.hannesdorfmann.mosby3.mvp.conductor.MvpController
-import com.sampleapp.di.ComponentProvider
-import com.sampleapp.util.Layout
+import com.sampleapp.controller.Layout
 
 
 /**

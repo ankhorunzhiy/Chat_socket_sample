@@ -8,7 +8,7 @@ import com.sampleapp.domain.data.executor.ThreadExecutor
 import com.sampleapp.data.executor.JobExecutor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.sampleapp.util.ApplicationScope
+import com.sampleapp.di.ApplicationScope
 import com.sampleapp.util.UIThread
 
 
@@ -44,5 +44,7 @@ class ApplicationModule(private val application: Application) {
         val builder = GsonBuilder()
         return builder.create()
     }
+
+
 
 }

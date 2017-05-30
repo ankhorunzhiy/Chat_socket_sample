@@ -14,9 +14,9 @@ import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.sampleapp.controller.StartController
+import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ApplicationComponent
 import com.sampleapp.di.module.ActivityModule
-import com.sampleapp.util.ScreenScope
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
