@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import com.android.newssample.R
 import com.bluelinelabs.conductor.RouterTransaction
+import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.newssample.BaseController
 import com.newssample.MainActivity
-import com.newssample.StartPresenter
 import com.newssample.controller.DaggerStartController_Component.*
 import com.newssample.util.Layout
 import com.newssample.util.ScreenScope
@@ -21,17 +21,17 @@ import javax.inject.Inject
  */
 
 @Layout(R.layout.screen_start)
-class StartController(args: Bundle? = null) : BaseController<MvpView, StartPresenter>(args) {
+class StartController(args: Bundle? = null) : BaseController<MvpView, StartController.Presenter>(args) {
 
     @Inject
-    lateinit var startPresenter: StartPresenter
+    lateinit var startPresenter: Presenter
 
     @ScreenScope(StartController::class)
     @dagger.Component(dependencies = arrayOf(MainActivity.Component::class), modules = arrayOf(Module::class))
     interface Component {
         fun inject(startController: StartController)
 
-        fun inject(presenter: StartPresenter)
+        fun inject(presenter: Presenter)
     }
 
     @ScreenScope(StartController::class)
@@ -40,8 +40,8 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartPrese
 
         @Provides
         @ScreenScope(StartController::class)
-        fun providePresenter(): StartPresenter{
-            return StartPresenter()
+        fun providePresenter(): Presenter {
+            return Presenter()
         }
     }
 
@@ -52,7 +52,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartPrese
                 .inject(this)
     }
 
-    override fun createPresenter(): StartPresenter {
+    override fun createPresenter(): Presenter {
         return startPresenter
     }
 
@@ -62,5 +62,8 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartPrese
             router.pushController(RouterTransaction.with(SecondController()))
         }
     }
+
+    @ScreenScope(StartController::class)
+    class Presenter @Inject constructor() : MvpBasePresenter<MvpView>()
 
 }

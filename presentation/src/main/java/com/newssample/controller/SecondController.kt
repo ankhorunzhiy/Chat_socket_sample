@@ -1,13 +1,12 @@
 package com.newssample.controller
 
 import android.os.Bundle
-import android.view.View
+
 import com.android.newssample.R
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.newssample.BaseController
 import com.newssample.MainActivity
-import com.newssample.StartPresenter
 import com.newssample.controller.DaggerSecondController_Component.builder
 import com.newssample.util.Layout
 import com.newssample.util.ScreenScope
