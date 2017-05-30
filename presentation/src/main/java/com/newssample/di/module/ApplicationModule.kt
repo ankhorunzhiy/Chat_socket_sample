@@ -8,29 +8,16 @@ import com.android.newssamle.domain.data.executor.ThreadExecutor
 import com.android.newssample.data.executor.JobExecutor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.newssample.util.ActivityHolder
+import com.newssample.util.ApplicationScope
 import com.newssample.util.UIThread
 
 
 import dagger.Module
 import dagger.Provides
-import io.techery.presenta.addition.ActionBarOwner
-import io.techery.presenta.di.ApplicationScope
+
 
 @Module
 class ApplicationModule(private val application: Application) {
-
-    @Provides
-    @ApplicationScope
-    internal fun provideActionBarTuner(): ActionBarOwner {
-        return ActionBarOwner()
-    }
-
-    @ApplicationScope
-    @Provides
-    internal fun providesActivityHolder(): ActivityHolder {
-        return ActivityHolder()
-    }
 
 
     @Provides

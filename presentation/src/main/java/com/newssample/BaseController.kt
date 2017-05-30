@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
-import butterknife.Unbinder
+import com.evernote.android.state.StateSaver
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.hannesdorfmann.mosby3.mvp.conductor.MvpController
-import com.evernote.android.state.StateSaver
+import com.newssample.di.ComponentProvider
+import com.newssample.di.components.ControllerComponent
 import com.newssample.util.Layout
 
 
@@ -18,21 +18,20 @@ import com.newssample.util.Layout
  */
 abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) : MvpController<V, P>(args) {
 
-    private var unbinder: Unbinder? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
+        prepareGraph()
         val layout = getLayoutFromAnnotation(this.javaClass) ?:
                 throw IllegalArgumentException("Controller should have Layout annotation")
         val root = inflater.inflate(layout.value, container, false)
-        unbinder = ButterKnife.bind(this, root)
         return root
     }
 
-    override fun onDestroyView(view: View) {
-        super.onDestroyView(view)
-        unbinder?.unbind()
-        unbinder = null
+    private fun prepareGraph() {
+        val controllerComponent = (activity as ComponentProvider).controllerComponent()
+        injectToDagger(controllerComponent)
     }
+
+    abstract fun injectToDagger(controllerComponent: ControllerComponent)
 
     override fun onSaveViewState(view: View, outState: Bundle) {
         super.onSaveViewState(view, outState)
@@ -43,7 +42,6 @@ abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) :
         super.onRestoreViewState(view, savedViewState)
         StateSaver.restoreInstanceState(this, savedViewState)
     }
-
 
     private fun getLayoutFromAnnotation(clazz: Class<*>?): Layout? {
         if (clazz == null || clazz == Any::class.java) return null

@@ -1,59 +1,58 @@
 package com.newssample
 
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import butterknife.ButterKnife
 import com.android.newssample.R
 import com.bluelinelabs.conductor.Conductor
-import com.newssample.di.components.ApplicationComponent
-import com.newssample.di.module.ActivityModule
-import com.newssample.util.ActivityHolder
-import io.techery.presenta.di.ScreenScope
-import io.techery.presenta.mortar.DaggerService
-import mortar.MortarScope
-import mortar.bundler.BundleServiceRunner
-import javax.inject.Inject
 import com.bluelinelabs.conductor.Router
+import com.bluelinelabs.conductor.RouterTransaction
+import com.google.gson.Gson
+import com.newssample.controller.StartController
+import com.newssample.di.ComponentProvider
+import com.newssample.di.components.ActivityComponent
+import com.newssample.di.components.ControllerComponent
+import com.newssample.di.components.DaggerActivityComponent
+import com.newssample.di.components.DaggerControllerComponent
+import com.newssample.di.module.ActivityModule
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import com.bluelinelabs.conductor.RouterTransaction
-import com.newssample.controller.StartController
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ComponentProvider {
 
-    @Inject
-    lateinit var activityHolder: ActivityHolder
-    private var activityScope: MortarScope? = null
     lateinit var router: Router
-
-
-    @ScreenScope(MainActivity::class)
-    @dagger.Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(ActivityModule::class))
-    interface Component : ApplicationComponent {
-        fun inject(activity: MainActivity)
-    }
+    lateinit var activityComponent: ActivityComponent
+    lateinit var controllerComponent: ControllerComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initMortar(savedInstanceState)
+        prepareComponents()
         setSupportActionBar(toolbar)
         prepareUI()
         router = Conductor.attachRouter(this, controller_container, savedInstanceState)
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(StartController()))
         }
+    }
+
+    private fun prepareComponents() {
+        val applicationComponent = (applicationContext as Application).applicationComponent
+        activityComponent = DaggerActivityComponent.builder()
+                .applicationComponent(applicationComponent)
+                .build()
+        controllerComponent = DaggerControllerComponent.builder()
+                .activityComponent(activityComponent)
+                .build()
+        activityComponent.inject(this)
     }
 
     private fun prepareUI() {
@@ -70,22 +69,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
-    }
-
-    private fun initMortar(savedInstanceState: Bundle?) {
-        val daggerComponent = DaggerService.getDaggerComponent<Any>(applicationContext)
-        val component = DaggerService.createComponent(Component::class.java, daggerComponent)
-        component.inject(this)
-        val scopeName = localClassName + "-task-" + taskId
-        val parentScope = MortarScope.getScope(application)
-        activityScope = parentScope.findChild(scopeName)
-        if (activityScope == null) {
-            activityScope = parentScope.buildChild()
-                    .withService(BundleServiceRunner.SERVICE_NAME, BundleServiceRunner())
-                    .withService(DaggerService.SERVICE_NAME, component)
-                    .build(scopeName)
-        }
-        BundleServiceRunner.getBundleServiceRunner(activityScope).onCreate(savedInstanceState)
     }
 
     override fun onBackPressed() {
@@ -140,34 +123,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun getSystemService(name: String): Any {
-        if(activityScope != null && activityScope?.hasService(name) as Boolean)
-            return activityScope?.getService<Any>(name) as Any
-        else
-            return super.getSystemService(name)
+    override fun activityComponent(): ActivityComponent {
+        return activityComponent
     }
 
-    override fun onAttachedToWindow() {
-        takeViews()
-        super.onAttachedToWindow()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        takeViews()
-    }
-
-    override fun onDetachedFromWindow() {
-        dropViews()
-        super.onDetachedFromWindow()
-    }
-
-    private fun takeViews() {
-        activityHolder.takeView(this)
-    }
-
-    private fun dropViews() {
-        activityHolder.dropView(this)
+    override fun controllerComponent(): ControllerComponent {
+        return controllerComponent
     }
 
 }

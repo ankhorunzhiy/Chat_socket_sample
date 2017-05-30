@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.fernandocejas.frodo'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
 
@@ -26,6 +27,10 @@ android {
 
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     def presentationDependencies = rootProject.ext.presentationDependencies
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -43,8 +48,6 @@ dependencies {
     compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
     provided presentationDependencies.javaxAnnotation
-    compile presentationDependencies.presenta
-    compile presentationDependencies.presentaAdditions
     compile presentationDependencies.kotlin
     compile presentationDependencies.conductor
     compile presentationDependencies.mosby
