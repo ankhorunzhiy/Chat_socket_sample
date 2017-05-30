@@ -9,7 +9,6 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.hannesdorfmann.mosby3.mvp.conductor.MvpController
 import com.newssample.di.ComponentProvider
-import com.newssample.di.components.ControllerComponent
 import com.newssample.util.Layout
 
 
@@ -27,11 +26,10 @@ abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) :
     }
 
     private fun prepareGraph() {
-        val controllerComponent = (activity as ComponentProvider).controllerComponent()
-        injectToDagger(controllerComponent)
+        injectToDagger((activity as MainActivity).component)
     }
 
-    abstract fun injectToDagger(controllerComponent: ControllerComponent)
+    abstract fun injectToDagger(component: MainActivity.Component)
 
     override fun onSaveViewState(view: View, outState: Bundle) {
         super.onSaveViewState(view, outState)

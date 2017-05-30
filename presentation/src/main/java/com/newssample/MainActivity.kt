@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import com.android.newssample.R
@@ -16,21 +17,25 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.google.gson.Gson
 import com.newssample.controller.StartController
 import com.newssample.di.ComponentProvider
-import com.newssample.di.components.ActivityComponent
-import com.newssample.di.components.ControllerComponent
-import com.newssample.di.components.DaggerActivityComponent
-import com.newssample.di.components.DaggerControllerComponent
+import com.newssample.di.components.*
 import com.newssample.di.module.ActivityModule
+import com.newssample.util.ScreenScope
+import dagger.Component
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ComponentProvider {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var router: Router
-    lateinit var activityComponent: ActivityComponent
-    lateinit var controllerComponent: ControllerComponent
+    lateinit var component: Component
+
+    @ScreenScope(MainActivity::class)
+    @dagger.Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(ActivityModule::class))
+    interface Component : ApplicationComponent {
+        fun inject(mainActivity: MainActivity)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +51,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun prepareComponents() {
         val applicationComponent = (applicationContext as Application).applicationComponent
-        activityComponent = DaggerActivityComponent.builder()
+        component = DaggerMainActivity_Component.builder()
                 .applicationComponent(applicationComponent)
                 .build()
-        controllerComponent = DaggerControllerComponent.builder()
-                .activityComponent(activityComponent)
-                .build()
-        activityComponent.inject(this)
+        component.inject(this)
     }
 
     private fun prepareUI() {
@@ -121,14 +123,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    override fun activityComponent(): ActivityComponent {
-        return activityComponent
-    }
-
-    override fun controllerComponent(): ControllerComponent {
-        return controllerComponent
     }
 
 }
