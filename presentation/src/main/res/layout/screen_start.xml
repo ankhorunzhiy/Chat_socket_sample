@@ -13,6 +13,15 @@
         android:layout_marginTop="40dp"
         android:text="@string/press_to_show_overlay"/>
 
+    <Button
+            android:id="@+id/pagerShowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/startText"
+            android:layout_marginTop="10dp"
+            android:text="Press to show tabs"/>
+
     <TextView
             android:id="@+id/startText2"
             android:layout_width="wrap_content"

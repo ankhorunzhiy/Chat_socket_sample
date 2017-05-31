@@ -3,13 +3,11 @@ package com.sampleapp.controller
 import android.os.Bundle
 import android.view.View
 import com.android.newssample.R
-import com.bluelinelabs.conductor.RouterTransaction
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.BaseActivity
 import com.sampleapp.controller.DaggerStartController_Component.builder
 import com.sampleapp.di.ScreenScope
-import com.sampleapp.util.applyHorizontalHandler
 import com.sampleapp.util.horizontalTransaction
 import dagger.Provides
 import kotlinx.android.synthetic.main.screen_start.view.*
@@ -42,7 +40,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
 
         @Provides
         @ScreenScope(StartController::class)
-        @Named ("args")
+        @Named("args")
         fun provideArgs(): Bundle? {
             return extra
         }
@@ -64,6 +62,9 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
             getChildRouter(root.nestedLayout)
                     .setPopsLastView(true)
                     .pushController(OverlayController().horizontalTransaction())
+        }
+        root.pagerShowButton.setOnClickListener {
+            router.pushController(PagerRootScreen().horizontalTransaction())
         }
     }
 

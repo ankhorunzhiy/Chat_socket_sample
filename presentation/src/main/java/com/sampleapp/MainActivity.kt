@@ -12,6 +12,7 @@ import com.android.newssample.R
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.sampleapp.controller.StartController
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -29,7 +30,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         prepareUI()
         router = Conductor.attachRouter(this, controller_container, savedInstanceState)
         if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(StartController()))
+            router.setRoot(RouterTransaction.with(StartController()).popChangeHandler(HorizontalChangeHandler()))
         }
     }
 

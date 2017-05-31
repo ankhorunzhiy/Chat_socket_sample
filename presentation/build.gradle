@@ -50,6 +50,7 @@ dependencies {
     provided presentationDependencies.javaxAnnotation
     compile presentationDependencies.kotlin
     compile presentationDependencies.conductor
+    compile presentationDependencies.conductorSupport
     compile presentationDependencies.mosby
     compile presentationDependencies.conductorMvp
     compile presentationDependencies.state

@@ -82,6 +82,7 @@ ext {
             kotlin                : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}",
             glassfish             : "org.glassfish:javax.annotation:${glassfish_version}",
             conductor             : "com.bluelinelabs:conductor:${conductorVersion}",
+            conductorSupport      : "com.bluelinelabs:conductor-support:${conductorVersion}",
             mosby                 : "com.hannesdorfmann.mosby3:mvp:${mosbyVersion}",
             conductorMvp          : "com.hannesdorfmann.mosby3:mvp-conductor:${conductorMvpVersion}",
             stateProcessor        : "com.evernote:android-state-processor:${stateVersion}",
