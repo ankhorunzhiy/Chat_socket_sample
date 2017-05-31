@@ -39,7 +39,7 @@ ext {
     snappyDBVersion = '0.5.2'
     kryoVersion = '2.24.0'
     glassfish_version = '10.0-b28'
-    conductorVersion = '2.0.1'
+    conductorVersion = '2.1.0'
     mosbyVersion = '3.0.3'
     conductorMvpVersion = '3.0.0'
     stateVersion = '1.0.6'
