@@ -13,6 +13,7 @@ import com.sampleapp.util.applyHorizontalHandler
 import dagger.Provides
 import kotlinx.android.synthetic.main.screen_start.view.*
 import javax.inject.Inject
+import javax.inject.Named
 
 
 /**
@@ -24,6 +25,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
 
     @Inject
     lateinit var startPresenter: Presenter
+    val extra = args
 
     @ScreenScope(StartController::class)
     @dagger.Component(dependencies = arrayOf(BaseActivity.Component::class), modules = arrayOf(Module::class))
@@ -35,12 +37,13 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
 
     @ScreenScope(StartController::class)
     @dagger.Module
-    class Module {
+    inner class Module {
 
         @Provides
         @ScreenScope(StartController::class)
-        fun providePresenter(): Presenter {
-            return Presenter()
+        @Named ("args")
+        fun provideArgs(): Bundle? {
+            return extra
         }
     }
 
@@ -65,6 +68,6 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
     }
 
     @ScreenScope(StartController::class)
-    class Presenter @Inject constructor() : MvpBasePresenter<MvpView>()
+    class Presenter @Inject constructor(@Named("args") bundle: Bundle?) : MvpBasePresenter<MvpView>()
 
 }
