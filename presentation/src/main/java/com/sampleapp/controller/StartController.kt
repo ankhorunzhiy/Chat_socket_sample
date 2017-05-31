@@ -6,8 +6,7 @@ import com.android.newssample.R
 import com.bluelinelabs.conductor.RouterTransaction
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
-import com.sampleapp.BaseController
-import com.sampleapp.MainActivity
+import com.sampleapp.BaseActivity
 import com.sampleapp.controller.DaggerStartController_Component.builder
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.util.applyHorizontalHandler
@@ -27,7 +26,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
     lateinit var startPresenter: Presenter
 
     @ScreenScope(StartController::class)
-    @dagger.Component(dependencies = arrayOf(MainActivity.Component::class), modules = arrayOf(Module::class))
+    @dagger.Component(dependencies = arrayOf(BaseActivity.Component::class), modules = arrayOf(Module::class))
     interface Component {
         fun inject(startController: StartController)
 
@@ -45,7 +44,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
         }
     }
 
-    override fun injectToDagger(component: MainActivity.Component) {
+    override fun injectToDagger(component: BaseActivity.Component) {
         builder().component(component)
                 .module(Module())
                 .build()

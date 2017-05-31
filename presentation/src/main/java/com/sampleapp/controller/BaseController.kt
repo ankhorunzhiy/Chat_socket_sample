@@ -1,4 +1,4 @@
-package com.sampleapp
+package com.sampleapp.controller
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,8 @@ import com.evernote.android.state.StateSaver
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.hannesdorfmann.mosby3.mvp.conductor.MvpController
+import com.sampleapp.BaseActivity
+import com.sampleapp.MainActivity
 import com.sampleapp.controller.Layout
 
 
@@ -26,10 +28,10 @@ abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) :
     }
 
     private fun prepareGraph() {
-        injectToDagger((activity as MainActivity).component)
+        injectToDagger((activity as BaseActivity).component)
     }
 
-    abstract fun injectToDagger(component: MainActivity.Component)
+    abstract fun injectToDagger(component: BaseActivity.Component)
 
     open fun onViewCreated(root: View){}
 

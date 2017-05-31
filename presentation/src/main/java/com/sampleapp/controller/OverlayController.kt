@@ -5,7 +5,8 @@ import com.android.newssample.R
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
-import com.sampleapp.BaseController
+import com.sampleapp.BaseActivity
+import com.sampleapp.controller.BaseController
 import com.sampleapp.MainActivity
 import com.sampleapp.controller.DaggerOverlayController_Component.builder
 import com.sampleapp.di.ScreenScope
@@ -25,7 +26,7 @@ class OverlayController(args: Bundle? = null) : BaseController<MvpView, OverlayC
     lateinit var secondPresenter: Presenter
 
     @ScreenScope(OverlayController::class)
-    @dagger.Component(dependencies = arrayOf(MainActivity.Component::class), modules = arrayOf(Module::class))
+    @dagger.Component(dependencies = arrayOf(BaseActivity.Component::class), modules = arrayOf(Module::class))
     interface Component {
         fun inject(secondController: OverlayController)
     }
@@ -41,7 +42,7 @@ class OverlayController(args: Bundle? = null) : BaseController<MvpView, OverlayC
         }
     }
 
-    override fun injectToDagger(component: MainActivity.Component) {
+    override fun injectToDagger(component: BaseActivity.Component) {
         builder().component(component)
                 .module(Module())
                 .build()
