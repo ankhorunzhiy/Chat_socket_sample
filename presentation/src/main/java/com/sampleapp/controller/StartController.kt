@@ -10,6 +10,7 @@ import com.sampleapp.BaseController
 import com.sampleapp.MainActivity
 import com.sampleapp.controller.DaggerStartController_Component.builder
 import com.sampleapp.di.ScreenScope
+import com.sampleapp.util.applyHorizontalHandler
 import dagger.Provides
 import kotlinx.android.synthetic.main.screen_start.view.*
 import javax.inject.Inject
@@ -58,7 +59,9 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
 
     override fun onViewCreated(root: View) {
         root.startText.setOnClickListener {
-            getChildRouter(root.nestedLayout).pushController(RouterTransaction.with(OverlayController()))
+            getChildRouter(root.nestedLayout)
+                    .pushController(RouterTransaction.with(OverlayController())
+                    .applyHorizontalHandler(false))
         }
     }
 
