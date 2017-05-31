@@ -1,6 +1,7 @@
 package com.sampleapp.controller
 
 import android.os.Bundle
+import android.view.View
 import com.android.newssample.R
 import com.google.gson.Gson
 
