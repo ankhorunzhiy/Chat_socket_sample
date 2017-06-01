@@ -5,9 +5,9 @@ import android.view.View
 import com.android.newssample.R
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
-import com.sampleapp.BaseActivity
 import com.sampleapp.controller.DaggerStartController_Component.builder
 import com.sampleapp.di.ScreenScope
+import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.util.horizontalTransaction
 import dagger.Provides
 import kotlinx.android.synthetic.main.screen_start.view.*
@@ -27,7 +27,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
     val extra = args
 
     @ScreenScope(StartController::class)
-    @dagger.Component(dependencies = arrayOf(BaseActivity.Component::class), modules = arrayOf(Module::class))
+    @dagger.Component(dependencies = arrayOf(ActivityComponent::class), modules = arrayOf(Module::class))
     interface Component {
         fun inject(startController: StartController)
 
@@ -46,8 +46,8 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
         }
     }
 
-    override fun injectToDagger(component: BaseActivity.Component) {
-        builder().component(component)
+    override fun injectToDagger(component: ActivityComponent) {
+        builder().activityComponent(component)
                 .module(Module())
                 .build()
                 .inject(this)

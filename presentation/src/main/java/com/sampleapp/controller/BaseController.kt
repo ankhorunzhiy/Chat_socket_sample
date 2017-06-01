@@ -11,6 +11,7 @@ import com.hannesdorfmann.mosby3.mvp.conductor.MvpController
 import com.sampleapp.BaseActivity
 import com.sampleapp.MainActivity
 import com.sampleapp.controller.Layout
+import com.sampleapp.di.components.ActivityComponent
 
 
 /**
@@ -31,7 +32,7 @@ abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) :
         injectToDagger((activity as BaseActivity).component)
     }
 
-    abstract fun injectToDagger(component: BaseActivity.Component)
+    abstract fun injectToDagger(component: ActivityComponent)
 
     open fun onViewCreated(root: View){}
 

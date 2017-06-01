@@ -7,6 +7,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.BaseActivity
 import com.sampleapp.controller.DaggerPagerFirstController_Component.builder
 import com.sampleapp.di.ScreenScope
+import com.sampleapp.di.components.ActivityComponent
 import javax.inject.Inject
 
 
@@ -21,13 +22,13 @@ class PagerFirstController(args: Bundle? = null) : BaseController<MvpView, Pager
     lateinit var controllerPresenter: Presenter
 
     @ScreenScope(PagerFirstController::class)
-    @dagger.Component(dependencies = arrayOf(BaseActivity.Component::class))
+    @dagger.Component(dependencies = arrayOf(ActivityComponent::class))
     interface Component {
         fun inject(secondController: PagerFirstController)
     }
 
-    override fun injectToDagger(component: BaseActivity.Component) {
-        builder().component(component)
+    override fun injectToDagger(component: ActivityComponent) {
+        builder().activityComponent(component)
                 .build()
                 .inject(this)
     }
