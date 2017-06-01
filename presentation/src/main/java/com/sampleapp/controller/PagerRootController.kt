@@ -6,7 +6,8 @@ import com.android.newssample.R
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.adapter.ScreenAdapter
-import com.sampleapp.controller.DaggerPagerRootScreen_Component.builder
+import com.sampleapp.controller.DaggerPagerRootController_Component.builder
+
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
 import kotlinx.android.synthetic.main.screen_root_pager.view.*
@@ -16,15 +17,15 @@ import javax.inject.Inject
  * Created by Anton Khorunzhiy on 5/31/17.
  */
 @Layout(R.layout.screen_root_pager)
-class PagerRootScreen(args: Bundle? = null) : BaseController<MvpView, PagerRootScreen.Presenter>(args) {
+class PagerRootController(args: Bundle? = null) : BaseController<MvpView, PagerRootController.Presenter>(args) {
 
     @Inject
     lateinit var controllerPresenter: Presenter
 
-    @ScreenScope(PagerRootScreen::class)
+    @ScreenScope(PagerRootController::class)
     @dagger.Component(dependencies = arrayOf(ActivityComponent::class))
     interface Component {
-        fun inject(secondController: PagerRootScreen)
+        fun inject(secondController: PagerRootController)
     }
 
     override fun injectToDagger(component: ActivityComponent) {
@@ -43,6 +44,6 @@ class PagerRootScreen(args: Bundle? = null) : BaseController<MvpView, PagerRootS
         root.tab_layout.setupWithViewPager(root.view_pager)
     }
 
-    @ScreenScope(PagerRootScreen::class)
+    @ScreenScope(PagerRootController::class)
     class Presenter @Inject constructor() : MvpBasePresenter<MvpView>()
 }

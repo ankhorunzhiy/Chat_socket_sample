@@ -20,6 +20,6 @@ fun RouterTransaction.applyHorizontalHandler(removesFromViewOnPush: Boolean = tr
     return this
 }
 
-fun Controller.horizontalTransaction(removesFromViewOnPush: Boolean = true): RouterTransaction{
+fun Controller.toHorizontalTransaction(removesFromViewOnPush: Boolean = true): RouterTransaction{
     return RouterTransaction.with(this).applyHorizontalHandler(removesFromViewOnPush)
 }

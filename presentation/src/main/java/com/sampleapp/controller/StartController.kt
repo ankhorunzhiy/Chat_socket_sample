@@ -8,7 +8,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.controller.DaggerStartController_Component.builder
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
-import com.sampleapp.util.horizontalTransaction
+import com.sampleapp.util.toHorizontalTransaction
 import dagger.Provides
 import kotlinx.android.synthetic.main.screen_start.view.*
 import javax.inject.Inject
@@ -61,10 +61,10 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
         root.startText.setOnClickListener {
             getChildRouter(root.nestedLayout)
                     .setPopsLastView(true)
-                    .pushController(OverlayController().horizontalTransaction())
+                    .pushController(OverlayController().toHorizontalTransaction())
         }
         root.pagerShowButton.setOnClickListener {
-            router.pushController(PagerRootScreen().horizontalTransaction())
+            router.pushController(PagerRootController().toHorizontalTransaction())
         }
     }
 
