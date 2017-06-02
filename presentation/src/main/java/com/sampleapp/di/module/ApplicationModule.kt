@@ -9,6 +9,8 @@ import com.sampleapp.data.executor.JobExecutor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.sampleapp.di.ApplicationScope
+import com.sampleapp.domain.data.repository.DataRepositoryImpl
+import com.sampleapp.domain.data.repository.DataRepositoryInterface
 import com.sampleapp.util.UIThread
 
 
@@ -45,6 +47,11 @@ class ApplicationModule(private val application: Application) {
         return builder.create()
     }
 
+    @Provides
+    @ApplicationScope
+    fun provideDataRepository(): DataRepositoryInterface{
+        return DataRepositoryImpl()
+    }
 
 
 }

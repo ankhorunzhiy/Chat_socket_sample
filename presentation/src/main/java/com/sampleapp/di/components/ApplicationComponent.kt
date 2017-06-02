@@ -7,16 +7,17 @@ import com.google.gson.Gson
 import com.sampleapp.Application
 import com.sampleapp.di.ApplicationScope
 import com.sampleapp.di.module.ApplicationModule
-import com.sampleapp.di.module.NetworkModule
+import com.sampleapp.domain.data.repository.DataRepositoryInterface
 
 import dagger.Component
 
 @ApplicationScope
-@Component(modules = arrayOf(ApplicationModule::class, NetworkModule::class))
+@Component(modules = arrayOf(ApplicationModule::class))
 interface ApplicationComponent {
     fun inject(application: Application)
     fun threadExecutor(): ThreadExecutor
     fun postExecutionThread(): PostExecutionThread
     fun gson(): Gson
     fun context(): Context
+    fun dataRepository(): DataRepositoryInterface
 }

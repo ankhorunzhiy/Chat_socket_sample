@@ -8,6 +8,8 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.controller.DaggerStartController_Component.builder
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.domain.interactor.ApiUseCase
+import com.sampleapp.domain.model.ApiAction
 import com.sampleapp.util.toHorizontalTransaction
 import dagger.Provides
 import kotlinx.android.synthetic.main.screen_start.view.*
@@ -69,6 +71,6 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
     }
 
     @ScreenScope(StartController::class)
-    class Presenter @Inject constructor(@Named("args") bundle: Bundle?) : MvpBasePresenter<MvpView>()
+    class Presenter @Inject constructor(@Named("args") bundle: Bundle?, case: ApiUseCase<ApiAction>) : MvpBasePresenter<MvpView>()
 
 }
