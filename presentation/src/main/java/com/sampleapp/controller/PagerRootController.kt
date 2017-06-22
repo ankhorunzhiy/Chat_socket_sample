@@ -13,9 +13,6 @@ import com.sampleapp.di.components.ActivityComponent
 import kotlinx.android.synthetic.main.screen_root_pager.view.*
 import javax.inject.Inject
 
-/**
- * Created by Anton Khorunzhiy on 5/31/17.
- */
 @Layout(R.layout.screen_root_pager)
 class PagerRootController(args: Bundle? = null) : BaseController<MvpView, PagerRootController.Presenter>(args) {
 

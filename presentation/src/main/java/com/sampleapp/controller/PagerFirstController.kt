@@ -10,11 +10,6 @@ import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
 import javax.inject.Inject
 
-
-/**
- * Created by Tony on 09.05.17.
- */
-
 @Layout(R.layout.screen_first_pager)
 class PagerFirstController(args: Bundle? = null) : BaseController<MvpView, PagerFirstController.Presenter>(args) {
 

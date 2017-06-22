@@ -5,10 +5,6 @@ import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 
-/**
- * Created by Anton Khorunzhiy on 5/31/17.
- */
-
 fun RouterTransaction.applyChangeHandler(controllerChangeHandler: ControllerChangeHandler): RouterTransaction{
     this.pushChangeHandler(controllerChangeHandler)
     this.popChangeHandler(controllerChangeHandler)

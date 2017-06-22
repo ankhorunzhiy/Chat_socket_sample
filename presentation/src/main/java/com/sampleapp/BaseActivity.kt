@@ -2,24 +2,30 @@ package com.sampleapp
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.bluelinelabs.conductor.Router
 import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.di.module.ActivityModule
+import com.sampleapp.util.UiUtils
 
-/**
- * Created by Anton Khorunzhiy on 5/31/17.
- */
-open class BaseActivity : AppCompatActivity() {
+
+abstract class BaseActivity : AppCompatActivity() {
 
     lateinit var component: ActivityComponent
+    lateinit var router: Router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val layout = UiUtils.getLayoutFromAnnotation(this.javaClass) ?:
+                throw IllegalArgumentException("Activity should have Layout annotation")
+        setContentView(layout.value)
+        initRouter(savedInstanceState)
         prepareComponents()
     }
 
+    abstract fun initRouter(savedInstanceState: Bundle?)
+
     private fun prepareComponents() {
         val applicationComponent = (applicationContext as Application).applicationComponent
-        component = applicationComponent.plusActivityComponent(ActivityModule())
-        component.inject(this)
+        component = applicationComponent.plusActivityComponent(ActivityModule(this))
     }
 }

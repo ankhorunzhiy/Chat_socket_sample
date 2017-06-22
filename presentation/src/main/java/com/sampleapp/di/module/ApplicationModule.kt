@@ -30,12 +30,6 @@ class ApplicationModule(private val application: Application) {
 
     @Provides
     @ApplicationScope
-    fun provideAppContext(): Context {
-        return this.application
-    }
-
-    @Provides
-    @ApplicationScope
     internal fun providePostExecutionThread(): PostExecutionThread {
         return UIThread()
     }

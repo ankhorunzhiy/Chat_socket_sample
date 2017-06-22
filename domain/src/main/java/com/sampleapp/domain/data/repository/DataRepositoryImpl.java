@@ -6,9 +6,6 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-/**
- * Created by Anton Khorunzhiy on 6/1/17.
- */
 public class DataRepositoryImpl implements DataRepositoryInterface {
 
     @Inject

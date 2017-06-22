@@ -16,16 +16,13 @@ import kotlinx.android.synthetic.main.screen_start.view.*
 import javax.inject.Inject
 import javax.inject.Named
 
-
-/**
- * Created by Tony on 09.05.17.
- */
-
 @Layout(R.layout.screen_start)
 class StartController(args: Bundle? = null) : BaseController<MvpView, StartController.Presenter>(args) {
 
     @Inject
     lateinit var startPresenter: Presenter
+    @Inject
+    lateinit var controllerMediator: ControllerMediator
     val extra = args
 
     @ScreenScope(StartController::class)
@@ -66,7 +63,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
                     .pushController(OverlayController().toHorizontalTransaction())
         }
         root.pagerShowButton.setOnClickListener {
-            router.pushController(PagerRootController().toHorizontalTransaction())
+            controllerMediator.push(PagerRootController())
         }
     }
 

@@ -7,9 +7,6 @@ import com.bluelinelabs.conductor.support.RouterPagerAdapter
 import com.sampleapp.controller.PagerFirstController
 import com.sampleapp.controller.PagerSecondController
 
-/**
- * Created by Anton Khorunzhiy on 5/31/17.
- */
 class ScreenAdapter(controller: Controller) : RouterPagerAdapter(controller) {
 
     enum class Screen{

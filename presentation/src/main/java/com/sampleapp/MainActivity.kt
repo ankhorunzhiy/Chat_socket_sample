@@ -10,36 +10,37 @@ import android.view.Menu
 import android.view.MenuItem
 import com.android.newssample.R
 import com.bluelinelabs.conductor.Conductor
-import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.RouterTransaction
-import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
+import com.sampleapp.controller.ControllerMediator
+import com.sampleapp.controller.Layout
 import com.sampleapp.controller.StartController
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import javax.inject.Inject
 
-
+@Layout(R.layout.activity_main)
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var router: Router
+    @Inject
+    lateinit var mediator: ControllerMediator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        component.inject(this)
         prepareUI()
+        mediator.setRoot(StartController())
+    }
+
+    override fun initRouter(savedInstanceState: Bundle?) {
         router = Conductor.attachRouter(this, controller_container, savedInstanceState)
-        if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(StartController()).popChangeHandler(HorizontalChangeHandler()))
-        }
     }
 
     private fun prepareUI() {
+        setSupportActionBar(toolbar)
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)

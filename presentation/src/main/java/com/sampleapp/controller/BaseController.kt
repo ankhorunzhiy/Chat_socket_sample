@@ -9,27 +9,18 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.hannesdorfmann.mosby3.mvp.conductor.MvpController
 import com.sampleapp.BaseActivity
-import com.sampleapp.MainActivity
-import com.sampleapp.controller.Layout
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.util.UiUtils
 
-
-/**
- * Created by Tony on 09.05.17.
- */
 abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) : MvpController<V, P>(args) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        prepareGraph()
-        val layout = getLayoutFromAnnotation(this.javaClass) ?:
+        injectToDagger((activity as BaseActivity).component)
+        val layout = UiUtils.getLayoutFromAnnotation(this.javaClass) ?:
                 throw IllegalArgumentException("Controller should have Layout annotation")
         val root = inflater.inflate(layout.value, container, false)
         onViewCreated(root)
         return root
-    }
-
-    private fun prepareGraph() {
-        injectToDagger((activity as BaseActivity).component)
     }
 
     abstract fun injectToDagger(component: ActivityComponent)
@@ -46,15 +37,6 @@ abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) :
         StateSaver.restoreInstanceState(this, savedViewState)
     }
 
-    private fun getLayoutFromAnnotation(clazz: Class<*>?): Layout? {
-        if (clazz == null || clazz == Any::class.java) return null
 
-        val layout = clazz.getAnnotation(Layout::class.java)
-        if (layout != null) {
-            return layout
-        } else {
-            return getLayoutFromAnnotation(clazz.superclass)
-        }
-    }
 
 }
