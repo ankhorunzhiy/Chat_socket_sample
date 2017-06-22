@@ -8,12 +8,9 @@ class Application : android.app.Application() {
 
     lateinit var applicationComponent: ApplicationComponent
 
-
     override fun onCreate() {
         super.onCreate()
-        applicationComponent = builder()
-                .applicationModule(ApplicationModule(this))
-                .build()
+        applicationComponent = builder().applicationModule(ApplicationModule(this)).build()
         applicationComponent.inject(this)
     }
 
