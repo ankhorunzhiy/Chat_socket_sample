@@ -25,7 +25,7 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun initRouter(savedInstanceState: Bundle?)
 
     private fun prepareComponents() {
-        val applicationComponent = (applicationContext as Application).applicationComponent
+        val applicationComponent = (applicationContext as Application).appComponent
         component = applicationComponent.plusActivityComponent(ActivityModule(this))
     }
 }
