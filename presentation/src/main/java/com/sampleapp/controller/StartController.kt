@@ -1,17 +1,22 @@
 package com.sampleapp.controller
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import com.android.newssample.R
+import com.google.gson.Gson
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.di.DaggerUtils
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.di.module.ActivityModule
+import com.sampleapp.di.module.NetworkModule
 import com.sampleapp.domain.interactor.ApiUseCase
 import com.sampleapp.domain.model.ApiAction
 import com.sampleapp.util.toHorizontalTransaction
 import dagger.Provides
+import dagger.Subcomponent
 import kotlinx.android.synthetic.main.screen_start.view.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -26,11 +31,9 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
     val extra = args
 
     @ScreenScope(StartController::class)
-    @dagger.Component(dependencies = arrayOf(ActivityComponent::class), modules = arrayOf(Module::class))
+    @Subcomponent(modules = arrayOf(Module::class))
     interface Component {
         fun inject(startController: StartController)
-
-        fun inject(presenter: Presenter)
     }
 
     @ScreenScope(StartController::class)
@@ -46,7 +49,7 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
     }
 
     override fun injectToDagger(component: ActivityComponent) {
-        DaggerUtils.createComponent(Component::class.java, component, Module()).inject(this)
+        component.startComponent(Module()).inject(this)
     }
 
     override fun createPresenter(): Presenter {

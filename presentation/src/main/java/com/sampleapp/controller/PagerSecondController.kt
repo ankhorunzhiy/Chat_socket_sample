@@ -4,10 +4,9 @@ import android.os.Bundle
 import com.android.newssample.R
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
-import com.sampleapp.controller.DaggerPagerSecondController_Component.builder
-import com.sampleapp.di.DaggerUtils
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
+import dagger.Subcomponent
 import javax.inject.Inject
 
 @Layout(R.layout.screen_second_pager)
@@ -17,13 +16,13 @@ class PagerSecondController(args: Bundle? = null) : BaseController<MvpView, Page
     lateinit var overlayPresenter: Presenter
 
     @ScreenScope(PagerSecondController::class)
-    @dagger.Component(dependencies = arrayOf(ActivityComponent::class))
+    @Subcomponent()
     interface Component {
         fun inject(secondController: PagerSecondController)
     }
 
     override fun injectToDagger(component: ActivityComponent) {
-        DaggerUtils.createComponent(Component::class.java, component).inject(this)
+        component.pagerSecondScreenComponent().inject(this)
     }
 
     override fun createPresenter(): Presenter {

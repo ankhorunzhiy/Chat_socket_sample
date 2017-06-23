@@ -4,6 +4,7 @@ class DaggerUtils {
 
     companion object{
 
+        @Suppress("UNCHECKED_CAST")
         fun <T> createComponent(componentClass: Class<T>, vararg dependencies: Any): T {
             val fqn = componentClass.name
 
@@ -28,7 +29,7 @@ class DaggerUtils {
                         }
                     }
                 }
-
+                // noinspection
                 return builder.javaClass.getMethod("build").invoke(builder) as T
             } catch (e: Exception) {
                 throw RuntimeException(e)
