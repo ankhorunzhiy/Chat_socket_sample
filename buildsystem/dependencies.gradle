@@ -13,7 +13,7 @@ ext {
     androidCompileSdkVersion = 25
 
     //Libraries
-    daggerVersion = '2.7'
+    daggerVersion = '2.11'
     butterKnifeVersion = '8.4.0'
     recyclerViewVersion = '21.0.3'
     rxJavaVersion = '1.0.14'
@@ -68,17 +68,11 @@ ext {
             javaxAnnotation       : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             design                : "com.android.support:design:${designLibraryVersion}",
             supportAppCompat      : "com.android.support:appcompat-v7:${supportAppcompatVersion}",
-            flow                  : "com.squareup.flow:flow:${flowVersion}",
-            presenta              : "com.github.techery.presenta:library:${presentaVersion}",
-            presentaAdditions     : "com.github.techery.presenta:library-additions:${presentaVersion}",
             janet                 : "com.github.techery:janet:${janetVersion}",
             janetService          : "com.github.techery.janet-http:service:${janetServiceVersion}",
             janetServiceCompiler  : "com.github.techery.janet-http:service-compiler:${janetServiceVersion}",
             janetOkHttp           : "com.github.techery.janet-http:client-okhttp3:${janetServiceVersion}",
             janetGsonConvertor    : "com.github.techery.janet-converters:gson:${janetGsonConvertorVersion}",
-            autoValue             : "com.google.auto.value:auto-value:${autovalueVersion}",
-            autoValueParcel       : "com.ryanharter.auto.value:auto-value-parcel:${autovalueParcelVersion}",
-            autovalueParcelAdapter: "com.ryanharter.auto.value:auto-value-parcel-adapter:${autovalueParcelVersion}",
             kotlin                : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}",
             glassfish             : "org.glassfish:javax.annotation:${glassfish_version}",
             conductor             : "com.bluelinelabs:conductor:${conductorVersion}",

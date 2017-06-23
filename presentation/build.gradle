@@ -43,8 +43,6 @@ dependencies {
     kapt presentationDependencies.daggerCompiler
     compile presentationDependencies.dagger
     provided presentationDependencies.glassfish
-    compile presentationDependencies.butterKnife
-    apt presentationDependencies.butterKnifeCompiler
     compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
     provided presentationDependencies.javaxAnnotation
