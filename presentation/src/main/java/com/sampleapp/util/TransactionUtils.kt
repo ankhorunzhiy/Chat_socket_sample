@@ -16,6 +16,15 @@ fun RouterTransaction.applyHorizontalHandler(removesFromViewOnPush: Boolean = tr
     return this
 }
 
+fun RouterTransaction.applyFadeHandler(removesFromViewOnPush: Boolean = true): RouterTransaction{
+    this.applyChangeHandler(com.bluelinelabs.conductor.changehandler.FadeChangeHandler(removesFromViewOnPush))
+    return this
+}
+
 fun Controller.toHorizontalTransaction(removesFromViewOnPush: Boolean = true): RouterTransaction{
     return RouterTransaction.with(this).applyHorizontalHandler(removesFromViewOnPush)
+}
+
+fun Controller.toFadeTransaction(removesFromViewOnPush: Boolean = true): RouterTransaction{
+    return RouterTransaction.with(this).applyFadeHandler(removesFromViewOnPush)
 }
