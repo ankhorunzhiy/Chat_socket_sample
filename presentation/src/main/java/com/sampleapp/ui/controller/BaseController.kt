@@ -1,4 +1,4 @@
-package com.sampleapp.controller
+package com.sampleapp.ui.controller
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,10 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.hannesdorfmann.mosby3.mvp.conductor.MvpController
 import com.sampleapp.BaseActivity
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.ui.view.BaseMvpView
 import com.sampleapp.util.UiUtils
 
-abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) : MvpController<V, P>(args) {
+abstract class BaseController<V : BaseMvpView, P : MvpPresenter<V>>(args: Bundle?) : MvpController<V, P>(args), BaseMvpView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         injectToDagger((activity as BaseActivity).component)
@@ -37,6 +38,13 @@ abstract class BaseController<V : MvpView, P : MvpPresenter<V>>(args: Bundle?) :
         StateSaver.restoreInstanceState(this, savedViewState)
     }
 
+    override fun showProgress(){
+        (activity as BaseActivity).showProgressDialog()
+    }
+
+    override fun hideProgress(){
+        (activity as BaseActivity).hideProgressDialog()
+    }
 
 
 }

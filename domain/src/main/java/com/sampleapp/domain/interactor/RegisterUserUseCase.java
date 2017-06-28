@@ -8,6 +8,7 @@ import com.sampleapp.domain.repository.UserRepository;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.functions.Action1;
 
 public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Parameters> {
 
@@ -30,10 +31,6 @@ public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Par
 
         public Parameters(String userName) {
             this.userName = userName;
-        }
-
-        public String getUserName() {
-            return userName;
         }
     }
 }

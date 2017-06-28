@@ -1,6 +1,6 @@
 package com.sampleapp.util
 
-import com.sampleapp.controller.Layout
+import com.sampleapp.ui.controller.Layout
 
 class UiUtils {
 

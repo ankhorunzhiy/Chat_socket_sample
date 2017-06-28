@@ -9,4 +9,7 @@
     <string name="overlay_screen">Overlay screen</string>
     <string name="bottom_text">Bottom text</string>
     <string name="press_to_show_overlay">Press to show overlay</string>
+    <string name="enter_nick">Enter nick</string>
+    <string name="login">Login</string>
+    <string name="please_wait">Please wait…</string>
 </resources>

@@ -10,9 +10,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.android.newssample.R
 import com.bluelinelabs.conductor.Conductor
-import com.sampleapp.controller.ControllerMediator
-import com.sampleapp.controller.Layout
-import com.sampleapp.controller.StartController
+import com.sampleapp.ui.controller.ControllerMediator
+import com.sampleapp.ui.controller.Layout
+import com.sampleapp.ui.controller.LoginController
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -28,7 +28,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         component.inject(this)
         prepareUI()
-        mediator.setRoot(StartController())
+        mediator.setRoot(LoginController())
     }
 
     override fun initRouter(savedInstanceState: Bundle?) {
@@ -37,10 +37,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun prepareUI() {
         setSupportActionBar(toolbar)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)

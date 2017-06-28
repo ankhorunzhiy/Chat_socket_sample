@@ -7,14 +7,20 @@ import rx.Observable
 
 class RestApiImpl constructor( val socket: Socket): RestApi {
 
+    lateinit var loginListener : Emitter.Listener // ToDO find better way
+
     override fun addUser(userName: String): Observable<String> {
         return Observable.create { subscriber ->
-            val loginListener = Emitter.Listener {
+            loginListener = Emitter.Listener {
                 subscriber.onNext(userName)
                 subscriber.onCompleted()
                 subscriber.unsubscribe()
+                socket.off("login", loginListener)
+                socket.disconnect()
             }
-            socket.on("add user", loginListener)
+            socket.connect()
+            socket.on("login", loginListener)
+            socket.emit("add user", userName)
         }
     }
 }

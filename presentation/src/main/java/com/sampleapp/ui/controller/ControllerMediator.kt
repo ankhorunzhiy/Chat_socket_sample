@@ -1,4 +1,4 @@
-package com.sampleapp.controller
+package com.sampleapp.ui.controller
 
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router

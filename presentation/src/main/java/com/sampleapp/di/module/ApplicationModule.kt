@@ -17,6 +17,8 @@ import com.sampleapp.util.UIThread
 
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
+import rx.subscriptions.CompositeSubscription
 import javax.inject.Singleton
 
 
@@ -48,6 +50,12 @@ class ApplicationModule(private val application: Application) {
     fun provideUserRepository(userDataRepository: UserDataRepository): UserRepository {
         return userDataRepository
     }
+
+    @Provides
+    fun compositeDisposable() = CompositeDisposable()
+
+    @Provides
+    fun compositeSubscriptions() = CompositeSubscription()
 
 
 }

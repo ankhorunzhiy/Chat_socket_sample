@@ -1,4 +1,4 @@
-package com.sampleapp.controller
+package com.sampleapp.ui.controller
 
 import android.os.Bundle
 import android.view.View
@@ -9,12 +9,13 @@ import com.sampleapp.adapter.ScreenAdapter
 
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.ui.view.BaseMvpView
 import dagger.Subcomponent
 import kotlinx.android.synthetic.main.screen_root_pager.view.*
 import javax.inject.Inject
 
 @Layout(R.layout.screen_root_pager)
-class PagerRootController(args: Bundle? = null) : BaseController<MvpView, PagerRootController.Presenter>(args) {
+class PagerRootController(args: Bundle? = null) : BaseController<BaseMvpView, PagerRootController.Presenter>(args) {
 
     @Inject
     lateinit var controllerPresenter: Presenter
@@ -40,5 +41,5 @@ class PagerRootController(args: Bundle? = null) : BaseController<MvpView, PagerR
     }
 
     @ScreenScope(PagerRootController::class)
-    class Presenter @Inject constructor() : MvpBasePresenter<MvpView>()
+    class Presenter @Inject constructor() : MvpBasePresenter<BaseMvpView>()
 }

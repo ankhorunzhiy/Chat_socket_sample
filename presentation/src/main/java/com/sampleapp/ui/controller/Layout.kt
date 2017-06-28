@@ -1,4 +1,4 @@
-package com.sampleapp.controller
+package com.sampleapp.ui.controller
 
 import android.support.annotation.LayoutRes
 

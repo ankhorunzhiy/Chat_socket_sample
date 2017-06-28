@@ -45,6 +45,7 @@ ext {
     conductorMvpVersion = '3.0.0'
     stateVersion = '1.0.6'
     socketIOVersion = '0.3.0'
+    rxBindingVersion = '2.0.0'
 
     //Testing
     robolectricVersion = '3.0'
@@ -83,7 +84,8 @@ ext {
             conductorMvp          : "com.hannesdorfmann.mosby3:mvp-conductor:${conductorMvpVersion}",
             stateProcessor        : "com.evernote:android-state-processor:${stateVersion}",
             state                 : "com.evernote:android-state:${stateVersion}",
-            socketIO              : "com.github.nkzawa:socket.io-client:${socketIOVersion}"
+            socketIO              : "com.github.nkzawa:socket.io-client:${socketIOVersion}",
+            rxBinding             : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}"
     ]
 
     presentationTestDependencies = [

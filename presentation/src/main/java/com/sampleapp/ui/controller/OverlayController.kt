@@ -1,4 +1,4 @@
-package com.sampleapp.controller
+package com.sampleapp.ui.controller
 
 import android.os.Bundle
 import com.android.newssample.R
@@ -6,11 +6,12 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.ui.view.BaseMvpView
 import dagger.Subcomponent
 import javax.inject.Inject
 
 @Layout(R.layout.screen_second)
-class OverlayController(args: Bundle? = null) : BaseController<MvpView, OverlayController.Presenter>(args) {
+class OverlayController(args: Bundle? = null) : BaseController<BaseMvpView, OverlayController.Presenter>(args) {
 
     @Inject
     lateinit var overlayPresenter: Presenter
@@ -30,5 +31,5 @@ class OverlayController(args: Bundle? = null) : BaseController<MvpView, OverlayC
     }
 
     @ScreenScope(OverlayController::class)
-    class Presenter @Inject constructor() : MvpBasePresenter<MvpView>()
+    class Presenter @Inject constructor() : MvpBasePresenter<BaseMvpView>()
 }

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import com.bluelinelabs.conductor.Router
 import com.sampleapp.BaseActivity
-import com.sampleapp.controller.ControllerMediator
+import com.sampleapp.ui.controller.ControllerMediator
 import com.sampleapp.di.ActivityScope
 import dagger.Module
 import dagger.Provides

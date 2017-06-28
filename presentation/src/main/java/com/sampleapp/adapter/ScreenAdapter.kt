@@ -4,8 +4,8 @@ import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.support.RouterPagerAdapter
-import com.sampleapp.controller.PagerFirstController
-import com.sampleapp.controller.PagerSecondController
+import com.sampleapp.ui.controller.PagerFirstController
+import com.sampleapp.ui.controller.PagerSecondController
 
 class ScreenAdapter(controller: Controller) : RouterPagerAdapter(controller) {
 
