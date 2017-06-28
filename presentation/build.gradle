@@ -4,7 +4,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.fernandocejas.frodo'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
@@ -20,11 +19,6 @@ android {
         testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
         testApplicationId globalConfiguration.getAt("testApplicationId")
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
 }
 
 kapt {
@@ -53,5 +47,6 @@ dependencies {
     compile presentationDependencies.conductorMvp
     compile presentationDependencies.state
     kapt presentationDependencies.stateProcessor
+    compile presentationDependencies.socketIO
 }
 

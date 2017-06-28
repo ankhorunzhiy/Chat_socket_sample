@@ -1,7 +1,7 @@
 apply from: 'buildsystem/dependencies.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.1.0'
+    ext.kotlin_version = '1.1.3'
     ext.gradle_version = '2.3.0'
     repositories {
         maven {
@@ -20,11 +20,12 @@ buildscript {
 
 allprojects {
     ext {
-        androidApplicationId = 'com.newssample'
+        androidApplicationId = 'com.chat'
         androidVersionCode = 1
         androidVersionName = "1.0"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
-        testApplicationId = 'com.newssample.test'
+        testApplicationId = 'com.chat.test'
+        kotlinVersion = '1.1.0'
     }
 }
 

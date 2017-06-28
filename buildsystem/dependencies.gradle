@@ -11,6 +11,7 @@ ext {
     androidMinSdkVersion = 17
     androidTargetSdkVersion = 25
     androidCompileSdkVersion = 25
+    kotlinVersion = rootProject.ext.kotlin_version
 
     //Libraries
     daggerVersion = '2.11'
@@ -43,6 +44,7 @@ ext {
     mosbyVersion = '3.0.3'
     conductorMvpVersion = '3.0.0'
     stateVersion = '1.0.6'
+    socketIOVersion = '0.3.0'
 
     //Testing
     robolectricVersion = '3.0'
@@ -80,7 +82,8 @@ ext {
             mosby                 : "com.hannesdorfmann.mosby3:mvp:${mosbyVersion}",
             conductorMvp          : "com.hannesdorfmann.mosby3:mvp-conductor:${conductorMvpVersion}",
             stateProcessor        : "com.evernote:android-state-processor:${stateVersion}",
-            state                 : "com.evernote:android-state:${stateVersion}"
+            state                 : "com.evernote:android-state:${stateVersion}",
+            socketIO              : "com.github.nkzawa:socket.io-client:${socketIOVersion}"
     ]
 
     presentationTestDependencies = [
@@ -120,20 +123,9 @@ ext {
             janetServiceCompiler     : "com.github.techery.janet-http:service-compiler:${janetServiceVersion}",
             janetOkHttp              : "com.github.techery.janet-http:client-okhttp3:${janetServiceVersion}",
             janetGsonConvertor       : "com.github.techery.janet-converters:gson:${janetGsonConvertorVersion}",
-            immutablesGson           : "org.immutables:gson:${immutablesGsonVersion}",
-            immutables               : "org.immutables:value:${immutablesVersion}",
-            immutablesAnnotations    : "org.immutables:value:${immutablesVersion}:annotations",
-            immutablesBuilder        : "org.immutables:builder:${immutablesVersion}",
-            immutablesGsonAnnotations: "org.immutables:gson:${immutablesVersion}:annotations",
             stetho                   : "com.facebook.stetho:stetho-okhttp3:${stethoVersion}",
-            modelMapper              : 'org.modelmapper',
-            modelMapperName          : 'modelmapper',
-            modelMapperVersion       : "${modelMapperVersion}",
-            autoValue                : "com.google.auto.value:auto-value:${autovalueVersion}",
-            autoValueParcel          : "com.ryanharter.auto.value:auto-value-parcel:${autovalueParcelVersion}",
-            autovalueParcelAdapter   : "com.ryanharter.auto.value:auto-value-parcel-adapter:${autovalueParcelVersion}",
-            snappyDB                 : "com.snappydb:snappydb-lib:${snappyDBVersion}",
-            kryo                     : "com.esotericsoftware.kryo:kryo:${kryoVersion}"
+            socketIO              : "com.github.nkzawa:socket.io-client:${socketIOVersion}",
+            kotlinJre               : "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlinVersion}"
     ]
 
     dataTestDependencies = [
