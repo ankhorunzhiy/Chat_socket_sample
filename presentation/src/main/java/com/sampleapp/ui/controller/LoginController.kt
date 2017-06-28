@@ -88,8 +88,8 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
                 view.showProgress()
                 registerUserUseCase.execute(object : SimpleSubscriber<String>() {
                     override fun onNext(value: String) {
-                        controllerMediator.push(PagerRootController())
                         view.hideProgress()
+                        controllerMediator.push(PagerRootController())
                     }
 
                     override fun onError(e: Throwable?) {
