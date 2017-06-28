@@ -19,13 +19,13 @@ class ActivityModule(val activity: Activity) {
 
     @Provides
     @ActivityScope
-    fun provideScreenMediator(router: Router): ControllerMediator{
+    fun provideScreenMediator(router: Router): ControllerMediator {
         return ControllerMediator(router)
     }
 
     @Provides
     @ActivityScope
-    fun provideRouter(): Router{
+    fun provideRouter(): Router {
         return (activity as BaseActivity).router
     }
 }

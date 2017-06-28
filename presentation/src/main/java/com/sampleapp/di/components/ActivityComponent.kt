@@ -9,7 +9,7 @@ import com.sampleapp.di.module.ActivityModule
 @dagger.Subcomponent(modules = arrayOf(ActivityModule::class))
 interface ActivityComponent {
     fun inject(mainActivity: MainActivity)
-    fun startComponent(module: StartController.Module): StartController.Component
+    fun startComponent(): StartController.Component
     fun overlayComponent(): OverlayController.Component
     fun pagerFirstScreenComponent(): PagerFirstController.Component
     fun pagerRootComponent(): PagerRootController.Component

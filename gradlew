@@ -30,7 +30,7 @@ die ( ) {
 cygwin=false
 msys=false
 darwin=false
-case "`uname`" in
+aCase "`uname`" in
   CYGWIN* )
     cygwin=true
     ;;
@@ -136,7 +136,7 @@ if $cygwin ; then
         fi
         i=$((i+1))
     done
-    case $i in
+    aCase $i in
         (0) set -- ;;
         (1) set -- "$args0" ;;
         (2) set -- "$args0" "$args1" ;;

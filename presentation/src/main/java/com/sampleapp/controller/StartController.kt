@@ -12,7 +12,7 @@ import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.di.module.ActivityModule
 import com.sampleapp.di.module.NetworkModule
-import com.sampleapp.domain.interactor.ApiUseCase
+import com.sampleapp.domain.interactor.RegisterUserUseCase
 import com.sampleapp.domain.model.ApiAction
 import com.sampleapp.util.toHorizontalTransaction
 import dagger.Provides
@@ -31,25 +31,15 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
     val extra = args
 
     @ScreenScope(StartController::class)
-    @Subcomponent(modules = arrayOf(Module::class))
+    @Subcomponent()
     interface Component {
         fun inject(startController: StartController)
     }
 
-    @ScreenScope(StartController::class)
-    @dagger.Module
-    inner class Module {
 
-        @Provides
-        @ScreenScope(StartController::class)
-        @Named("args")
-        fun provideArgs(): Bundle? {
-            return extra
-        }
-    }
 
     override fun injectToDagger(component: ActivityComponent) {
-        component.startComponent(Module()).inject(this)
+        component.startComponent().inject(this)
     }
 
     override fun createPresenter(): Presenter {
@@ -68,6 +58,6 @@ class StartController(args: Bundle? = null) : BaseController<MvpView, StartContr
     }
 
     @ScreenScope(StartController::class)
-    class Presenter @Inject constructor(@Named("args") bundle: Bundle?, case: ApiUseCase<ApiAction>) : MvpBasePresenter<MvpView>()
+    class Presenter @Inject constructor(registerUserUseCase: RegisterUserUseCase) : MvpBasePresenter<MvpView>()
 
 }
