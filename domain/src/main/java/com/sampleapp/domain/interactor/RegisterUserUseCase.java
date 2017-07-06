@@ -33,4 +33,8 @@ public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Par
             this.userName = userName;
         }
     }
+
+    public static RegisterUserUseCase mock(UserRepository userRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread){
+        return new RegisterUserUseCase(userRepository, threadExecutor, postExecutionThread);
+    }
 }

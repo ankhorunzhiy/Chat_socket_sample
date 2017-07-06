@@ -51,7 +51,7 @@ ext {
     robolectricVersion = '3.0'
     jUnitVersion = '4.12'
     assertJVersion = '1.7.1'
-    mockitoVersion = '1.9.5'
+    mockitoVersion = '2.1.0'
     dexmakerVersion = '1.0'
     espressoVersion = '2.0'
     testingSupportLibVersion = '0.1'
@@ -105,8 +105,9 @@ ext {
     ]
 
     domainTestDependencies = [
-            junit  : "junit:junit:${jUnitVersion}",
-            mockito: "org.mockito:mockito-core:${mockitoVersion}",
+            junit:              "junit:junit:${jUnitVersion}",
+            mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+            assertj:            "org.assertj:assertj-core:${assertJVersion}"
     ]
 
     dataDependencies = [
@@ -141,5 +142,15 @@ ext {
 
     developmentDependencies = [
             leakCanary: "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+    ]
+
+    testModuleDependencies = [
+            rxJava      : "io.reactivex:rxjava:${rxJavaVersion}",
+            javaxInject : "javax.inject:javax.inject:${javaxInjectVersion}",
+            gson        : "com.google.code.gson:gson:${gsonVersion}",
+            junit       : "junit:junit:${jUnitVersion}",
+            mockito     : "org.mockito:mockito-core:${mockitoVersion}",
+            assertj     : "org.assertj:assertj-core:${assertJVersion}",
+            rxAndroid   : "io.reactivex:rxandroid:${rxAndroidVersion}"
     ]
 }

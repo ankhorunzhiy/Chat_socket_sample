@@ -56,7 +56,9 @@ dependencies {
     compile presentationDependencies.conductorMvp
     compile presentationDependencies.state
     kapt presentationDependencies.stateProcessor
-    compile presentationDependencies.socketIO
+    compile (presentationDependencies.socketIO){
+        exclude group: 'org.json', module: 'json'
+    }
     compile presentationDependencies.rxBinding
 }
 

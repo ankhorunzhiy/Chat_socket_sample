@@ -45,7 +45,9 @@ android {
         compile dataDependencies.janetOkHttp
         compile dataDependencies.janetGsonConvertor
         compile dataDependencies.stetho
-        compile dataDependencies.socketIO
+        compile (dataDependencies.socketIO){
+            exclude group: 'org.json', module: 'json'
+        }
         compile dataDependencies.kotlinJre
         testCompile testDependencies.junit
     }
