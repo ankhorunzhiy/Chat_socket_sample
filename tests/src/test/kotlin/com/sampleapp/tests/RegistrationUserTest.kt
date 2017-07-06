@@ -1,4 +1,4 @@
-package com.sample.tests
+package com.sampleapp.tests
 
 import com.sampleapp.data.executor.JobExecutor
 import com.sampleapp.data.net.SocketProviderImpl
@@ -14,7 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.runners.MockitoJUnitRunner
 import rx.android.schedulers.AndroidSchedulers
 import rx.observers.TestSubscriber
 
