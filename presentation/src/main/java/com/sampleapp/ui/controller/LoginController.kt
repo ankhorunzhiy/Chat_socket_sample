@@ -94,7 +94,7 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
 
                     override fun onError(e: Throwable?) {
                         super.onError(e)        // ToDo handle error
-                        view.showProgress()
+                        view.hideProgress()
                     }
                 }, RegisterUserUseCase.Parameters(nick))
         }
