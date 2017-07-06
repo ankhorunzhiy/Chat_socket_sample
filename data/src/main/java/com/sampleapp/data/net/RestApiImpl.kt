@@ -2,6 +2,8 @@ package com.sampleapp.data.net
 
 import com.github.nkzawa.emitter.Emitter
 import com.github.nkzawa.socketio.client.Socket
+import com.sampleapp.data.model.mapper.EventDataMapper
+import org.json.JSONObject
 import rx.Observable
 
 
@@ -19,8 +21,18 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
                 socket.disconnect()
             }
             socket.connect()
-            socket.on("login", loginListener)
+            socket.on("login", loginListener)   // ToDo replace commands with enums
             socket.emit("add user", userName)
         }
     }
+
+    override fun onEvents(events: Array<out String>): Observable<JSONObject> {
+        return Observable.create { subscriber->
+            events.forEach {
+                socket.on(it, { subscriber.onNext(it.first() as JSONObject)})
+                socket.connect()
+            }
+        }
+    }
+
 }

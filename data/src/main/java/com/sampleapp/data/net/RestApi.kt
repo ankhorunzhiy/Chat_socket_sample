@@ -1,5 +1,7 @@
 package com.sampleapp.data.net
 
+import com.sampleapp.data.model.mapper.EventDataMapper
+import org.json.JSONObject
 import rx.Observable
 
 interface RestApi {
@@ -9,4 +11,6 @@ interface RestApi {
     }
 
     fun addUser(userName: String): Observable<String>
+
+    fun onEvents(events: Array<out String>) : Observable<JSONObject>
 }

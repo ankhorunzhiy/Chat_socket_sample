@@ -2,8 +2,8 @@ package com.sampleapp.tests
 
 import com.sampleapp.data.executor.JobExecutor
 import com.sampleapp.data.net.SocketProviderImpl
-import com.sampleapp.data.repository.UserDataRepository
-import com.sampleapp.data.repository.UserDataStoreFactory
+import com.sampleapp.data.repository.user.UserDataRepository
+import com.sampleapp.data.repository.user.UserDataStoreFactory
 import com.sampleapp.domain.data.executor.PostExecutionThread
 import com.sampleapp.domain.data.executor.ThreadExecutor
 import com.sampleapp.domain.interactor.RegisterUserUseCase

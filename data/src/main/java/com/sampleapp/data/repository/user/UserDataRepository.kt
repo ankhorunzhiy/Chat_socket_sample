@@ -1,4 +1,4 @@
-package com.sampleapp.data.repository
+package com.sampleapp.data.repository.user
 
 import com.sampleapp.domain.repository.UserRepository
 import rx.Observable

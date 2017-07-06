@@ -1,4 +1,4 @@
-package com.sampleapp.data.repository
+package com.sampleapp.data.repository.user
 
 import com.sampleapp.data.net.RestApi
 import rx.Observable

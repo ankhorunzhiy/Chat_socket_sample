@@ -8,9 +8,11 @@ import com.sampleapp.domain.data.executor.ThreadExecutor
 import com.sampleapp.data.executor.JobExecutor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.sampleapp.data.repository.UserDataRepository
+import com.sampleapp.data.repository.chat.ChatDataRepository
+import com.sampleapp.data.repository.user.UserDataRepository
 import com.sampleapp.domain.data.repository.DataRepositoryImpl
 import com.sampleapp.domain.data.repository.DataRepositoryInterface
+import com.sampleapp.domain.repository.ChatRepository
 import com.sampleapp.domain.repository.UserRepository
 import com.sampleapp.util.UIThread
 
@@ -39,17 +41,15 @@ class ApplicationModule(private val application: Application) {
     }
 
     @Provides
-    @Singleton
-    internal fun provideGson(): Gson {
-        val builder = GsonBuilder()
-        return builder.create()
-    }
+    fun provideGson(): Gson = GsonBuilder().create()
 
     @Provides
     @Singleton
-    fun provideUserRepository(userDataRepository: UserDataRepository): UserRepository {
-        return userDataRepository
-    }
+    fun provideUserRepository(userDataRepository: UserDataRepository): UserRepository = userDataRepository
+
+    @Provides
+    @Singleton
+    fun provideChatRepository(chatDataRepository: ChatDataRepository): ChatRepository = chatDataRepository
 
     @Provides
     fun compositeDisposable() = CompositeDisposable()
