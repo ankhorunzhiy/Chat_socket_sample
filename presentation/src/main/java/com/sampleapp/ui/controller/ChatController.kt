@@ -53,6 +53,9 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
         setTitle(R.string.chat)
     }
 
+    override fun notifyAdapter(eventModel: EventModel) {
+
+    }
 
     override fun onAttach(view: View) {
         super.onAttach(view)
@@ -66,14 +69,24 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
         : MvpBasePresenter<ChatView>(){
 
         fun init() {
+           view.showProgress()
            eventsConnectUseCase.execute(object : SimpleSubscriber<EventModel>() {
                override fun onNext(value: EventModel) {
                    super.onNext(value)
-                   Log.d("", "")
+                   if(value.event == Event.CONNECT) view.hideProgress()
+                   else processEvent(value)
+               }
 
+               override fun onError(e: Throwable?) {
+                   super.onError(e)
+                   view.hideProgress()
                }
            }, EventsConnectUseCase.Parameters(
                    arrayOf(Event.NEW_MESSAGE, Event.CONNECT, Event.USER_JOINED, Event.USER_LEFT)))}
+
+        fun processEvent(eventModel: EventModel){
+            view.notifyAdapter(eventModel)
+        }
     }
 
     companion object{
