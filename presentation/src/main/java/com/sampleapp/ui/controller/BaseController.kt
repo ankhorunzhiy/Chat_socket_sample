@@ -1,6 +1,8 @@
 package com.sampleapp.ui.controller
 
 import android.os.Bundle
+import android.support.annotation.StringRes
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,5 +48,12 @@ abstract class BaseController<V : BaseMvpView, P : MvpPresenter<V>>(args: Bundle
         (activity as BaseActivity).hideProgressDialog()
     }
 
+    fun setTitle(@StringRes titleRes: Int){
+        setTitle(resources?.getString(titleRes))
+    }
+
+    fun setTitle(titleString: String?){
+        (activity as AppCompatActivity?)?.let { it.supportActionBar?.let { it.title = titleString } }
+    }
 
 }

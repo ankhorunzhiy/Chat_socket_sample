@@ -55,6 +55,11 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
         return startPresenter
     }
 
+    override fun onViewCreated(root: View) {
+        super.onViewCreated(root)
+        setTitle(R.string.login)
+    }
+
     override fun onAttach(view: View) {
         super.onAttach(view)
         compositeDisposable.add(RxTextView.afterTextChangeEvents(view.user_nick).subscribe {
@@ -89,7 +94,7 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
                 registerUserUseCase.execute(object : SimpleSubscriber<String>() {
                     override fun onNext(value: String) {
                         view.hideProgress()
-                        controllerMediator.push(PagerRootController())
+                        controllerMediator.push(ChatController(ChatController.newArgs(value)))
                     }
 
                     override fun onError(e: Throwable?) {

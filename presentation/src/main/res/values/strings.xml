@@ -12,4 +12,5 @@
     <string name="enter_nick">Enter nick</string>
     <string name="login">Login</string>
     <string name="please_wait">Please wait…</string>
+    <string name="chat">Chat</string>
 </resources>
