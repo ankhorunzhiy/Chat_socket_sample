@@ -10,6 +10,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.domain.interactor.EventsConnectUseCase
+import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.EventModel
 import com.sampleapp.rx.SimpleSubscriber
 import com.sampleapp.ui.view.ChatView
@@ -65,16 +66,14 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
         : MvpBasePresenter<ChatView>(){
 
         fun init() {
-           view.showProgress()
            eventsConnectUseCase.execute(object : SimpleSubscriber<EventModel>() {
                override fun onNext(value: EventModel) {
                    super.onNext(value)
-                   view.hideProgress()
+                   Log.d("", "")
 
                }
-           }, EventsConnectUseCase.Parameters(arrayOf(
-                   EVENT_CONNECT,
-                   "new message")))} // ToDo rework
+           }, EventsConnectUseCase.Parameters(
+                   arrayOf(Event.NEW_MESSAGE, Event.CONNECT, Event.USER_JOINED, Event.USER_LEFT)))}
     }
 
     companion object{

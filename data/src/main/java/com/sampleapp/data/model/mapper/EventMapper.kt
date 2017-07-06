@@ -9,10 +9,11 @@ import javax.inject.Singleton
 class EventMapper @Inject constructor(){
 
     fun transform(eventDataModel: EventDataModel): EventModel{
-        var eventModel = EventModel()
+        val eventModel = EventModel()
         eventModel.message = eventDataModel.message
         eventModel.userName = eventDataModel.userName
         eventModel.numUsers = eventDataModel.numUsers
+        eventModel.event = eventDataModel.event
         return eventModel
     }
 

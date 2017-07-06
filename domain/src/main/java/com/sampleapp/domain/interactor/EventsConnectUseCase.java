@@ -2,6 +2,7 @@ package com.sampleapp.domain.interactor;
 
 import com.sampleapp.domain.data.executor.PostExecutionThread;
 import com.sampleapp.domain.data.executor.ThreadExecutor;
+import com.sampleapp.domain.model.Event;
 import com.sampleapp.domain.model.EventModel;
 import com.sampleapp.domain.repository.ChatRepository;
 
@@ -26,13 +27,13 @@ public class EventsConnectUseCase extends UseCase<EventModel, EventsConnectUseCa
 
     public static class Parameters{
 
-        private final String[] events;
+        private final Event[] events;
 
-        public Parameters(String[] events){
+        public Parameters(Event[] events){
             this.events = events;
         }
 
-        public String[] getEvents() {
+        public Event[] getEvents() {
             return events;
         }
     }
