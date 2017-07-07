@@ -13,4 +13,7 @@
     <string name="login">Login</string>
     <string name="please_wait">Please wait…</string>
     <string name="chat">Chat</string>
+    <string name="is_typing">%1s is typing</string>
+    <string name="has_left">%1s has left</string>
+    <string name="has_joined">%1s has joined</string>
 </resources>
