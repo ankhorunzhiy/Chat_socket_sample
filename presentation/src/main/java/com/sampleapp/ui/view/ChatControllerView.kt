@@ -27,7 +27,9 @@ class ChatControllerView @JvmOverloads constructor(
     }
 
     fun notifyAdapter(eventModel: EventModel){
-
+        val event = eventModel.event
+        if(event == null || event == Event.CONNECT || event == Event.DISCONNECT) return
+//        adapter.events.add(eventModel) // ToDo add notifyadapter
     }
 
     class Adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
