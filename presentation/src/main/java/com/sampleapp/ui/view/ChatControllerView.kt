@@ -27,18 +27,13 @@ class ChatControllerView @JvmOverloads constructor(
     }
 
     fun notifyAdapter(eventModel: EventModel){
-        val event = eventModel.event
-        if(event == null || event == Event.CONNECT || event == Event.DISCONNECT) return
-//        adapter.events.add(eventModel) // ToDo add notifyadapter
+        val event = eventModel.event ?: return
+        //        adapter.events.add(eventModel) // ToDo add notifyadapter
     }
 
     class Adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
         lateinit var context: Context
-
-        private enum class Type{
-            MESSAGE, USER_STATUS, TYPING
-        }
 
         var events: MutableList<EventModel> = ArrayList()
 
@@ -51,20 +46,15 @@ class ChatControllerView @JvmOverloads constructor(
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
             val inflater = LayoutInflater.from(context)
             when(viewType){
-                Type.MESSAGE.ordinal -> return MessageHolder(inflater.inflate(R.layout.item_message, null))
-                Type.USER_STATUS.ordinal -> return UserStatusHolder(inflater.inflate(R.layout.item_user, null))
-                Type.TYPING.ordinal -> return TypingHolder(inflater.inflate(R.layout.item_user, null))
+                Event.NEW_MESSAGE.ordinal -> return MessageHolder(inflater.inflate(R.layout.item_message, null))
+                Event.USER_JOINED.ordinal, Event.USER_LEFT.ordinal -> return UserStatusHolder(inflater.inflate(R.layout.item_user, null))
+                Event.TYPING.ordinal -> return TypingHolder(inflater.inflate(R.layout.item_user, null))
             }
             throw IllegalArgumentException("Unknown view type")
         }
 
         override fun getItemViewType(position: Int): Int {
-            when(events[position].event){
-                Event.NEW_MESSAGE -> return Type.MESSAGE.ordinal
-                Event.USER_JOINED, Event.USER_LEFT -> Type.USER_STATUS
-                Event.TYPING, Event.STOP_TYPING -> Type.TYPING
-            }
-            throw IllegalArgumentException("Unknown type")
+            return events[position].event.ordinal
         }
 
         override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
