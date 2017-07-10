@@ -1,7 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/user"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:padding="@dimen/xsmall_padding"
-          android:gravity="center"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/xsmall_padding"
+    android:paddingBottom="@dimen/xsmall_padding">
+
+    <TextView
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_large" />
+
+    <TextView
+        android:id="@+id/details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_small"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/user"
+        android:paddingEnd="@dimen/small_padding"
+        android:paddingStart="@dimen/small_padding" />
+
+
+</RelativeLayout>
+

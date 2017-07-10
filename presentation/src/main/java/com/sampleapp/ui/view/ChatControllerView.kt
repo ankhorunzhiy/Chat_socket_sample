@@ -22,18 +22,16 @@ class ChatControllerView @JvmOverloads constructor(
     var adapter: Adapter
     init {
         View.inflate(context, R.layout.view_chat, this)
-        adapter = Adapter()
+        adapter = Adapter(context)
         chat_recycler_view.adapter = adapter
     }
 
     fun notifyAdapter(eventModel: EventModel){
-        val event = eventModel.event ?: return
-        //        adapter.events.add(eventModel) // ToDo add notifyadapter
+        if(eventModel.event == null) return
+        adapter.handleEvent(eventModel)
     }
 
-    class Adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-
-        lateinit var context: Context
+    class Adapter(val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
         var events: MutableList<EventModel> = ArrayList()
 
@@ -57,15 +55,10 @@ class ChatControllerView @JvmOverloads constructor(
             return events[position].event.ordinal
         }
 
-        override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
-            super.onAttachedToRecyclerView(recyclerView)
-            recyclerView?.let { this.context = context }
-        }
-
         class MessageHolder(view: View) : BaseHolder(view){
 
             override fun bind(eventModel: EventModel){
-                itemView.user_name.text = eventModel.userName
+                itemView.user_name.text = eventModel.userName.plus(":")
                 itemView.message.text = eventModel.message
             }
 
@@ -74,8 +67,9 @@ class ChatControllerView @JvmOverloads constructor(
         class TypingHolder(view: View): BaseHolder(view){
 
             override fun bind(eventModel: EventModel){
-                val typingText = itemView.resources.getString(R.string.is_typing, eventModel.userName)
-                itemView.user.text = typingText
+                val typingText = itemView.resources.getString(R.string.is_typing)
+                itemView.details.text = typingText
+                itemView.user.text = eventModel.userName
             }
 
         }
@@ -85,13 +79,36 @@ class ChatControllerView @JvmOverloads constructor(
             override fun bind(eventModel: EventModel){
                 val event = eventModel.event
                 val stringId = if(event == Event.USER_JOINED) R.string.has_joined else R.string.has_left
-                itemView.user.text = itemView.resources.getText(stringId, eventModel.userName)
+                itemView.user.text = itemView.resources.getString(stringId, eventModel.userName)
             }
 
         }
 
         abstract class BaseHolder(view: View) : RecyclerView.ViewHolder(view){
             abstract fun bind(eventModel: EventModel)
+        }
+
+        fun handleEvent(eventModel: EventModel) {
+            if (eventModel.event == Event.STOP_TYPING)
+                handleStopTyping(eventModel)
+            else{
+                val size = events.size
+                events.add(eventModel)
+                notifyItemInserted(size)
+            }
+
+        }
+
+        fun handleStopTyping(eventModel: EventModel) {
+            val listIterator = events.listIterator(events.size)
+            while (listIterator.hasPrevious()) {
+                val previous = listIterator.previous()
+                if(previous.userName == eventModel.userName && previous.event == Event.TYPING){
+                    listIterator.remove()
+                    val previousIndex = listIterator.previousIndex()
+                    notifyItemRemoved(previousIndex)
+                }
+            }
         }
     }
 }

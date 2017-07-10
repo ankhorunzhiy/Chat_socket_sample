@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/xsmall_padding"
+    android:paddingBottom="@dimen/xsmall_padding">
 
     <TextView
-            android:id="@+id/user_name"
-            android:textSize="@dimen/text_medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"/>
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_large" />
+
     <TextView
-            android:id="@+id/message"
-            android:layout_centerHorizontal="true"
-            android:layout_toEndOf="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingStart="@dimen/small_padding"
-            android:paddingEnd="@dimen/small_padding"/>
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/user_name"
+        android:paddingEnd="@dimen/small_padding"
+        android:paddingStart="@dimen/small_padding" />
 
 
 </RelativeLayout>

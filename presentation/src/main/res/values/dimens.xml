@@ -8,7 +8,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="min_height_edit_text_chat">50dp</dimen>
     <dimen name="message_text_corner">100dp</dimen>
+    <dimen name="text_small">12sp</dimen>
     <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_large">18sp</dimen>
     <dimen name="small_padding">10dp</dimen>
     <dimen name="xsmall_padding">5dp</dimen>
 </resources>
