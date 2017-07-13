@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        android:layout_above="@+id/chat_edit"/>
+        android:layout_above="@+id/message_text"/>
 
     <EditText
-        android:id="@+id/chat_edit"
+        android:id="@+id/message_text"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

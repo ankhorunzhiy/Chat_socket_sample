@@ -8,14 +8,16 @@ public enum Event {
     USER_JOINED("user joined"),
     USER_LEFT("user left"),
     TYPING("typing"),
-    STOP_TYPING("stop typing");
+    STOP_TYPING("stop typing"),
+    LOGIN("login"),
+    ADD_USER("add user");
 
-    private final String eventName;
-    Event(String eventName) {
-        this.eventName = eventName;
+    private final String event;
+    Event(String event) {
+        this.event = event;
     }
 
-    public String getEventName() {
-        return eventName;
+    public String getEvent() {
+        return event;
     }
 }

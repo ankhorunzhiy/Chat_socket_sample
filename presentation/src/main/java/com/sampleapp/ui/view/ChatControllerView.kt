@@ -34,6 +34,7 @@ class ChatControllerView @JvmOverloads constructor(
     class Adapter(val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
         var events: MutableList<EventModel> = ArrayList()
+        lateinit var recyclerView: RecyclerView
 
         override fun getItemCount(): Int = events.size
 
@@ -53,6 +54,11 @@ class ChatControllerView @JvmOverloads constructor(
 
         override fun getItemViewType(position: Int): Int {
             return events[position].event.ordinal
+        }
+
+        override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+            super.onAttachedToRecyclerView(recyclerView)
+            this.recyclerView = recyclerView as RecyclerView
         }
 
         class MessageHolder(view: View) : BaseHolder(view){
@@ -95,6 +101,7 @@ class ChatControllerView @JvmOverloads constructor(
                 val size = events.size
                 events.add(eventModel)
                 notifyItemInserted(size)
+                recyclerView.smoothScrollToPosition(events.size)
             }
 
         }
@@ -110,5 +117,9 @@ class ChatControllerView @JvmOverloads constructor(
                 }
             }
         }
+    }
+
+    fun clearMessageText() {
+        message_text.text.clear()
     }
 }

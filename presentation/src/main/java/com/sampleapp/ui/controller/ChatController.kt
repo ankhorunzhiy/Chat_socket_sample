@@ -1,6 +1,7 @@
 package com.sampleapp.ui.controller
 
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import com.android.newssample.R
@@ -8,13 +9,17 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.domain.interactor.EventsConnectUseCase
+import com.sampleapp.domain.interactor.SendMessageUseCase
 import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.EventModel
+import com.sampleapp.domain.model.Message
 import com.sampleapp.rx.SimpleSubscriber
 import com.sampleapp.ui.view.ChatControllerView
 import com.sampleapp.ui.view.ChatView
 import dagger.Provides
 import dagger.Subcomponent
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.view_chat.view.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -56,15 +61,24 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
         (view as ChatControllerView).notifyAdapter(eventModel)
     }
 
+    override fun clearMessageText() {
+        (view as ChatControllerView).clearMessageText()
+    }
+
     override fun onAttach(view: View) {
         super.onAttach(view)
         chatPresenter.init()
+        view.image_send.setOnClickListener {
+            presenter.sendMessage(view.message_text.text)
+        }
+
     }
 
     @ScreenScope(ChatController::class)
     class Presenter @Inject constructor(@Named("chatArgs")
                                         val args: Bundle?,
-                                        val eventsConnectUseCase: EventsConnectUseCase)
+                                        val eventsConnectUseCase: EventsConnectUseCase,
+                                        val sendMessageUseCase: SendMessageUseCase)
         : MvpBasePresenter<ChatView>(){
 
         fun init() {
@@ -85,6 +99,24 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
 
         fun processEvent(eventModel: EventModel){
             view.notifyAdapter(eventModel)
+        }
+
+        fun sendMessage(text: Editable?) {
+            text?.let {
+                val textMessage = it.toString()
+                if(text.isEmpty()) return@let
+                val message = Message.from(provideUserName(), textMessage)
+                sendMessageUseCase.execute(object : SimpleSubscriber<EventModel>(){
+                    override fun onNext(value: EventModel) {
+                        super.onNext(value)
+                        processEvent(value)
+                    }
+                }, SendMessageUseCase.Parameters.create(message)) }
+            view.clearMessageText()
+        }
+
+        private fun provideUserName(): String? {
+            return args?.getString(USER_NAME_KEY)
         }
     }
 

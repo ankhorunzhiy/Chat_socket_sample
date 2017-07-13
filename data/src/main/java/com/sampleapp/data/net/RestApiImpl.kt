@@ -5,6 +5,7 @@ import com.github.nkzawa.emitter.Emitter
 import com.github.nkzawa.socketio.client.Socket
 import com.sampleapp.data.model.mapper.EventDataMapper
 import com.sampleapp.domain.model.Event
+import com.sampleapp.domain.model.Message
 import org.json.JSONObject
 import rx.Observable
 
@@ -19,19 +20,19 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
                 subscriber.onNext(userName)
                 subscriber.onCompleted()
                 subscriber.unsubscribe()
-                socket.off("login", loginListener)
+                socket.off(Event.LOGIN.event, loginListener)
                 socket.disconnect()
             }
             socket.connect()
-            socket.on("login", loginListener)   // ToDo replace commands with enums
-            socket.emit("add user", userName)
+            socket.on(Event.LOGIN.event, loginListener)
+            socket.emit(Event.ADD_USER.event, userName)
         }
     }
 
     override fun onEvents(vararg events: Event): Observable<JSONObject> {
         return Observable.create { subscriber->
             events.forEach { event ->
-                socket.on(event.eventName, {
+                socket.on(event.event, {
                     if(!it.isEmpty()){
                         val eventJson = (it.first() as JSONObject).addEvent(event) // Map events to entities
                         subscriber.onNext(eventJson)
@@ -44,4 +45,11 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
         }
     }
 
+    override fun sendMessage(message: Message): Observable<Message> {
+        return Observable.create { subscriber ->
+            socket.emit(Event.NEW_MESSAGE.event, message.message)
+            subscriber.onNext(message)
+            subscriber.onCompleted()
+        }
+    }
 }
