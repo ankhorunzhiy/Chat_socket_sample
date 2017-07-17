@@ -12,6 +12,7 @@ import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.EventModel
 import kotlinx.android.synthetic.main.item_message.view.*
 import kotlinx.android.synthetic.main.item_user.view.*
+import kotlinx.android.synthetic.main.item_user_action.view.*
 import kotlinx.android.synthetic.main.view_chat.view.*
 
 
@@ -46,7 +47,8 @@ class ChatControllerView @JvmOverloads constructor(
             val inflater = LayoutInflater.from(context)
             when(viewType){
                 Event.NEW_MESSAGE.ordinal -> return MessageHolder(inflater.inflate(R.layout.item_message, null))
-                Event.USER_JOINED.ordinal, Event.USER_LEFT.ordinal -> return UserStatusHolder(inflater.inflate(R.layout.item_user, null))
+                Event.USER_JOINED.ordinal, Event.USER_LEFT.ordinal ->
+                    return UserStatusHolder(inflater.inflate(R.layout.item_user_action, null))
                 Event.TYPING.ordinal -> return TypingHolder(inflater.inflate(R.layout.item_user, null))
             }
             throw IllegalArgumentException("Unknown view type")
@@ -85,7 +87,7 @@ class ChatControllerView @JvmOverloads constructor(
             override fun bind(eventModel: EventModel){
                 val event = eventModel.event
                 val stringId = if(event == Event.USER_JOINED) R.string.has_joined else R.string.has_left
-                itemView.user.text = itemView.resources.getString(stringId, eventModel.userName)
+                itemView.user_action.text = itemView.resources.getString(stringId, eventModel.userName)
             }
 
         }

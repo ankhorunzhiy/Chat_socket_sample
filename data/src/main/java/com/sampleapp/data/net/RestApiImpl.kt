@@ -3,7 +3,6 @@ package com.sampleapp.data.net
 import android.util.Log
 import com.github.nkzawa.emitter.Emitter
 import com.github.nkzawa.socketio.client.Socket
-import com.sampleapp.data.model.mapper.EventDataMapper
 import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.Message
 import org.json.JSONObject
@@ -20,7 +19,7 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
                 subscriber.onNext(userName)
                 subscriber.onCompleted()
                 subscriber.unsubscribe()
-                socket.off(Event.LOGIN.event, loginListener)
+                socket.off(Event.LOGIN.event, loginListener)  // ToDo remove this
                 socket.disconnect()
             }
             socket.connect()
@@ -31,7 +30,7 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
 
     override fun onEvents(vararg events: Event): Observable<JSONObject> {
         return Observable.create { subscriber->
-            events.forEach { event ->
+            events.forEach { event ->           // Todo emit event when socket is connected
                 socket.on(event.event, {
                     if(!it.isEmpty()){
                         val eventJson = (it.first() as JSONObject).addEvent(event) // Map events to entities

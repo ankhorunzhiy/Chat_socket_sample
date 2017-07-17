@@ -95,7 +95,12 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
                    view.hideProgress()
                }
            }, EventsConnectUseCase.Parameters(
-                   arrayOf(Event.NEW_MESSAGE, Event.CONNECT, Event.USER_JOINED, Event.USER_LEFT, Event.TYPING, Event.STOP_TYPING)))}
+                   arrayOf(Event.NEW_MESSAGE,
+                           Event.CONNECT,
+                           Event.USER_JOINED,
+                           Event.USER_LEFT,
+                           Event.TYPING,
+                           Event.STOP_TYPING)))}
 
         fun processEvent(eventModel: EventModel){
             view.notifyAdapter(eventModel)
