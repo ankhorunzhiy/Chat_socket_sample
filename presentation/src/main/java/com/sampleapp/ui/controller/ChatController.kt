@@ -2,7 +2,6 @@ package com.sampleapp.ui.controller
 
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.View
 import com.android.newssample.R
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
@@ -18,8 +17,8 @@ import com.sampleapp.ui.view.ChatControllerView
 import com.sampleapp.ui.view.ChatView
 import dagger.Provides
 import dagger.Subcomponent
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.view_chat.view.*
+import rx.subscriptions.CompositeSubscription
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -36,7 +35,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
     }
 
     @dagger.Module
-    class Module (val args: Bundle?){
+    class Module(val args: Bundle?) {
         @Provides
         @Named("chatArgs")
         fun provideArgs(): Bundle? {
@@ -67,68 +66,77 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
 
     override fun onAttach(view: View) {
         super.onAttach(view)
+        init(view)
+    }
+
+    override fun onDetach(view: View) {
+        super.onDetach(view)
+        presenter.unsubscribe()
+    }
+
+    private fun init(view: View?) {
         chatPresenter.init()
-        view.image_send.setOnClickListener {
+        view?.image_send?.setOnClickListener {
             presenter.sendMessage(view.message_text.text)
         }
-
     }
 
     @ScreenScope(ChatController::class)
     class Presenter @Inject constructor(@Named("chatArgs")
                                         val args: Bundle?,
                                         val eventsConnectUseCase: EventsConnectUseCase,
-                                        val sendMessageUseCase: SendMessageUseCase)
-        : MvpBasePresenter<ChatView>(){
+                                        val sendMessageUseCase: SendMessageUseCase,
+                                        val compositeSubscription: CompositeSubscription)
+        : MvpBasePresenter<ChatView>() {
 
         fun init() {
-           view.showProgress()
-           eventsConnectUseCase.execute(object : SimpleSubscriber<EventModel>() {
-               override fun onNext(value: EventModel) {
-                   super.onNext(value)
-                   if(value.event == Event.CONNECT) view.hideProgress()
-                   else processEvent(value)
-               }
+            val subscriber: SimpleSubscriber<EventModel> = object : SimpleSubscriber<EventModel>() {
+                override fun onNext(value: EventModel) {
+                    super.onNext(value)
+                    processEvent(value)
+                }
+            }
+            eventsConnectUseCase.execute(subscriber, EventsConnectUseCase.Parameters(
+                    arrayOf(Event.NEW_MESSAGE,
+                            Event.USER_JOINED,
+                            Event.USER_LEFT,
+                            Event.TYPING,
+                            Event.STOP_TYPING)))
+            compositeSubscription.add(subscriber)
+        }
 
-               override fun onError(e: Throwable?) {
-                   super.onError(e)
-                   view.hideProgress()
-               }
-           }, EventsConnectUseCase.Parameters(
-                   arrayOf(Event.NEW_MESSAGE,
-                           Event.CONNECT,
-                           Event.USER_JOINED,
-                           Event.USER_LEFT,
-                           Event.TYPING,
-                           Event.STOP_TYPING)))}
-
-        fun processEvent(eventModel: EventModel){
+        fun processEvent(eventModel: EventModel) {
             view.notifyAdapter(eventModel)
         }
 
         fun sendMessage(text: Editable?) {
             text?.let {
                 val textMessage = it.toString()
-                if(text.isEmpty()) return@let
+                if (text.isEmpty()) return@let
                 val message = Message.from(provideUserName(), textMessage)
-                sendMessageUseCase.execute(object : SimpleSubscriber<EventModel>(){
+                sendMessageUseCase.execute(object : SimpleSubscriber<EventModel>() {
                     override fun onNext(value: EventModel) {
                         super.onNext(value)
                         processEvent(value)
                     }
-                }, SendMessageUseCase.Parameters.create(message)) }
+                }, SendMessageUseCase.Parameters.create(message))
+            }
             view.clearMessageText()
         }
 
         private fun provideUserName(): String? {
             return args?.getString(USER_NAME_KEY)
         }
+
+        fun unsubscribe() {
+            compositeSubscription.clear()
+        }
     }
 
-    companion object{
+    companion object {
         const val USER_NAME_KEY = "user_name_key"
 
-        fun newArgs(userName: String): Bundle{
+        fun newArgs(userName: String): Bundle {
             val args = Bundle()
             args.putString(USER_NAME_KEY, userName)
             return args

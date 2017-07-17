@@ -15,9 +15,11 @@ class ControllerMediator constructor(val router: Router) {
         router.pushController(controller.toHorizontalTransaction())
     }
 
-    fun setRoot(controller: Controller) {
-        if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(controller).popChangeHandler(FadeChangeHandler()))
-        }
+    fun setRoot(controller: Controller, addStartTransition: Boolean = false) {
+        val popChangeHandler = RouterTransaction.with(controller).popChangeHandler(FadeChangeHandler())
+        val routerTransaction = if (addStartTransition) controller.toHorizontalTransaction() else popChangeHandler
+        router.setRoot(routerTransaction)
     }
+
+
 }

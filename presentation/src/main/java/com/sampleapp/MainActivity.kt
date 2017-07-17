@@ -28,7 +28,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         component.inject(this)
         prepareUI()
-        mediator.setRoot(LoginController())
+        mediator.setRoot(LoginController()) // ToDo prepare navigation
     }
 
     override fun initRouter(savedInstanceState: Bundle?) {

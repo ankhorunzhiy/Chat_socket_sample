@@ -19,8 +19,6 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
                 subscriber.onNext(userName)
                 subscriber.onCompleted()
                 subscriber.unsubscribe()
-                socket.off(Event.LOGIN.event, loginListener)  // ToDo remove this
-                socket.disconnect()
             }
             socket.connect()
             socket.on(Event.LOGIN.event, loginListener)
@@ -30,7 +28,7 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
 
     override fun onEvents(vararg events: Event): Observable<JSONObject> {
         return Observable.create { subscriber->
-            events.forEach { event ->           // Todo emit event when socket is connected
+            events.forEach { event ->
                 socket.on(event.event, {
                     if(!it.isEmpty()){
                         val eventJson = (it.first() as JSONObject).addEvent(event) // Map events to entities
@@ -39,7 +37,8 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
                         subscriber.onNext(JSONObject().addEvent(event))
                     }
                 })
-                socket.connect()
+                if(!socket.connected())
+                    socket.connect()
             }
         }
     }

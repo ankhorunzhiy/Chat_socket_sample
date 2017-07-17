@@ -94,7 +94,7 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
                 registerUserUseCase.execute(object : SimpleSubscriber<String>() {
                     override fun onNext(value: String) {
                         view.hideProgress()
-                        controllerMediator.push(ChatController(ChatController.newArgs(value)))
+                        controllerMediator.setRoot(ChatController(ChatController.newArgs(value)), true)
                     }
 
                     override fun onError(e: Throwable?) {
