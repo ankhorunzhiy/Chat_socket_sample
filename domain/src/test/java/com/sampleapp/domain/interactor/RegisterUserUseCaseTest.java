@@ -2,6 +2,7 @@ package com.sampleapp.domain.interactor;
 
 import com.sampleapp.domain.data.executor.PostExecutionThread;
 import com.sampleapp.domain.data.executor.ThreadExecutor;
+import com.sampleapp.domain.data.executor.WorkExecutionThread;
 import com.sampleapp.domain.repository.UserRepository;
 
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class RegisterUserUseCaseTest {
     @Mock
     private UserRepository mockUserRepository;
     @Mock
-    private ThreadExecutor mockThreadExecutor;
+    private WorkExecutionThread mockThreadExecutor;
     @Mock
     private PostExecutionThread mockPostExecutionThread;
 

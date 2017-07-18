@@ -2,6 +2,7 @@ package com.sampleapp.domain.interactor;
 
 import com.sampleapp.domain.data.executor.PostExecutionThread;
 import com.sampleapp.domain.data.executor.ThreadExecutor;
+import com.sampleapp.domain.data.executor.WorkExecutionThread;
 import com.sampleapp.domain.model.Event;
 import com.sampleapp.domain.model.EventModel;
 import com.sampleapp.domain.repository.ChatRepository;
@@ -15,7 +16,7 @@ public class EventsConnectUseCase extends UseCase<EventModel, EventsConnectUseCa
 
     private final ChatRepository chatRepository;
     @Inject
-    protected EventsConnectUseCase(ChatRepository chatRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    protected EventsConnectUseCase(ChatRepository chatRepository, WorkExecutionThread threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.chatRepository = chatRepository;
     }

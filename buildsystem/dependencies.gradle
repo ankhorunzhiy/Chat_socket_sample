@@ -51,7 +51,7 @@ ext {
     robolectricVersion = '3.0'
     jUnitVersion = '4.12'
     assertJVersion = '1.7.1'
-    mockitoVersion = '2.2.0'
+    mockitoVersion = '2.8.9'
     dexmakerVersion = '1.0'
     espressoVersion = '2.0'
     testingSupportLibVersion = '0.1'
@@ -151,6 +151,7 @@ ext {
             junit       : "junit:junit:${jUnitVersion}",
             mockito     : "org.mockito:mockito-core:${mockitoVersion}",
             assertj     : "org.assertj:assertj-core:${assertJVersion}",
-            rxAndroid   : "io.reactivex:rxandroid:${rxAndroidVersion}"
+            rxAndroid   : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            kotlinJre   : "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlinVersion}"
     ]
 }

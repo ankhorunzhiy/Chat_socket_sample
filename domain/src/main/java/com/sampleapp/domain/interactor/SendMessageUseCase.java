@@ -2,6 +2,7 @@ package com.sampleapp.domain.interactor;
 
 import com.sampleapp.domain.data.executor.PostExecutionThread;
 import com.sampleapp.domain.data.executor.ThreadExecutor;
+import com.sampleapp.domain.data.executor.WorkExecutionThread;
 import com.sampleapp.domain.model.Event;
 import com.sampleapp.domain.model.EventModel;
 import com.sampleapp.domain.model.Message;
@@ -16,7 +17,7 @@ public class SendMessageUseCase extends UseCase<EventModel, SendMessageUseCase.P
     private final ChatRepository chatRepository;
 
     @Inject
-    protected SendMessageUseCase(ChatRepository chatRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    protected SendMessageUseCase(ChatRepository chatRepository, WorkExecutionThread threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.chatRepository = chatRepository;
     }

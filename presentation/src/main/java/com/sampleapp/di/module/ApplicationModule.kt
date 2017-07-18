@@ -10,11 +10,13 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.sampleapp.data.repository.chat.ChatDataRepository
 import com.sampleapp.data.repository.user.UserDataRepository
+import com.sampleapp.domain.data.executor.WorkExecutionThread
 import com.sampleapp.domain.data.repository.DataRepositoryImpl
 import com.sampleapp.domain.data.repository.DataRepositoryInterface
 import com.sampleapp.domain.repository.ChatRepository
 import com.sampleapp.domain.repository.UserRepository
 import com.sampleapp.util.UIThread
+import com.sampleapp.util.WorkThread
 
 
 import dagger.Module
@@ -32,6 +34,12 @@ class ApplicationModule(private val application: Application) {
     @Singleton
     internal fun provideThreadExecutor(): ThreadExecutor {
         return JobExecutor()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideWorkExecutoionThread(): WorkExecutionThread {
+        return WorkThread()
     }
 
     @Provides

@@ -3,6 +3,7 @@ package com.sampleapp.domain.interactor;
 
 import com.sampleapp.domain.data.executor.PostExecutionThread;
 import com.sampleapp.domain.data.executor.ThreadExecutor;
+import com.sampleapp.domain.data.executor.WorkExecutionThread;
 import com.sampleapp.domain.repository.UserRepository;
 
 import javax.inject.Inject;
@@ -15,7 +16,7 @@ public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Par
     private final UserRepository userRepository;
 
     @Inject
-    protected RegisterUserUseCase(UserRepository userRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    protected RegisterUserUseCase(UserRepository userRepository, WorkExecutionThread threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.userRepository = userRepository;
     }
@@ -34,7 +35,7 @@ public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Par
         }
     }
 
-    public static RegisterUserUseCase mock(UserRepository userRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread){
+    public static RegisterUserUseCase mock(UserRepository userRepository, WorkExecutionThread threadExecutor, PostExecutionThread postExecutionThread){
         return new RegisterUserUseCase(userRepository, threadExecutor, postExecutionThread);
     }
 }

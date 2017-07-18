@@ -16,7 +16,7 @@
 package com.sampleapp.domain.interactor;
 
 import com.sampleapp.domain.data.executor.PostExecutionThread;
-import com.sampleapp.domain.data.executor.ThreadExecutor;
+import com.sampleapp.domain.data.executor.WorkExecutionThread;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -35,14 +35,14 @@ import rx.subscriptions.Subscriptions;
  */
 public abstract class UseCase<A, Params> {
 
-    private final ThreadExecutor threadExecutor;
+    private final WorkExecutionThread workExecutionThread;
     private final PostExecutionThread postExecutionThread;
 
     private Subscription subscription = Subscriptions.empty();
 
-    protected UseCase(ThreadExecutor threadExecutor,
+    protected UseCase(WorkExecutionThread workExecutionThread,
                       PostExecutionThread postExecutionThread) {
-        this.threadExecutor = threadExecutor;
+        this.workExecutionThread = workExecutionThread;
         this.postExecutionThread = postExecutionThread;
     }
 
@@ -60,7 +60,7 @@ public abstract class UseCase<A, Params> {
     @SuppressWarnings("unchecked")
     public void execute(Subscriber useCaseSubscriber, Params params) {
         this.subscription = this.buildUseCaseObservable(params)
-                .subscribeOn(Schedulers.from(threadExecutor))
+                .subscribeOn(workExecutionThread.getScheduler())
                 .observeOn(postExecutionThread.getScheduler())
                 .doOnNext(new Action1() {
                     @Override
