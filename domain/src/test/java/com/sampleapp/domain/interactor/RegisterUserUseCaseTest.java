@@ -1,7 +1,6 @@
 package com.sampleapp.domain.interactor;
 
 import com.sampleapp.domain.data.executor.PostExecutionThread;
-import com.sampleapp.domain.data.executor.ThreadExecutor;
 import com.sampleapp.domain.data.executor.WorkExecutionThread;
 import com.sampleapp.domain.repository.UserRepository;
 
@@ -9,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
