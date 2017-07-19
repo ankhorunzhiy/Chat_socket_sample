@@ -39,4 +39,8 @@ public class SendMessageUseCase extends UseCase<EventModel, SendMessageUseCase.P
         }
 
     }
+
+    public static SendMessageUseCase mock(ChatRepository chatRepository, WorkExecutionThread threadExecutor, PostExecutionThread postExecutionThread){
+        return new SendMessageUseCase(chatRepository, threadExecutor, postExecutionThread);
+    }
 }

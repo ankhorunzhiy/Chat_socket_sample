@@ -113,7 +113,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
             text?.let {
                 val textMessage = it.toString()
                 if (text.isEmpty()) return@let
-                val message = Message.from(provideUserName(), textMessage)
+                val message = Message.from(provideUserName(), textMessage) // Todo replace in mapping
                 sendMessageUseCase.execute(object : SimpleSubscriber<EventModel>() {
                     override fun onNext(value: EventModel) {
                         super.onNext(value)

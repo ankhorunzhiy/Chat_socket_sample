@@ -11,8 +11,4 @@ interface ActivityComponent {
     fun inject(mainActivity: MainActivity)
     fun startComponent(): LoginController.Component
     fun chatComponent(module: ChatController.Module): ChatController.Component
-    fun overlayComponent(): OverlayController.Component
-    fun pagerFirstScreenComponent(): PagerFirstController.Component
-    fun pagerRootComponent(): PagerRootController.Component
-    fun pagerSecondScreenComponent(): PagerSecondController.Component
 }
