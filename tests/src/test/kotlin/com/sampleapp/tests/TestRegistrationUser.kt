@@ -6,6 +6,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import rx.Observable
 import rx.observers.TestSubscriber
@@ -19,7 +20,7 @@ class TestRegistrationUser : BaseUseCaseTest() {
 
     @Mock
     lateinit var mockUserRepo: UserRepository
-    @Mock
+    @Spy
     lateinit var testSubscriber: TestSubscriber<String>
 
     lateinit var registerUserUseCase: RegisterUserUseCase
