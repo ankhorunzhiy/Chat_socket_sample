@@ -1,6 +1,5 @@
 package com.sampleapp.data.net
 
-import android.util.Log
 import com.github.nkzawa.emitter.Emitter
 import com.github.nkzawa.socketio.client.Socket
 import com.sampleapp.domain.model.Event
@@ -18,7 +17,6 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
             loginListener = Emitter.Listener {
                 subscriber.onNext(userName)
                 subscriber.onCompleted()
-                subscriber.unsubscribe()
             }
             socket.connect()
             socket.on(Event.LOGIN.event, loginListener)
@@ -44,10 +42,9 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
     }
 
     override fun sendMessage(message: Message): Observable<Message> {
-        return Observable.create { subscriber ->
+        return Observable.fromCallable {
             socket.emit(Event.NEW_MESSAGE.event, message.message)
-            subscriber.onNext(message)
-            subscriber.onCompleted()
+            message
         }
     }
 
