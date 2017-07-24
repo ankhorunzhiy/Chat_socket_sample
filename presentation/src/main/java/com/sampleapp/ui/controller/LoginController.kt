@@ -1,35 +1,25 @@
 package com.sampleapp.ui.controller
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.android.newssample.R
-import com.google.gson.Gson
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
-import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.sampleapp.di.DaggerUtils
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
-import com.sampleapp.di.module.ActivityModule
-import com.sampleapp.di.module.NetworkModule
 import com.sampleapp.domain.interactor.RegisterUserUseCase
-import com.sampleapp.domain.model.ApiAction
 import com.sampleapp.rx.SimpleSubscriber
 import com.sampleapp.ui.view.LoginView
-import com.sampleapp.util.toHorizontalTransaction
+import com.sampleapp.util.hideKeybord
 import com.sampleapp.util.visible
-import dagger.Provides
 import dagger.Subcomponent
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.screen_login.view.*
 import kotlinx.android.synthetic.main.view_login.view.*
-import rx.Subscriber
 import javax.inject.Inject
-import javax.inject.Named
+
 
 @Layout(R.layout.screen_login)
 class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginController.Presenter>(args), LoginView {
@@ -65,9 +55,19 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
         compositeDisposable.add(RxTextView.afterTextChangeEvents(view.user_nick).subscribe {
             getPresenter().onNickTextChange(it.editable()?.toString())
         })
-        view.login.setOnClickListener {
-            getPresenter().onLogin(view.user_nick.text?.toString())
-        }
+        view.login.setOnClickListener { login() }
+        view.user_nick.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
+            if (id == R.id.user_nick || id == EditorInfo.IME_NULL) {
+                login()
+                return@OnEditorActionListener true
+            }
+            false
+        })
+    }
+
+    fun login(){
+        presenter.onLogin(view?.user_nick?.text?.toString())
+        view?.user_nick?.hideKeybord()
     }
 
     override fun onDestroyView(view: View) {

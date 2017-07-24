@@ -1,6 +1,5 @@
 package com.sampleapp.data.net
 
-import com.sampleapp.data.model.EventDataModel
 import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.Message
 import org.json.JSONObject
@@ -17,4 +16,6 @@ interface RestApi {
     fun onEvents(vararg events: Event) : Observable<JSONObject>
 
     fun sendMessage(message: Message): Observable<Message>
+
+    fun disconnect(): Observable<Void>
 }

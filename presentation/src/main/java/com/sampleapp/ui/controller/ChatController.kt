@@ -2,11 +2,15 @@ package com.sampleapp.ui.controller
 
 import android.os.Bundle
 import android.text.Editable
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import com.android.newssample.R
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.domain.interactor.DisconnectUseCase
 import com.sampleapp.domain.interactor.EventsConnectUseCase
 import com.sampleapp.domain.interactor.SendMessageUseCase
 import com.sampleapp.domain.model.Event
@@ -75,17 +79,32 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
     }
 
     private fun init(view: View?) {
+        setHasOptionsMenu(true)
         chatPresenter.init()
         view?.image_send?.setOnClickListener {
             presenter.sendMessage(view.message_text.text)
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.chat_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_left -> presenter.logout()
+        }
+        return true
+    }
+
     @ScreenScope(ChatController::class)
     class Presenter @Inject constructor(@Named("chatArgs")
                                         val args: Bundle?,
                                         val eventsConnectUseCase: EventsConnectUseCase,
+                                        val disconnectUseCase: DisconnectUseCase,
                                         val sendMessageUseCase: SendMessageUseCase,
+                                        val controllerMediator: ControllerMediator,
                                         val compositeSubscription: CompositeSubscription)
         : MvpBasePresenter<ChatView>() {
 
@@ -130,6 +149,14 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
 
         fun unsubscribe() {
             compositeSubscription.clear()
+        }
+
+        fun logout() {
+            disconnectUseCase.execute(object : SimpleSubscriber<Void>(){
+                override fun onCompleted() {
+                    controllerMediator.setRoot(LoginController(), true)
+                }
+            }, null)
         }
     }
 

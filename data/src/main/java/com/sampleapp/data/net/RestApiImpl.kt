@@ -50,4 +50,9 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
             subscriber.onCompleted()
         }
     }
+
+    override fun disconnect(): Observable<Void> {
+        socket.disconnect()
+        return Observable.empty()
+    }
 }

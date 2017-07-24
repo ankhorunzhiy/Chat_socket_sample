@@ -1,6 +1,11 @@
 package com.sampleapp.util
 
+import android.content.Context
+import android.view.View
 import com.sampleapp.ui.controller.Layout
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
+
 
 class UiUtils {
 

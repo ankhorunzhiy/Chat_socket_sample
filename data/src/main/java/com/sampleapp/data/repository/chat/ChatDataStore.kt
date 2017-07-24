@@ -10,4 +10,6 @@ interface ChatDataStore {
     fun on(vararg events: Event): Observable<EventDataModel>
 
     fun sendMessage(message: Message): Observable<EventDataModel>
+
+    fun disconnect(): Observable<Void>
 }

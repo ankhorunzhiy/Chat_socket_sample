@@ -12,4 +12,6 @@ public interface ChatRepository {
     Observable<EventModel> on(Event... events);
 
     Observable<EventModel> sendMessage(Message message);
+
+    Observable<Void> disconnect();
 }

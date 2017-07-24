@@ -23,4 +23,8 @@ class ChatDataRepository @Inject constructor(val chatDataStoreFactory: ChatDataS
         return chatDataStoreFactory.createChatStore().sendMessage(message)
                 .flatMap { Observable.just(eventMapper.transform(it)) }
     }
+
+    override fun disconnect(): Observable<Void> {
+        return chatDataStoreFactory.createChatStore().disconnect()
+    }
 }
