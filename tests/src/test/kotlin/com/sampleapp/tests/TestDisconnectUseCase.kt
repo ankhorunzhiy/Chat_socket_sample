@@ -31,7 +31,7 @@ class TestDisconnectUseCase : BaseUseCaseTest(){
     @Test
     fun testDisconnect(){
         Mockito.`when`(mockChatRepo.disconnect()).thenReturn(CompletableEmpty.INSTANCE)
-        disConnectUseCase.execute(testSubscriber, null)
+        disConnectUseCase.execute(testSubscriber, DisconnectUseCase.Param.INSTANCE)
         testSubscriber.assertNoErrors()
         testSubscriber.assertComplete()
     }

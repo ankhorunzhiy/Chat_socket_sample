@@ -25,7 +25,6 @@ import dagger.Subcomponent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.view_chat.view.*
-import rx.subscriptions.CompositeSubscription
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -163,7 +162,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
                 override fun onComplete() {
                     controllerMediator.setRoot(LoginController(), true)
                 }
-            }, null)
+            }, DisconnectUseCase.Param.INSTANCE)
         }
     }
 
