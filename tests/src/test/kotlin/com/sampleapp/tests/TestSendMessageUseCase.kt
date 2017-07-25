@@ -35,7 +35,7 @@ class TestSendMessageUseCase: BaseUseCaseTest() {
 
     @Test
     fun testSendMessage(){
-        val message = Message.from(USER_NAME, MESSAGE)
+        val message = Message(USER_NAME, MESSAGE)
         val resultEvent = getResultEvent()
         Mockito.`when`(mockChatRepo.sendMessage(message)).thenReturn(Flowable.just(resultEvent))
         val params = SendMessageUseCase.Parameters.create(message)

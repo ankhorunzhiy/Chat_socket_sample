@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import com.android.newssample.R
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+import com.sampleapp.data.model.mapper.EventMapper
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.domain.interactor.DisconnectUseCase
@@ -15,7 +16,6 @@ import com.sampleapp.domain.interactor.EventsConnectUseCase
 import com.sampleapp.domain.interactor.SendMessageUseCase
 import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.EventModel
-import com.sampleapp.domain.model.Message
 import com.sampleapp.navigation.ControllerMediator
 import com.sampleapp.rx.SimpleSubscriber
 import com.sampleapp.ui.view.ChatControllerView
@@ -107,6 +107,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
                                         val disconnectUseCase: DisconnectUseCase,
                                         val sendMessageUseCase: SendMessageUseCase,
                                         val controllerMediator: ControllerMediator,
+                                        val eventMapper: EventMapper,
                                         val compositeDisposable: CompositeDisposable)
         : MvpBasePresenter<ChatView>() {
 
@@ -134,7 +135,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
             text?.let {
                 val textMessage = it.toString()
                 if (text.isEmpty()) return@let
-                val message = Message.from(provideUserName(), textMessage) // Todo replace in mapping
+                val message = eventMapper.transform(provideUserName(), textMessage)
                 sendMessageUseCase.execute(object : SimpleSubscriber<EventModel>() {
                     override fun onNext(value: EventModel) {
                         super.onNext(value)

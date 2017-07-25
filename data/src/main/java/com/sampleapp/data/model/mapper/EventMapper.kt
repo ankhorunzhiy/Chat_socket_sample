@@ -2,6 +2,7 @@ package com.sampleapp.data.model.mapper
 
 import com.sampleapp.data.model.EventDataModel
 import com.sampleapp.domain.model.EventModel
+import com.sampleapp.domain.model.Message
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,6 +16,10 @@ class EventMapper @Inject constructor(){
         eventModel.numUsers = eventDataModel.numUsers
         eventModel.event = eventDataModel.event
         return eventModel
+    }
+
+    fun transform(userName: String?, messageText: String): Message{
+        return Message(userName, messageText)
     }
 
 }

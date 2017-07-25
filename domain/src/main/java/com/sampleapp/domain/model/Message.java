@@ -14,20 +14,8 @@ public class Message {
         return userName;
     }
 
-    private Message(){}
-
-    public Message from(EventModel eventModel){
-        Message message = new Message();
-        message.message = eventModel.getMessage();
-        message.userName = eventModel.getUserName();
-        return message;
+    public Message(String userName, String message) {
+        this.userName = userName;
+        this.message = message;
     }
-
-    public static Message from(String userName, String messageText){
-        Message message = new Message();
-        message.message = messageText;
-        message.userName = userName;
-        return message;
-    }
-
 }

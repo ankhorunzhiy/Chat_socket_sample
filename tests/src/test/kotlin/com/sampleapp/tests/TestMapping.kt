@@ -32,8 +32,8 @@ class TestMapping {
     }
 
     @Test
-    fun testMessageToEventDataModel() {
-        val message = Message.from(USER_NAME, MESSAGE)
+    fun testTransformMessage() {
+        val message = mapper.transform(USER_NAME, MESSAGE)
         assertThat(message.userName).isEqualTo(USER_NAME)
         assertThat(message.message).isEqualTo(MESSAGE)
     }
