@@ -15,11 +15,11 @@
  */
 package com.sampleapp.data.repository.user;
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 
 public interface UserDataStore {
 
-  Flowable<String> addUser(final String userName);
+  Single<String> addUser(final String userName);
 
 }
