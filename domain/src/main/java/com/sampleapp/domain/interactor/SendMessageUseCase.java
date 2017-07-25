@@ -1,16 +1,15 @@
 package com.sampleapp.domain.interactor;
 
 import com.sampleapp.domain.data.executor.PostExecutionThread;
-import com.sampleapp.domain.data.executor.ThreadExecutor;
 import com.sampleapp.domain.data.executor.WorkExecutionThread;
-import com.sampleapp.domain.model.Event;
 import com.sampleapp.domain.model.EventModel;
 import com.sampleapp.domain.model.Message;
 import com.sampleapp.domain.repository.ChatRepository;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.Flowable;
+
 
 public class SendMessageUseCase extends UseCase<EventModel, SendMessageUseCase.Parameters>{
 
@@ -23,7 +22,7 @@ public class SendMessageUseCase extends UseCase<EventModel, SendMessageUseCase.P
     }
 
     @Override
-    protected Observable buildUseCaseObservable(Parameters params) {
+    protected Flowable<EventModel> buildUseCaseObservable(Parameters params) {
         return chatRepository.sendMessage(params.message);
     }
 

@@ -2,14 +2,14 @@ package com.sampleapp.tests
 
 import com.sampleapp.domain.interactor.RegisterUserUseCase
 import com.sampleapp.domain.repository.UserRepository
+import io.reactivex.Flowable
+import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
-import rx.Observable
-import rx.observers.TestSubscriber
 
 @RunWith(MockitoJUnitRunner::class)
 class TestRegistrationUser : BaseUseCaseTest() {
@@ -33,11 +33,11 @@ class TestRegistrationUser : BaseUseCaseTest() {
 
     @Test
     fun testRegisterUseCaseSuccess() {
-        Mockito.`when`(mockUserRepo.addUser(USER_NAME)).thenReturn(Observable.just(USER_NAME))
+        Mockito.`when`(mockUserRepo.addUser(USER_NAME)).thenReturn(Flowable.just(USER_NAME))
         val parameters = RegisterUserUseCase.Parameters(USER_NAME)
         registerUserUseCase.execute(testSubscriber, parameters)
         testSubscriber.assertNoErrors()
-        testSubscriber.onCompleted()
-        testSubscriber.assertReceivedOnNext(arrayListOf(USER_NAME))
+        testSubscriber.onComplete()
+        testSubscriber.assertValue(USER_NAME)
     }
 }

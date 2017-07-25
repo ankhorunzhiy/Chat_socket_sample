@@ -4,14 +4,14 @@ import com.sampleapp.domain.interactor.EventsConnectUseCase
 import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.EventModel
 import com.sampleapp.domain.repository.ChatRepository
+import io.reactivex.Flowable
+import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
-import rx.Observable
-import rx.observers.TestSubscriber
 
 @RunWith(MockitoJUnitRunner::class)
 class TestEventsConnectUseCase : BaseUseCaseTest(){
@@ -27,7 +27,6 @@ class TestEventsConnectUseCase : BaseUseCaseTest(){
     @Mock
     lateinit var mockChatRepo: ChatRepository
 
-
     override fun setUp() {
         super.setUp()
         eventsConnectUseCaseTest = EventsConnectUseCase.mock(mockChatRepo, mockWorkExecutionThread, mockPostExecutionThread)
@@ -36,11 +35,11 @@ class TestEventsConnectUseCase : BaseUseCaseTest(){
     @Test
     fun testSubscribeOnEventsUseCase(){
         val events = provideResultEvents()
-        val resultEventsObservable = Observable.from(events)
-        Mockito.`when`(mockChatRepo.on(*SUBSCRIBE_EVENTS_TEST)).thenReturn(resultEventsObservable)
+        val resultEventsFlowable = Flowable.fromArray(*events)
+        Mockito.`when`(mockChatRepo.on(*SUBSCRIBE_EVENTS_TEST)).thenReturn(resultEventsFlowable)
         eventsConnectUseCaseTest.execute(testSubscriber, EventsConnectUseCase.Parameters(SUBSCRIBE_EVENTS_TEST))
         testSubscriber.assertNoErrors()
-        testSubscriber.assertReceivedOnNext(events.asList())
+        testSubscriber.assertResult(*events)
     }
 
     private fun provideResultEvents(): Array<EventModel> {

@@ -10,7 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.android.newssample.R
 import com.bluelinelabs.conductor.Conductor
-import com.sampleapp.ui.controller.ControllerMediator
+import com.sampleapp.navigation.ControllerMediator
 import com.sampleapp.ui.controller.Layout
 import com.sampleapp.ui.controller.LoginController
 import kotlinx.android.synthetic.main.activity_main.*

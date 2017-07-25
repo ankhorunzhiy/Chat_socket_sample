@@ -2,6 +2,8 @@ package com.sampleapp.data.net
 
 import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.Message
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import org.json.JSONObject
 import rx.Observable
 
@@ -11,11 +13,11 @@ interface RestApi {
         const val SOCKET_API_URL: String = "https://socketio-chat.now.sh"
     }
 
-    fun addUser(userName: String): Observable<String>
+    fun addUser(userName: String): Flowable<String>
 
-    fun onEvents(vararg events: Event) : Observable<JSONObject>
+    fun onEvents(vararg events: Event) : Flowable<JSONObject>
 
-    fun sendMessage(message: Message): Observable<Message>
+    fun sendMessage(message: Message): Flowable<Message>
 
-    fun disconnect(): Observable<Void>
+    fun disconnect(): Completable
 }

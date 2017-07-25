@@ -2,7 +2,8 @@ package com.sampleapp.domain.data.repository;
 
 import com.sampleapp.domain.model.ApiAction;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public interface DataRepositoryInterface {
 

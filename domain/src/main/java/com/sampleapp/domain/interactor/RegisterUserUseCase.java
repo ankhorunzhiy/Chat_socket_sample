@@ -8,8 +8,9 @@ import com.sampleapp.domain.repository.UserRepository;
 
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+
 
 public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Parameters> {
 
@@ -23,7 +24,7 @@ public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Par
 
 
     @Override
-    protected Observable buildUseCaseObservable(Parameters parameters) {
+    protected Flowable buildUseCaseObservable(Parameters parameters) {
         return userRepository.addUser(parameters.userName);
     }
 

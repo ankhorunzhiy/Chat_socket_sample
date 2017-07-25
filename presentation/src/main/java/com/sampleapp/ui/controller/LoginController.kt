@@ -11,6 +11,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.domain.interactor.RegisterUserUseCase
+import com.sampleapp.navigation.ControllerMediator
 import com.sampleapp.rx.SimpleSubscriber
 import com.sampleapp.ui.view.LoginView
 import com.sampleapp.util.hideKeybord
@@ -70,9 +71,11 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
         view?.user_nick?.hideKeybord()
     }
 
-    override fun onDestroyView(view: View) {
-        super.onDestroyView(view)
-        compositeDisposable.clear()
+    override fun onDetach(view: View) {
+        super.onDetach(view)
+        if(!compositeDisposable.isDisposed)
+            compositeDisposable.dispose()
+        presenter.dispose()
     }
 
     override fun showLoginButton(isShow: Boolean) {
@@ -97,11 +100,14 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
                         controllerMediator.setRoot(ChatController(ChatController.newArgs(value)), true)
                     }
 
-                    override fun onError(e: Throwable?) {
-                        super.onError(e)        // ToDo handle error
-                        view.hideProgress()
+                    override fun onError(t: Throwable) {
+                        view.hideProgress() // ToDo handle error
                     }
                 }, RegisterUserUseCase.Parameters(nick))
+        }
+
+        fun dispose() {
+            registerUserUseCase.dispose()
         }
     }
 

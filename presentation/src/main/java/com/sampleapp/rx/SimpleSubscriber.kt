@@ -1,14 +1,12 @@
 package com.sampleapp.rx
 
-import rx.Subscriber
+import io.reactivex.subscribers.DisposableSubscriber
 
-open class SimpleSubscriber<T> : Subscriber<T>() {
-    override fun onError(e: Throwable?) {
-    }
+open class SimpleSubscriber<T> : DisposableSubscriber<T>() {
 
-    override fun onNext(value: T) {
-    }
+    override fun onNext(value: T) {}
 
-    override fun onCompleted() {
-    }
+    override fun onError(t: Throwable) {}
+
+    override fun onComplete() {}
 }

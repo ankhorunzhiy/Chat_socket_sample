@@ -6,6 +6,8 @@ import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.EventModel
 import com.sampleapp.domain.model.Message
 import com.sampleapp.domain.repository.ChatRepository
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import rx.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,17 +16,17 @@ import javax.inject.Singleton
 class ChatDataRepository @Inject constructor(val chatDataStoreFactory: ChatDataStoreFactory,
                                              val eventMapper: EventMapper) : ChatRepository {
 
-    override fun on(vararg events: Event): Observable<EventModel> {
+    override fun on(vararg events: Event): Flowable<EventModel> {
         return chatDataStoreFactory.createChatStore().on(*events)
-                .flatMap { Observable.just(eventMapper.transform(it)) }
+                .flatMap { Flowable.just(eventMapper.transform(it)) }
     }
 
-    override fun sendMessage(message: Message): Observable<EventModel> {
+    override fun sendMessage(message: Message): Flowable<EventModel> {
         return chatDataStoreFactory.createChatStore().sendMessage(message)
-                .flatMap { Observable.just(eventMapper.transform(it)) }
+                .flatMap { Flowable.just(eventMapper.transform(it)) }
     }
 
-    override fun disconnect(): Observable<Void> {
+    override fun disconnect(): Completable {
         return chatDataStoreFactory.createChatStore().disconnect()
     }
 }

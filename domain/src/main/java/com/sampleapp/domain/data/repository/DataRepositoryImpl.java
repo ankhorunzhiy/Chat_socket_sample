@@ -4,7 +4,8 @@ import com.sampleapp.domain.model.ApiAction;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public class DataRepositoryImpl implements DataRepositoryInterface {
 

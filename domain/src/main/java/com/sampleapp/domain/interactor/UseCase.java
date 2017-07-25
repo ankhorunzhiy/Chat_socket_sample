@@ -18,12 +18,13 @@ package com.sampleapp.domain.interactor;
 import com.sampleapp.domain.data.executor.PostExecutionThread;
 import com.sampleapp.domain.data.executor.WorkExecutionThread;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.Subscriptions;
+import org.reactivestreams.Subscriber;
+
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
@@ -37,46 +38,39 @@ public abstract class UseCase<A, Params> {
 
     private final WorkExecutionThread workExecutionThread;
     private final PostExecutionThread postExecutionThread;
-
-    private Subscription subscription = Subscriptions.empty();
+    private final CompositeDisposable compositeDisposable;
 
     protected UseCase(WorkExecutionThread workExecutionThread,
                       PostExecutionThread postExecutionThread) {
         this.workExecutionThread = workExecutionThread;
         this.postExecutionThread = postExecutionThread;
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     /**
-     * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
+     * Builds an {@link Flowable} which will be used when executing the current {@link UseCase}.
      */
-    protected abstract Observable buildUseCaseObservable(Params params);
+    protected abstract Flowable buildUseCaseObservable(Params params);
 
     /**
      * Executes the current use case.
      *
-     * @param useCaseSubscriber The guy who will be listen to the observable build
-     *                          with {@link #buildUseCaseObservable(Params additional params)}.
+     * @param observer The guy who will be listen to the observable build
+     *                 with {@link #buildUseCaseObservable(Params additional params)}.
      */
     @SuppressWarnings("unchecked")
-    public void execute(Subscriber useCaseSubscriber, Params params) {
-        this.subscription = this.buildUseCaseObservable(params)
+    public void execute(FlowableSubscriber<A> observer, Params params) {
+        final Flowable flowable = buildUseCaseObservable(params)
                 .subscribeOn(workExecutionThread.getScheduler())
-                .observeOn(postExecutionThread.getScheduler())
-                .doOnNext(new Action1() {
-                    @Override
-                    public void call(Object o) {
-                        // ToDo unsubscribe
-                    }
-                })
-                .subscribe(useCaseSubscriber);
+                .observeOn(postExecutionThread.getScheduler());
+        this.compositeDisposable.add((Disposable) flowable.subscribeWith(observer));
     }
 
     /**
-     * Unsubscribes from current {@link Subscription}.
+     * Unsubscribes from current {@link Disposable}.
      */
-    public void unsubscribe() {
-        if (!subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+    public void dispose() {
+        if(!compositeDisposable.isDisposed())
+            compositeDisposable.dispose();
     }
 }

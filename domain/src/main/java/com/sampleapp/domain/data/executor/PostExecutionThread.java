@@ -15,7 +15,8 @@
  */
 package com.sampleapp.domain.data.executor;
 
-import rx.Scheduler;
+
+import io.reactivex.Scheduler;
 
 /**
  * Thread abstraction created to change the execution context from any thread to any other thread.

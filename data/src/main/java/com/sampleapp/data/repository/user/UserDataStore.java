@@ -15,11 +15,11 @@
  */
 package com.sampleapp.data.repository.user;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 
 public interface UserDataStore {
 
-  Observable<String> addUser(final String userName);
+  Flowable<String> addUser(final String userName);
 
 }

@@ -5,13 +5,15 @@ import com.sampleapp.domain.model.Event;
 import com.sampleapp.domain.model.EventModel;
 import com.sampleapp.domain.model.Message;
 
-import rx.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+
 
 public interface ChatRepository {
 
-    Observable<EventModel> on(Event... events);
+    Flowable<EventModel> on(Event... events);
 
-    Observable<EventModel> sendMessage(Message message);
+    Flowable<EventModel> sendMessage(Message message);
 
-    Observable<Void> disconnect();
+    Completable disconnect();
 }

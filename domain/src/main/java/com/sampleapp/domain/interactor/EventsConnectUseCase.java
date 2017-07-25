@@ -8,7 +8,8 @@ import com.sampleapp.domain.repository.ChatRepository;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.Flowable;
+
 
 public class EventsConnectUseCase extends UseCase<EventModel, EventsConnectUseCase.Parameters>{
 
@@ -20,7 +21,7 @@ public class EventsConnectUseCase extends UseCase<EventModel, EventsConnectUseCa
     }
 
     @Override
-    protected Observable buildUseCaseObservable(Parameters params) {
+    protected Flowable<EventModel> buildUseCaseObservable(Parameters params) {
         return chatRepository.on(params.events);
     }
 

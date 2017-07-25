@@ -17,7 +17,7 @@ ext {
     daggerVersion = '2.11'
     butterKnifeVersion = '8.4.0'
     recyclerViewVersion = '21.0.3'
-    rxJavaVersion = '1.0.14'
+    rxJavaVersion = '2.1.0'
     rxAndroidVersion = '1.0.1'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
@@ -66,7 +66,7 @@ ext {
             butterKnife           : "com.jakewharton:butterknife:${butterKnifeVersion}",
             butterKnifeCompiler   : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
             recyclerView          : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
-            rxJava                : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxJava                : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid             : "io.reactivex:rxandroid:${rxAndroidVersion}",
             javaxAnnotation       : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             design                : "com.android.support:design:${designLibraryVersion}",
@@ -99,7 +99,7 @@ ext {
     ]
 
     domainDependencies = [
-            rxJava     : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxJava     : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             javaxInject: "javax.inject:javax.inject:${javaxInjectVersion}",
             gson       : "com.google.code.gson:gson:${gsonVersion}"
     ]
@@ -115,7 +115,7 @@ ext {
             dagger                   : "com.google.dagger:dagger:${daggerVersion}",
             okHttp                   : "com.squareup.okhttp:okhttp:${okHttpVersion}",
             gson                     : "com.google.code.gson:gson:${gsonVersion}",
-            rxJava                   : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxJava                   : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid                : "io.reactivex:rxandroid:${rxAndroidVersion}",
             javaxAnnotation          : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject              : "javax.inject:javax.inject:${javaxInjectVersion}",
@@ -145,7 +145,7 @@ ext {
     ]
 
     testModuleDependencies = [
-            rxJava      : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxJava      : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             javaxInject : "javax.inject:javax.inject:${javaxInjectVersion}",
             gson        : "com.google.code.gson:gson:${gsonVersion}",
             junit       : "junit:junit:${jUnitVersion}",

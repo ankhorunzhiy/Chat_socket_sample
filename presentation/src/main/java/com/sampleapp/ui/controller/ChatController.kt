@@ -16,11 +16,14 @@ import com.sampleapp.domain.interactor.SendMessageUseCase
 import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.EventModel
 import com.sampleapp.domain.model.Message
+import com.sampleapp.navigation.ControllerMediator
 import com.sampleapp.rx.SimpleSubscriber
 import com.sampleapp.ui.view.ChatControllerView
 import com.sampleapp.ui.view.ChatView
 import dagger.Provides
 import dagger.Subcomponent
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.view_chat.view.*
 import rx.subscriptions.CompositeSubscription
 import javax.inject.Inject
@@ -75,7 +78,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
 
     override fun onDetach(view: View) {
         super.onDetach(view)
-        presenter.unsubscribe()
+        presenter.dispose()
     }
 
     private fun init(view: View?) {
@@ -105,7 +108,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
                                         val disconnectUseCase: DisconnectUseCase,
                                         val sendMessageUseCase: SendMessageUseCase,
                                         val controllerMediator: ControllerMediator,
-                                        val compositeSubscription: CompositeSubscription)
+                                        val compositeDisposable: CompositeDisposable)
         : MvpBasePresenter<ChatView>() {
 
         fun init() {
@@ -121,7 +124,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
                             Event.USER_LEFT,
                             Event.TYPING,
                             Event.STOP_TYPING)))
-            compositeSubscription.add(subscriber)
+            compositeDisposable.add(subscriber as Disposable)
         }
 
         fun processEvent(eventModel: EventModel) {
@@ -147,13 +150,17 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
             return args?.getString(USER_NAME_KEY)
         }
 
-        fun unsubscribe() {
-            compositeSubscription.clear()
+        fun dispose() {
+            if(!compositeDisposable.isDisposed)
+                compositeDisposable.dispose()
+            eventsConnectUseCase.dispose()
+            disconnectUseCase.dispose()
+            sendMessageUseCase.dispose()
         }
 
         fun logout() {
             disconnectUseCase.execute(object : SimpleSubscriber<Void>(){
-                override fun onCompleted() {
+                override fun onComplete() {
                     controllerMediator.setRoot(LoginController(), true)
                 }
             }, null)

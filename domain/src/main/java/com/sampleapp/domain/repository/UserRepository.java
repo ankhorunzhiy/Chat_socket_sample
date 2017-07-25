@@ -15,9 +15,10 @@
  */
 package com.sampleapp.domain.repository;
 
-import rx.Observable;
+
+import io.reactivex.Flowable;
 
 public interface UserRepository {
 
-  Observable<String> addUser(final String userName);
+  Flowable<String> addUser(final String userName);
 }
