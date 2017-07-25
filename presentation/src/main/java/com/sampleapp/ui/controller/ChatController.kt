@@ -152,11 +152,11 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
         }
 
         fun logout() {
-            disconnectUseCase.execute(object : SimpleSubscriber<Void>(){
+            disconnectUseCase.execute(object : SimpleSubscriber<DisconnectUseCase.Param>(){
                 override fun onCompleted() {
                     controllerMediator.setRoot(LoginController(), true)
                 }
-            }, null)
+            }, DisconnectUseCase.Param.INSTANCE)
         }
     }
 
