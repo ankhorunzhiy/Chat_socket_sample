@@ -3,6 +3,7 @@ package com.sampleapp.tests
 import com.sampleapp.domain.interactor.RegisterUserUseCase
 import com.sampleapp.domain.repository.UserRepository
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,7 +34,7 @@ class TestRegistrationUser : BaseUseCaseTest() {
 
     @Test
     fun testRegisterUseCaseSuccess() {
-        Mockito.`when`(mockUserRepo.addUser(USER_NAME)).thenReturn(Flowable.just(USER_NAME))
+        Mockito.`when`(mockUserRepo.addUser(USER_NAME)).thenReturn(Single.just(USER_NAME))
         val parameters = RegisterUserUseCase.Parameters(USER_NAME)
         registerUserUseCase.execute(testSubscriber, parameters)
         testSubscriber.assertNoErrors()

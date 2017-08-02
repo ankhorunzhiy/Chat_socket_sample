@@ -25,7 +25,7 @@ public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Par
 
     @Override
     protected Flowable buildUseCaseObservable(Parameters parameters) {
-        return userRepository.addUser(parameters.userName);
+        return userRepository.addUser(parameters.userName).toFlowable();
     }
 
     public static class Parameters {

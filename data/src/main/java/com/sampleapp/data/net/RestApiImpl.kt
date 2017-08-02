@@ -4,12 +4,9 @@ import com.github.nkzawa.emitter.Emitter
 import com.github.nkzawa.socketio.client.Socket
 import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.Message
-import io.reactivex.Flowable
-import io.reactivex.FlowableEmitter
+import io.reactivex.*
 import org.json.JSONObject
 import rx.Observable
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Completable
 import io.reactivex.internal.operators.completable.CompletableEmpty
 
 
@@ -17,16 +14,15 @@ class RestApiImpl constructor( val socket: Socket): RestApi {
 
     lateinit var loginListener : Emitter.Listener // ToDO find better way
 
-    override fun addUser(userName: String): Flowable<String> {
-        return Flowable.create({ emitter: FlowableEmitter<String> ->
+    override fun addUser(userName: String): Single<String> {
+        return Single.create<String> { emitter ->
             loginListener = Emitter.Listener {
-                emitter.onNext(userName)
-                emitter.onComplete()
+                emitter.onSuccess(userName)
             }
             socket.connect()
             socket.on(Event.LOGIN.event, loginListener)
             socket.emit(Event.ADD_USER.event, userName)
-        }, BackpressureStrategy.BUFFER)
+        }
     }
 
     override fun onEvents(vararg events: Event): Flowable<JSONObject> {

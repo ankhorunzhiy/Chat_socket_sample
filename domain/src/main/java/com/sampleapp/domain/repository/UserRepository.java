@@ -16,9 +16,9 @@
 package com.sampleapp.domain.repository;
 
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 public interface UserRepository {
 
-  Flowable<String> addUser(final String userName);
+  Single<String> addUser(final String userName);
 }
