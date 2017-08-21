@@ -10,7 +10,7 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerUtils.createComponent(ApplicationComponent::class.java, ApplicationModule(this))
+        appComponent = DaggerUtils.createComponent(ApplicationComponent::class.java, ApplicationModule())
         appComponent.inject(this)
     }
 
