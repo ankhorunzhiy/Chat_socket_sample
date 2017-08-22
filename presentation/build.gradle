@@ -28,10 +28,6 @@ android {
             exclude 'META-INF/rxjava.properties'
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 kapt {
