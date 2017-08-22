@@ -1,14 +1,39 @@
+
+machine:
+    java:
+        version: oraclejdk8
+    environment:
+        ANDROID_HOME: /usr/local/android-sdk-linux
+        ANDROID_BUILD_TOOLS: 25.0.2
+        APPLICATION_ID: com.chat
+
 dependencies:
-  pre:
-    # Android SDK Platform 25
-    - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-25" ]; then echo y | android update sdk --no-ui --all --filter "android-25"; fi
-    # Android SDK Build-tools, revision 25.0.0
-    - if [ ! -d "/usr/local/android-sdk-linux/build-tools/25.0.5" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-25.0.5"; fi
-    # Android Support Repository, revision 39 / Local Maven repository for Support Libraries
-    - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/com/android/support/design/25.0.0" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+    pre:
+        # Remove any leftover lock from previous builds
+        - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
+        # Make sure we have the sdkmanager available, and update the Android SDK tools if not
+        - if [ ! -e $ANDROID_HOME/tools/bin/sdkmanager ]; then echo y | android update sdk --no-ui --all --filter tools; fi
+        
+        # Pre-accept Android SDK components licenses
+        - mkdir "$ANDROID_HOME/licenses" || true
+        - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 
-  cache_directories:
-    - /usr/local/android-sdk-linux/platforms/android-25
-    - /usr/local/android-sdk-linux/build-tools/25.0.0
-    - /usr/local/android-sdk-linux/extras/android/m2repository
+        # Install all the required SDK components
+        - $ANDROID_HOME/tools/bin/sdkmanager --verbose "platform-tools" "build-tools;"$ANDROID_BUILD_TOOLS "extras;google;m2repository"
+
+    override:
+        # Force Gradle to pre-download dependencies for the app module (the default would only be for the root, which is useless)
+        - if [ -f ./gradlew ]; then ./gradlew app:dependencies --console=plain --no-daemon;else gradle app:dependencies --console=plain --no-daemon;fi
+
+    cache_directories:
+        # Android SDK
+        - /usr/local/android-sdk-linux/tools
+        - /usr/local/android-sdk-linux/platform-tools
+        - /usr/local/android-sdk-linux/build-tools
+        - /usr/local/android-sdk-linux/licenses
+        - /usr/local/android-sdk-linux/extras/google/m2repository
+
+        # Gradle caches
+        - /home/ubuntu/.gradle/caches/
+        - /home/ubuntu/.gradle/wrapper/
