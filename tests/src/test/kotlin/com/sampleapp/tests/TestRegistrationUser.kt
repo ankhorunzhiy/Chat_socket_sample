@@ -36,9 +36,14 @@ class TestRegistrationUser : BaseUseCaseTest() {
     fun testRegisterUseCaseSuccess() {
         Mockito.`when`(mockUserRepo.addUser(USER_NAME)).thenReturn(Single.just(USER_NAME))
         val parameters = RegisterUserUseCase.Parameters(USER_NAME)
-        registerUserUseCase.execute(testSubscriber, parameters)
-        testSubscriber.assertNoErrors()
-        testSubscriber.onComplete()
-        testSubscriber.assertValue(USER_NAME)
+        assertSubscriber(testSubscriber, {
+            registerUserUseCase.execute(testSubscriber, parameters)
+        }, {
+            it.assertNoErrors()
+            it.onComplete()
+            it.assertValue(USER_NAME)
+        })
+
+
     }
 }

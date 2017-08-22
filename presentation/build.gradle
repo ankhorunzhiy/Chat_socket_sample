@@ -36,6 +36,7 @@ kapt {
 
 dependencies {
     def presentationDependencies = rootProject.ext.presentationDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':domain')
     compile project(':data')
@@ -60,5 +61,7 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     compile presentationDependencies.rxBinding
+    debugCompile developmentDependencies.leakCanary
+    releaseCompile developmentDependencies.leakCanaryRelease
 }
 

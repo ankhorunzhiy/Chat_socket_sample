@@ -37,9 +37,12 @@ class TestEventsConnectUseCase : BaseUseCaseTest(){
         val events = provideResultEvents()
         val resultEventsFlowable = Flowable.fromArray(*events)
         Mockito.`when`(mockChatRepo.on(*SUBSCRIBE_EVENTS_TEST)).thenReturn(resultEventsFlowable)
-        eventsConnectUseCaseTest.execute(testSubscriber, EventsConnectUseCase.Parameters(SUBSCRIBE_EVENTS_TEST))
-        testSubscriber.assertNoErrors()
-        testSubscriber.assertResult(*events)
+        assertSubscriber(testSubscriber, {
+            eventsConnectUseCaseTest.execute(testSubscriber, EventsConnectUseCase.Parameters(SUBSCRIBE_EVENTS_TEST))
+        }, {
+            it.assertNoErrors()
+            it.assertResult(*events)
+        })
     }
 
     private fun provideResultEvents(): Array<EventModel> {

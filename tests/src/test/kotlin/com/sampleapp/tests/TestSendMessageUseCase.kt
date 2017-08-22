@@ -39,9 +39,12 @@ class TestSendMessageUseCase: BaseUseCaseTest() {
         val resultEvent = getResultEvent()
         Mockito.`when`(mockChatRepo.sendMessage(message)).thenReturn(Flowable.just(resultEvent))
         val params = SendMessageUseCase.Parameters.create(message)
-        sendMessageUseCase.execute(testSubscriber, params)
-        testSubscriber.assertNoErrors()
-        testSubscriber.assertValue(resultEvent)
+        assertSubscriber(testSubscriber, {
+            sendMessageUseCase.execute(testSubscriber, params)
+        }, {
+            it.assertNoErrors()
+            it.assertValue(resultEvent)
+        })
     }
 
     private fun getResultEvent(): EventModel {
