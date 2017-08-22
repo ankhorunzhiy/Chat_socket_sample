@@ -10,6 +10,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.di.module.RepositoryModule
 import com.sampleapp.domain.interactor.RegisterUserUseCase
 import com.sampleapp.navigation.ControllerMediator
 import com.sampleapp.rx.SimpleSubscriber
@@ -33,7 +34,7 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
     lateinit var compositeDisposable: CompositeDisposable
 
     @ScreenScope(LoginController::class)
-    @Subcomponent()
+    @Subcomponent(modules = arrayOf(RepositoryModule::class))
     interface Component {
         fun inject(loginController: LoginController)
     }

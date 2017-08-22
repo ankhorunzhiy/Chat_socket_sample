@@ -11,6 +11,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.sampleapp.data.model.mapper.EventMapper
 import com.sampleapp.di.ScreenScope
 import com.sampleapp.di.components.ActivityComponent
+import com.sampleapp.di.module.RepositoryModule
 import com.sampleapp.domain.interactor.DisconnectUseCase
 import com.sampleapp.domain.interactor.EventsConnectUseCase
 import com.sampleapp.domain.interactor.SendMessageUseCase
@@ -35,7 +36,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
     lateinit var chatPresenter: Presenter
 
     @ScreenScope(ChatController::class)
-    @Subcomponent(modules = arrayOf(Module::class))
+    @Subcomponent(modules = arrayOf(Module::class, RepositoryModule::class))
     interface Component {
         fun inject(loginController: ChatController)
     }
