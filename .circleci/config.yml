@@ -14,15 +14,37 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+      - run:
+          name: Assemble Debug
+          command: ./gradlew assembleDebug
+      - store_artifacts:
+           path: presentation/build/outputs/apk
       - save_cache:
           paths:
             - ~/.gradlew
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - store_artifacts:
-          path: presentation/build/reports
-          destination: reports
-      - store_test_results:
-          path: presentation/build/test-results
+  test:
+    steps:
+        - checkout
+        - run:
+            name: Run Tests
+            command: ./gradlew lint test
+        - store_artifacts:
+            path: presentation/build/reports
+            destination: reports
+        - store_test_results:
+            path: presentation/build/test-results
+
+workflows:
+    version: 2
+    build_and_test:
+      jobs:
+        - build
+        - test:
+            requires:
+              - build
+            filters:
+              branches:
+                only: master
+
+
