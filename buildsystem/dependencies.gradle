@@ -57,7 +57,7 @@ ext {
     testingSupportLibVersion = '0.1'
 
     //Development
-    leakCanaryVersion = '1.5.2'
+    leakCanaryVersion = '1.5.1'
 
 
     presentationDependencies = [
