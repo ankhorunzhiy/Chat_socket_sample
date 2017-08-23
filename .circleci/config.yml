@@ -14,13 +14,49 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+      - run:
+           name: Setup environment
+           command: scripts/ci_setup.sh
+      - run:
+           name: Run Checks
+           command: |
+            if [ "${CIRCLE_NODE_INDEX}" == "0" ]; then
+              ./scripts/ci_check.sh
+              BUILD_EXIT_CODE=$?
+
+              mkdir lint_reports || true
+
+              cp -r presentation/build/reports lint_reports/
+
+              exit ${BUILD_EXIT_CODE}
+            fi
+      - store_artifacts:
+          path: lint_reports/
+          destination: lint_reports/
+      - run:
+          name: Run Tests
+          command: |
+                  if [ "${CIRCLE_NODE_INDEX}" != "0" ]; then
+                    export TEST_GROUP_INDEX=$(( ${CIRCLE_NODE_INDEX} - 1 ))
+                    export TEST_GROUPS_COUNT=$(( ${CIRCLE_NODE_TOTAL} - 1 ))
+                    echo "Running test group ${TEST_GROUP_INDEX} out of ${TEST_GROUPS_COUNT}..."
+                    ./scripts/ci_test.sh
+                    if [[ -f $COV_REPORT_LOCATION ]]; then
+                      ./scripts/ci_binaries/codecov.sh -X gcov -X coveragepy -f ${COV_REPORT_LOCATION}
+                    fi
+                  fi
+       - store_artifacts:
+            path: tests/build/reports/tests/
+            destination: tests_reports/
+      - store_test_results:
+            path: "tests/build/test-results/testDebugUnitTest/"
       - save_cache:
           paths:
             - ~/.gradlew
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew test
+          command: ./gradlew lint test
       - store_artifacts:
           path: presentation/build/reports
           destination: reports
@@ -29,7 +65,7 @@ jobs:
           destination: test_reports
       - run:  # ToDo Change to assembleRelease
           name: Assemble Debug
-          command: ./gradlew assembleDebug
+          command: ./gradlew clean assembleDebug
       - store_artifacts:
            path: presentation/build/outputs/apk
            destination: apk
