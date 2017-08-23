@@ -19,20 +19,19 @@ jobs:
             - ~/.gradlew
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
       - run:
-      # ToDo Change to assembleRelease
-          name: Assemble Debug
-          command: ./gradlew assembleDebug
-      - store_artifacts:
-           path: presentation/build/outputs/apk
-           destination: apk
-      - run:
           name: Run Tests
           command: ./gradlew lint test
       - store_artifacts:
           path: presentation/build/reports
           destination: reports
       - store_test_results:
-          path: tests/build/reports/tests/testDebugUnitTest
+          path: tests/build/reports/test-results/testDebugUnitTest
           destination: test_reports
+      - run:  # ToDo Change to assembleRelease
+          name: Assemble Debug
+          command: ./gradlew assembleDebug
+      - store_artifacts:
+           path: presentation/build/outputs/apk
+           destination: apk
 
 # Todo Add Workflow
