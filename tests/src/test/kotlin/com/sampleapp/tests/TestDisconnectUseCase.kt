@@ -35,7 +35,7 @@ class TestDisconnectUseCase : BaseUseCaseTest(){
             disConnectUseCase.execute(testSubscriber, DisconnectUseCase.Param.INSTANCE)
         }, {
             subscriber ->
-                subscriber.assertErrorMessage("")
+                subscriber.assertNoErrors()
                 subscriber.assertComplete()
         })
 

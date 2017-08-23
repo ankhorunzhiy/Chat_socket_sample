@@ -20,12 +20,12 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew lint test
+          command: ./gradlew test
       - store_artifacts:
           path: presentation/build/reports
           destination: reports
       - store_test_results:
-          path: tests/build/reports/test-results/testDebugUnitTest
+          path: tests/build/test-results/testDebugUnitTest
           destination: test_reports
       - run:  # ToDo Change to assembleRelease
           name: Assemble Debug
