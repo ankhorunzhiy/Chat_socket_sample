@@ -45,7 +45,7 @@ jobs:
                       ./scripts/ci_binaries/codecov.sh -X gcov -X coveragepy -f ${COV_REPORT_LOCATION}
                     fi
                   fi
-       - store_artifacts:
+      - store_artifacts:
             path: tests/build/reports/tests/
             destination: tests_reports/
       - store_test_results:
