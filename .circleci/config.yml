@@ -20,9 +20,16 @@ jobs:
       - store_artifacts:
           path: presentation/build/reports
           destination: reports
-      - store_test_results:
-          path: tests/build/test-results/testDebugUnitTest/
-          destination: test_reports
+      - run:
+          name: Save test results
+          command: |
+                  mkdir -p ~/junit/
+                  find . -type f -regex ".*/build/test-results/testDebugUnitTest/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+          - store_test_results:
+                path: ~/junit
+          - store_artifacts:
+                path: ~/junit
       - run:  # ToDo Change to assembleRelease
           name: Assemble Debug
           command: ./gradlew assembleDebug
