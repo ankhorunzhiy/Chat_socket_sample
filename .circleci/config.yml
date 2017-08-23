@@ -26,9 +26,9 @@ jobs:
                   mkdir -p ~/junit/
                   find . -type f -regex ".*/build/test-results/testDebugUnitTest/.*xml" -exec cp {} ~/junit/ \;
           when: always
-          - store_test_results:
+      - store_test_results:
                 path: ~/junit
-          - store_artifacts:
+      - store_artifacts:
                 path: ~/junit
       - run:  # ToDo Change to assembleRelease
           name: Assemble Debug
