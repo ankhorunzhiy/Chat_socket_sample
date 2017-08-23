@@ -14,24 +14,6 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - store_artifacts:
-          path: presentation/build/reports
-          destination: reports
-      - run:
-          name: Save test results
-          command: |
-                  mkdir -p ~/junit/
-                  find . -type f -regex ".*/build/test-results/testDebugUnitTest/.*xml" -exec cp {} ~/junit/ \;
-          when: always
-      - store_test_results:
-          path: ~/junit
-          destination: tests
-      - store_artifacts:
-          path: ~/junit
-          destination: tests
       - run:  # ToDo Change to assembleRelease
           name: Assemble Debug
           command: ./gradlew assembleDebug
@@ -42,5 +24,38 @@ jobs:
            paths:
               - ~/.gradlew
            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}
+  test:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-25-alpha
+    environment:
+        JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - run:
+           name: Run Tests
+           command: ./gradlew lint test
+      - store_artifacts:
+            path: presentation/build/reports
+            destination: reports
+      - run:
+            name: Save test results
+            command: |
+                        mkdir -p ~/junit/
+                        find . -type f -regex ".*/build/test-results/testDebugUnitTest/.*xml" -exec cp {} ~/junit/ \;
+            when: always
+      - store_test_results:
+            path: ~/junit
+            destination: tests
+      - store_artifacts:
+            path: ~/junit
+            destination: tests
 
-# Todo Add Workflow
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+           - build
