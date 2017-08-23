@@ -27,9 +27,11 @@ jobs:
                   find . -type f -regex ".*/build/test-results/testDebugUnitTest/.*xml" -exec cp {} ~/junit/ \;
           when: always
       - store_test_results:
-                path: ~/junit
+          path: ~/junit
+          destination: tests
       - store_artifacts:
-                path: ~/junit
+          path: ~/junit
+          destination: tests
       - run:  # ToDo Change to assembleRelease
           name: Assemble Debug
           command: ./gradlew assembleDebug
