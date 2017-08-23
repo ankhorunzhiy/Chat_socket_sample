@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_toStartOf="@+id/image_send"
         android:layout_marginBottom="10dp"
-        android:minHeight="@dimen/min_height_edit_text_chat">
+        android:minHeight="@dimen/min_height_edit_text_chat"
+        tools:ignore="LabelFor,TextFields">
 
     </EditText>
 
@@ -31,7 +32,8 @@
         android:layout_margin="10dp"
         android:src="@android:drawable/ic_menu_send"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        tools:ignore="ContentDescription">
 
     </ImageView>
 
