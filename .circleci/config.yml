@@ -21,7 +21,7 @@ jobs:
           path: presentation/build/reports
           destination: reports
       - store_test_results:
-          path: tests/build/test-results/testDebugUnitTest
+          path: tests/build/test-results/testDebugUnitTest/
           destination: test_reports
       - run:  # ToDo Change to assembleRelease
           name: Assemble Debug
