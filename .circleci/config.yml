@@ -32,4 +32,7 @@ jobs:
           path: presentation/build/reports
           destination: reports
       - store_test_results:
-          path: presentation/build/test-results
+          path: tests/build/reports/tests/testDebugUnitTest
+          destination: test_reports
+
+# Todo Add Workflow
