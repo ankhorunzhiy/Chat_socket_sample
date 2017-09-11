@@ -7,18 +7,20 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.sampleapp.util.toFadeTransaction
 import com.sampleapp.util.toHorizontalTransaction
+import javax.inject.Inject
+import javax.inject.Provider
 
 
-class ControllerMediator constructor(val router: Router) {
+class ControllerMediator @Inject constructor(val router: Provider<Router>) {
 
     fun push(controller: Controller) {
-        router.pushController(controller.toHorizontalTransaction())
+        router.get().pushController(controller.toHorizontalTransaction())
     }
 
     fun setRoot(controller: Controller, addStartTransition: Boolean = false) {
         val popChangeHandler = RouterTransaction.with(controller).popChangeHandler(FadeChangeHandler())
         val routerTransaction = if (addStartTransition) controller.toHorizontalTransaction() else popChangeHandler
-        router.setRoot(routerTransaction)
+        router.get().setRoot(routerTransaction)
     }
 
 

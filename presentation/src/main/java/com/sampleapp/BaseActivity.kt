@@ -3,15 +3,13 @@ package com.sampleapp
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.AbsoluteSizeSpan
 import android.view.Window
 import com.android.newssample.R
 import com.bluelinelabs.conductor.Router
 import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.di.module.ActivityModule
 import com.sampleapp.util.UiUtils
+import com.sampleapp.util.toggle
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -22,12 +20,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        prepareComponents()
         val layout = UiUtils.getLayoutFromAnnotation(this.javaClass) ?:
                 throw IllegalArgumentException("Activity should have Layout annotation")
         setContentView(layout.value)
         initRouter(savedInstanceState)
         initProgressDialog(true)
-        prepareComponents()
     }
 
     abstract fun initRouter(savedInstanceState: Bundle?)
@@ -67,15 +65,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         try {
             progressDialog.setCancelable(cancelable)
-            if (show) {
-                if (!progressDialog.isShowing()) {
-                    progressDialog.show()
-                }
-            } else {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss()
-                }
-            }
+            progressDialog.toggle(show)
         } catch (e: Exception) {
             e.printStackTrace()
         }
