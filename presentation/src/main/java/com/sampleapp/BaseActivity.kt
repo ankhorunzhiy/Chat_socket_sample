@@ -8,6 +8,7 @@ import com.android.newssample.R
 import com.bluelinelabs.conductor.Router
 import com.sampleapp.di.components.ActivityComponent
 import com.sampleapp.di.module.ActivityModule
+import com.sampleapp.ui.ChatProgress
 import com.sampleapp.util.UiUtils
 import com.sampleapp.util.toggle
 
@@ -25,7 +26,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 throw IllegalArgumentException("Activity should have Layout annotation")
         setContentView(layout.value)
         initRouter(savedInstanceState)
-        initProgressDialog(true)
+        initProgressDialog()
     }
 
     abstract fun initRouter(savedInstanceState: Bundle?)
@@ -35,18 +36,12 @@ abstract class BaseActivity : AppCompatActivity() {
         component = applicationComponent.plusActivityComponent(ActivityModule(this))
     }
 
-    fun initProgressDialog(isNotCancelable: Boolean) {
+    fun initProgressDialog() {
         if (isFinishing) {
             return
         }
-        progressDialog = ProgressDialog(this)
-        progressDialog.isIndeterminate = true
-        val progressText = resources.getString(R.string.please_wait)
-        progressDialog.setMessage(progressText)
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        if (isNotCancelable) {
-            progressDialog.setCancelable(false)
-        }
+        progressDialog = ChatProgress(this)
+        progressDialog.setCancelable(true)
     }
 
     fun showProgressDialog(cancelable: Boolean = false) {
