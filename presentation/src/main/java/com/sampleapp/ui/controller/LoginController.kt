@@ -15,6 +15,7 @@ import com.sampleapp.domain.interactor.RegisterUserUseCase
 import com.sampleapp.navigation.ControllerMediator
 import com.sampleapp.rx.SimpleSubscriber
 import com.sampleapp.ui.view.LoginView
+import com.sampleapp.util.addTo
 import com.sampleapp.util.hideKeybord
 import com.sampleapp.util.visible
 import dagger.Subcomponent
@@ -58,7 +59,7 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
             getPresenter().onNickTextChange(it.editable()?.toString())
         })
         view.login.setOnClickListener { login() }
-        view.user_nick.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
+        view.user_nick.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == R.id.user_nick || id == EditorInfo.IME_NULL) {
                 login()
                 return@OnEditorActionListener true
@@ -67,14 +68,14 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
         })
     }
 
-    fun login(){
+    fun login() {
         presenter.onLogin(view?.user_nick?.text?.toString())
         view?.user_nick?.hideKeybord()
     }
 
     override fun onDetach(view: View) {
         super.onDetach(view)
-        if(!compositeDisposable.isDisposed)
+        if (!compositeDisposable.isDisposed)
             compositeDisposable.dispose()
         presenter.dispose()
     }
@@ -85,26 +86,22 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
 
     @ScreenScope(LoginController::class)
     class Presenter @Inject constructor(val registerUserUseCase: RegisterUserUseCase,
-                                        val controllerMediator: ControllerMediator)
-                                        : MvpBasePresenter<LoginView>() {
+                                        val controllerMediator: ControllerMediator,
+                                        val compositeDisposable: CompositeDisposable)
+        : MvpBasePresenter<LoginView>() {
 
         fun onNickTextChange(textNick: String?) {
             view.showLoginButton(!TextUtils.isEmpty(textNick))
         }
 
-        fun  onLogin(nick: String?) {
-            if(nick != null)
+        fun onLogin(nick: String?) {
+            if (nick != null)
                 view.showProgress()
-                registerUserUseCase.execute(object : SimpleSubscriber<String>() {
-                    override fun onNext(value: String) {
-                        view.hideProgress()
-                        controllerMediator.setRoot(ChatController(ChatController.newArgs(value)), true)
-                    }
-
-                    override fun onError(t: Throwable) {
-                        view.hideProgress() // ToDo handle error
-                    }
-                }, RegisterUserUseCase.Parameters(nick))
+            registerUserUseCase.execute(SimpleSubscriber<String>({
+                view.hideProgress()
+                controllerMediator.setRoot(ChatController(ChatController.newArgs(it)), true)
+            }).addTo(compositeDisposable),
+            RegisterUserUseCase.Parameters(nick))
         }
 
         fun dispose() {

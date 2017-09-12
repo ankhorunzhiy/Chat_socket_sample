@@ -2,6 +2,7 @@ package com.sampleapp.ui.controller
 
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -21,10 +22,10 @@ import com.sampleapp.navigation.ControllerMediator
 import com.sampleapp.rx.SimpleSubscriber
 import com.sampleapp.ui.view.ChatControllerView
 import com.sampleapp.ui.view.ChatView
+import com.sampleapp.util.addTo
 import dagger.Provides
 import dagger.Subcomponent
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.view_chat.view.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -113,19 +114,14 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
         : MvpBasePresenter<ChatView>() {
 
         fun init() {
-            val subscriber: SimpleSubscriber<EventModel> = object : SimpleSubscriber<EventModel>() {
-                override fun onNext(value: EventModel) {
-                    super.onNext(value)
-                    processEvent(value)
-                }
-            }
-            eventsConnectUseCase.execute(subscriber, EventsConnectUseCase.Parameters(
-                    arrayOf(Event.NEW_MESSAGE,
-                            Event.USER_JOINED,
-                            Event.USER_LEFT,
-                            Event.TYPING,
-                            Event.STOP_TYPING)))
-            compositeDisposable.add(subscriber as Disposable)
+            eventsConnectUseCase.execute(
+                    SimpleSubscriber<EventModel>({ processEvent(it) }).addTo(compositeDisposable),
+                    EventsConnectUseCase.Parameters(
+                            arrayOf(Event.NEW_MESSAGE,
+                                    Event.USER_JOINED,
+                                    Event.USER_LEFT,
+                                    Event.TYPING,
+                                    Event.STOP_TYPING)))
         }
 
         fun processEvent(eventModel: EventModel) {
@@ -137,12 +133,9 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
                 val textMessage = it.toString()
                 if (text.isEmpty()) return@let
                 val message = eventMapper.transform(provideUserName(), textMessage)
-                sendMessageUseCase.execute(object : SimpleSubscriber<EventModel>() {
-                    override fun onNext(value: EventModel) {
-                        super.onNext(value)
-                        processEvent(value)
-                    }
-                }, SendMessageUseCase.Parameters.create(message))
+                sendMessageUseCase.execute(
+                        SimpleSubscriber<EventModel>({processEvent(it)}).addTo(compositeDisposable),
+                        SendMessageUseCase.Parameters.create(message))
             }
             view.clearMessageText()
         }
@@ -152,7 +145,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
         }
 
         fun dispose() {
-            if(!compositeDisposable.isDisposed)
+            if (!compositeDisposable.isDisposed)
                 compositeDisposable.dispose()
             eventsConnectUseCase.dispose()
             disconnectUseCase.dispose()
@@ -160,11 +153,10 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
         }
 
         fun logout() {
-            disconnectUseCase.execute(object : SimpleSubscriber<Void>(){
-                override fun onComplete() {
-                    controllerMediator.setRoot(LoginController(), true)
-                }
-            }, DisconnectUseCase.Param.INSTANCE)
+            disconnectUseCase.execute(
+                    SimpleSubscriber<Void>({}, {}, {
+                        controllerMediator.setRoot(LoginController(), true)}).addTo(compositeDisposable),
+                    DisconnectUseCase.Param.INSTANCE)
         }
     }
 
