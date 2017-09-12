@@ -1,5 +1,6 @@
 package com.sampleapp.util
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -23,3 +24,9 @@ fun <T>SimpleSubscriber<T>.addTo(compositeDisposable: CompositeDisposable): Simp
     return this
 }
 
+fun ProgressDialog.toggle(show: Boolean){
+    if(show){
+        if(!isShowing) this.show()
+    } else if(isShowing)
+        this.dismiss()
+}
