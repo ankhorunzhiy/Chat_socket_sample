@@ -106,6 +106,7 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
 
         fun dispose() {
             registerUserUseCase.dispose()
+            compositeDisposable.dispose()
         }
     }
 
