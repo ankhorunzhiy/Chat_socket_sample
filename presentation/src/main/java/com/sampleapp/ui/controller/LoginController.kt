@@ -38,10 +38,15 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
     @Subcomponent(modules = arrayOf(RepositoryModule::class))
     interface Component {
         fun inject(loginController: LoginController)
+
+        @Subcomponent.Builder
+        interface Builder{
+            fun build(): Component
+        }
     }
 
     override fun injectToDagger(component: ActivityComponent) {
-        component.startComponent().inject(this)
+        component.loginBuilder().build().inject(this)
     }
 
     override fun createPresenter(): Presenter {

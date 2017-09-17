@@ -9,6 +9,6 @@ import com.sampleapp.di.module.ActivityModule
 @dagger.Subcomponent(modules = arrayOf(ActivityModule::class))
 interface ActivityComponent {
     fun inject(mainActivity: MainActivity)
-    fun startComponent(): LoginController.Component
-    fun chatComponent(module: ChatController.Module): ChatController.Component
+    fun loginBuilder(): LoginController.Component.Builder
+    fun chatBuilder(): ChatController.Component.Builder
 }

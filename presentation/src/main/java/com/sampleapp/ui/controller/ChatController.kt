@@ -40,6 +40,12 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
     @Subcomponent(modules = arrayOf(Module::class, RepositoryModule::class))
     interface Component {
         fun inject(loginController: ChatController)
+
+        @Subcomponent.Builder
+        interface Builder{
+            fun chatModule(module: Module): Builder
+            fun build(): Component
+        }
     }
 
     @dagger.Module
@@ -56,7 +62,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
     }
 
     override fun injectToDagger(component: ActivityComponent) {
-        component.chatComponent(Module(args)).inject(this)
+        component.chatBuilder().chatModule(Module(args)).build().inject(this)
     }
 
     override fun onViewCreated(root: View) {
