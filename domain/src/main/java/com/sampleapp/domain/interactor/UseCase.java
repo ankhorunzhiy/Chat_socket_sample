@@ -18,12 +18,19 @@ package com.sampleapp.domain.interactor;
 import com.sampleapp.domain.data.executor.PostExecutionThread;
 import com.sampleapp.domain.data.executor.WorkExecutionThread;
 
+import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableSubscriber;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.processors.BehaviorProcessor;
+import io.reactivex.processors.ReplayProcessor;
+import io.reactivex.subjects.BehaviorSubject;
 
 
 /**
@@ -34,11 +41,12 @@ import io.reactivex.disposables.Disposable;
  * By convention each UseCase implementation will return the result using a {@link Subscriber}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-public abstract class UseCase<A, Params> {
+public abstract class UseCase<A, P extends Params> {
 
     private final WorkExecutionThread workExecutionThread;
     private final PostExecutionThread postExecutionThread;
     private final CompositeDisposable compositeDisposable;
+    private Flowable<A> flowable;
 
     protected UseCase(WorkExecutionThread workExecutionThread,
                       PostExecutionThread postExecutionThread) {
@@ -50,21 +58,30 @@ public abstract class UseCase<A, Params> {
     /**
      * Builds an {@link Flowable} which will be used when executing the current {@link UseCase}.
      */
-    protected abstract Flowable buildUseCaseObservable(Params params);
+    protected abstract Flowable buildUseCaseObservable(P params);
 
     /**
      * Executes the current use case.
      *
      * @param observer The guy who will be listen to the observable build
-     *                 with {@link #buildUseCaseObservable(Params additional params)}.
+     *                 with {@link #buildUseCaseObservable(P additional params)}.
      */
     @SuppressWarnings("unchecked")
-    public void execute(FlowableSubscriber<A> observer, Params params) {
-        final Flowable flowable = buildUseCaseObservable(params)
+    public void execute(FlowableSubscriber<A> observer, P params) {
+        flowable = buildUseCaseObservable(params)
                 .subscribeOn(workExecutionThread.getScheduler())
                 .observeOn(postExecutionThread.getScheduler());
-        this.compositeDisposable.add((Disposable) flowable.subscribeWith(observer));
+        subscribe(observer);
     }
+
+
+
+    public void subscribe(FlowableSubscriber<A> observer) {
+        if(flowable == null) return;
+        this.compositeDisposable.add((Disposable) flowable.subscribeWith(observer));
+        System.out.println("SubscribeTo "+ observer.toString());
+    }
+
 
     /**
      * Unsubscribes from current {@link Disposable}.
@@ -72,5 +89,8 @@ public abstract class UseCase<A, Params> {
     public void dispose() {
         if(!compositeDisposable.isDisposed())
             compositeDisposable.dispose();
+        System.out.println("Subscribe clear");
     }
+
+
 }

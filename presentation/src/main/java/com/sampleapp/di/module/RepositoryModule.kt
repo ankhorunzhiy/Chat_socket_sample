@@ -14,11 +14,11 @@ import javax.inject.Singleton
 @Module
 interface RepositoryModule {
 
-    @ScreenScope(LoginController::class)
+    @Singleton
     @Binds
     fun provideUserRepository(userDataRepository: UserDataRepository): UserRepository
 
-    @ScreenScope(ChatController::class)
+    @Singleton
     @Binds
     fun provideChatRepository(chatDataRepository: ChatDataRepository): ChatRepository
 

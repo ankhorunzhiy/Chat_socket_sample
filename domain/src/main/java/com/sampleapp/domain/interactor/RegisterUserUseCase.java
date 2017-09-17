@@ -28,11 +28,16 @@ public class RegisterUserUseCase extends UseCase<String, RegisterUserUseCase.Par
         return userRepository.addUser(parameters.userName).toFlowable();
     }
 
-    public static class Parameters {
+    public static class Parameters implements Params{
         private final String userName;
 
         public Parameters(String userName) {
             this.userName = userName;
+        }
+
+        @Override
+        public boolean useCache() {
+            return true;
         }
     }
 

@@ -2,6 +2,7 @@ package com.sampleapp.ui.controller
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -30,12 +31,10 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
     @Inject
     lateinit var startPresenter: Presenter
     @Inject
-    lateinit var controllerMediator: ControllerMediator
-    @Inject
     lateinit var compositeDisposable: CompositeDisposable
 
     @ScreenScope(LoginController::class)
-    @Subcomponent(modules = arrayOf(RepositoryModule::class))
+    @Subcomponent()
     interface Component {
         fun inject(loginController: LoginController)
     }
@@ -90,18 +89,27 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
                                         val compositeDisposable: CompositeDisposable)
         : MvpBasePresenter<LoginView>() {
 
+
+        fun subscriber() = SimpleSubscriber<String> ({
+            view.hideProgress()
+            controllerMediator.setRoot(ChatController(ChatController.newArgs(it)), true)
+        })
+
         fun onNickTextChange(textNick: String?) {
             view.showLoginButton(!TextUtils.isEmpty(textNick))
+        }
+
+        override fun attachView(view: LoginView?) {
+            super.attachView(view)
+            registerUserUseCase.subscribe(subscriber())
         }
 
         fun onLogin(nick: String?) {
             if (nick != null)
                 view.showProgress()
-            registerUserUseCase.execute(SimpleSubscriber<String>({
-                view.hideProgress()
-                controllerMediator.setRoot(ChatController(ChatController.newArgs(it)), true)
-            }).addTo(compositeDisposable),
-            RegisterUserUseCase.Parameters(nick))
+            registerUserUseCase.execute(
+                    subscriber().addTo(compositeDisposable),
+                    RegisterUserUseCase.Parameters(nick))
         }
 
         fun dispose() {

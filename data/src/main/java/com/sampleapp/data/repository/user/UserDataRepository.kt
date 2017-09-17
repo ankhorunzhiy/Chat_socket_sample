@@ -10,7 +10,10 @@ import javax.inject.Singleton
 @Singleton
 class UserDataRepository @Inject constructor(val userDataStoreFactory: UserDataStoreFactory): UserRepository {
 
+    var flowable: Single<String>? = null
     override fun addUser(userName: String): Single<String> {
-        return userDataStoreFactory.createUserStore().addUser(userName)
+        if(flowable == null)
+            flowable = userDataStoreFactory.createUserStore().addUser(userName).cache()
+        return flowable as Single<String>
     }
 }

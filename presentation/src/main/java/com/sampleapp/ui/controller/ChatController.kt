@@ -37,7 +37,7 @@ class ChatController(args: Bundle? = null) : BaseController<ChatView, ChatContro
     lateinit var chatPresenter: Presenter
 
     @ScreenScope(ChatController::class)
-    @Subcomponent(modules = arrayOf(Module::class, RepositoryModule::class))
+    @Subcomponent(modules = arrayOf(Module::class))
     interface Component {
         fun inject(loginController: ChatController)
     }

@@ -27,8 +27,13 @@ public class DisconnectUseCase extends UseCase<Void, DisconnectUseCase.Param>{
         return new DisconnectUseCase(chatRepository, threadExecutor, postExecutionThread);
     }
 
-    public static class Param{
+    public static class Param implements Params{
         public static final Param INSTANCE = new Param();
         private Param(){}
+
+        @Override
+        public boolean useCache() {
+            return false;
+        }
     }
 }

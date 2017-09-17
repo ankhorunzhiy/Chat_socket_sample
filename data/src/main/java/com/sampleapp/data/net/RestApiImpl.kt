@@ -6,7 +6,6 @@ import com.sampleapp.domain.model.Event
 import com.sampleapp.domain.model.Message
 import io.reactivex.*
 import org.json.JSONObject
-import rx.Observable
 import io.reactivex.internal.operators.completable.CompletableEmpty
 
 

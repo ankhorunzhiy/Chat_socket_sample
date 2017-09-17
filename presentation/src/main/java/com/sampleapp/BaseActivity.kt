@@ -17,7 +17,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     lateinit var component: ActivityComponent
     lateinit var router: Router
-    lateinit var progressDialog: ProgressDialog
+    var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,6 @@ abstract class BaseActivity : AppCompatActivity() {
                 throw IllegalArgumentException("Activity should have Layout annotation")
         setContentView(layout.value)
         initRouter(savedInstanceState)
-        initProgressDialog()
     }
 
     abstract fun initRouter(savedInstanceState: Bundle?)
@@ -41,7 +40,7 @@ abstract class BaseActivity : AppCompatActivity() {
             return
         }
         progressDialog = ChatProgress(this)
-        progressDialog.setCancelable(true)
+        progressDialog?.setCancelable(true)
     }
 
     fun showProgressDialog(cancelable: Boolean = false) {
@@ -58,9 +57,11 @@ abstract class BaseActivity : AppCompatActivity() {
         if (isFinishing) {
             return
         }
+        if(progressDialog == null)
+            initProgressDialog()
         try {
-            progressDialog.setCancelable(cancelable)
-            progressDialog.toggle(show)
+            progressDialog?.setCancelable(cancelable)
+            progressDialog?.toggle(show)
         } catch (e: Exception) {
             e.printStackTrace()
         }
