@@ -91,6 +91,7 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
 
 
         fun subscriber() = SimpleSubscriber<String> ({
+            registerUserUseCase.clearCache()
             view.hideProgress()
             controllerMediator.setRoot(ChatController(ChatController.newArgs(it)), true)
         })

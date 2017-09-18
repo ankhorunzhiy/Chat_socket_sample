@@ -20,8 +20,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         component.inject(this)
         prepareUI()
-        if(savedInstanceState == null)
-            mediator.setRoot(LoginController()) // ToDo prepare navigation
+        mediator.setRoot(LoginController()) // ToDo prepare navigation
     }
 
     override fun initRouter(savedInstanceState: Bundle?) {

@@ -25,7 +25,7 @@ public class EventsConnectUseCase extends UseCase<EventModel, EventsConnectUseCa
         return chatRepository.on(params.events);
     }
 
-    public static class Parameters implements Params{
+    public static class Parameters {
 
         private final Event[] events;
 
@@ -35,11 +35,6 @@ public class EventsConnectUseCase extends UseCase<EventModel, EventsConnectUseCa
 
         public Event[] getEvents() {
             return events;
-        }
-
-        @Override
-        public boolean useCache() {
-            return false;
         }
     }
 

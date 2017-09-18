@@ -26,7 +26,7 @@ public class SendMessageUseCase extends UseCase<EventModel, SendMessageUseCase.P
         return chatRepository.sendMessage(params.message);
     }
 
-    public static class Parameters implements Params{
+    public static class Parameters{
 
         private Message message;
         private Parameters(Message message){
@@ -35,11 +35,6 @@ public class SendMessageUseCase extends UseCase<EventModel, SendMessageUseCase.P
 
         public static Parameters create(Message message){
             return new Parameters(message);
-        }
-
-        @Override
-        public boolean useCache() {
-            return false;
         }
     }
 

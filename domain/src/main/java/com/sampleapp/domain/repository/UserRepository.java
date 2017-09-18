@@ -17,8 +17,15 @@ package com.sampleapp.domain.repository;
 
 
 import io.reactivex.Single;
+import io.reactivex.annotations.Nullable;
 
 public interface UserRepository {
 
-  Single<String> addUser(final String userName);
+  @Nullable
+  Single<String> addUserSingle(final String userName, boolean useCache);
+
+  @Nullable
+  Single<String> provideCached();
+
+  void clearCachedUser(); // ToDo find better way
 }
