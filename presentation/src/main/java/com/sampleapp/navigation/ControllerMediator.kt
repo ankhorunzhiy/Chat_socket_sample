@@ -18,10 +18,12 @@ class ControllerMediator @Inject constructor(val router: Provider<Router>) {
     }
 
     fun setRoot(controller: Controller, addStartTransition: Boolean = false) {
-        val popChangeHandler = RouterTransaction.with(controller).popChangeHandler(FadeChangeHandler())
-        val routerTransaction = if (addStartTransition) controller.toHorizontalTransaction() else popChangeHandler
-        router.get().setRoot(routerTransaction)
+        val routerActivity = router.get() ?: return
+        routerActivity.activity?.runOnUiThread({
+            val popChangeHandler = RouterTransaction.with(controller).popChangeHandler(FadeChangeHandler())
+            val routerTransaction = if (addStartTransition) controller.toHorizontalTransaction() else popChangeHandler
+            routerActivity.setRoot(routerTransaction)
+        })
+
     }
-
-
 }

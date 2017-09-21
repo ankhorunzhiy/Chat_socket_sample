@@ -90,9 +90,8 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
         : MvpBasePresenter<LoginView>() {
 
 
-        fun subscriber() = SimpleSubscriber<String> ({
-            registerUserUseCase.clearCache()
-            view.hideProgress()
+        fun subscriber(view: LoginView?) = SimpleSubscriber<String> ({
+            view?.hideProgress()
             controllerMediator.setRoot(ChatController(ChatController.newArgs(it)), true)
         })
 
@@ -102,14 +101,20 @@ class LoginController(args: Bundle? = null) : BaseController<LoginView, LoginCon
 
         override fun attachView(view: LoginView?) {
             super.attachView(view)
-            registerUserUseCase.subscribe(subscriber())
+            registerUserUseCase.subscribe(subscriber(view))
+        }
+
+        override fun detachView(retainInstance: Boolean) {
+            super.detachView(retainInstance)
+            if(!retainInstance)
+                registerUserUseCase.clearCache()
         }
 
         fun onLogin(nick: String?) {
             if (nick != null)
                 view.showProgress()
             registerUserUseCase.execute(
-                    subscriber().addTo(compositeDisposable),
+                    subscriber(view).addTo(compositeDisposable),
                     RegisterUserUseCase.Parameters(nick))
         }
 

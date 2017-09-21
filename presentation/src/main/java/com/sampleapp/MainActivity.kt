@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.android.newssample.R
 import com.bluelinelabs.conductor.Conductor
 import com.sampleapp.navigation.ControllerMediator
+import com.sampleapp.ui.ActivityHolder
 import com.sampleapp.ui.controller.Layout
 import com.sampleapp.ui.controller.LoginController
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -15,10 +16,13 @@ class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var mediator: ControllerMediator
+    @Inject
+    lateinit var activityHolder: ActivityHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         component.inject(this)
+        activityHolder.take(this)
         prepareUI()
         mediator.setRoot(LoginController()) // ToDo prepare navigation
     }
@@ -35,6 +39,11 @@ class MainActivity : BaseActivity() {
         if (!router.handleBack()) {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activityHolder.drop()
     }
 
 }

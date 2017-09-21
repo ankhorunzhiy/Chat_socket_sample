@@ -1,5 +1,6 @@
 package com.sampleapp.di.components
 
+import com.sampleapp.BaseActivity
 import com.sampleapp.MainActivity
 import com.sampleapp.ui.controller.*
 import com.sampleapp.di.ActivityScope

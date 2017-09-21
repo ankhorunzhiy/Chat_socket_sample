@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableSubscriber;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
@@ -34,7 +35,9 @@ public class RegisterUserUseCase extends CachableUseCase<String, RegisterUserUse
 
     @Override
     public void subscribe(DisposableSubscriber subscriber) {
-        compositeDisposable.add(userRepository.provideCached().toFlowable().subscribeWith(subscriber));
+        Single<String> cached = userRepository.provideCached();
+        if(cached == null) return;
+        compositeDisposable.add(cached.toFlowable().subscribeWith(subscriber));
     }
 
     @Override

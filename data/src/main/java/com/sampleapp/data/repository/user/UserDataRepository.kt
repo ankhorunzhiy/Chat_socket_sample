@@ -24,14 +24,15 @@ class UserDataRepository @Inject constructor(val userDataStoreFactory: UserDataS
 
     private fun provideOrPut(addUserFlowable: Single<String>): Single<String>? {
         if (flowableCacher.contains(ADD_USER))
-            return flowableCacher.get(ADD_USER).firstOrError() as Single<String>
+            return provideCached()
         val cached = addUserFlowable.cache()
         flowableCacher.put(ADD_USER, cached.toFlowable())
         return cached
     }
 
     override fun provideCached(): Single<String>? {
-        return flowableCacher.get(ADD_USER).firstOrError() as Single<String>
+        val single = flowableCacher.get(ADD_USER)?.firstOrError() ?: return null
+        return single as Single<String>
     }
 
     override fun clearCachedUser() {
